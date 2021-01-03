@@ -1,5 +1,6 @@
 ---
 title: "How to: Set Cache Policy for a Request"
+description: Learn how to set a cache policy for a request in the .NET Framework. This cache policy allows a resource to be used from the cache for up to a day.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -9,9 +10,11 @@ helpviewer_keywords:
 ms.assetid: 39c15e40-586b-4ac9-9cce-146f74b7e545
 ---
 # How to: Set Cache Policy for a Request
+
 The following example demonstrates setting a cache policy for a request. The example input is a URI such as `http://www.contoso.com/`.  
   
 ## Example  
+
  The following code example creates a cache policy that allows the requested resource to be used from the cache if it has not been in the cache for longer than one day. The example displays a message that indicates whether the resource was used from the cache—for example, `"The response was retrieved from the cache : False."`—and then displays the resource. A request can be fulfilled by any cache between the client and server.  
   
 ```csharp  
@@ -23,12 +26,12 @@ using System.IO;
 namespace Examples.System.Net.Cache  
 {  
     public class CacheExample  
-    {     
+    {
         public static void UseCacheForOneDay(Uri resource)  
         {  
             // Create a policy that allows items in the cache  
             // to be used if they have been cached one day or less.  
-            HttpRequestCachePolicy requestPolicy =   
+            HttpRequestCachePolicy requestPolicy =
                 new HttpRequestCachePolicy (HttpCacheAgeControl.MaxAge,  
                 TimeSpan.FromDays(1));  
   

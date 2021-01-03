@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 7e10d3a5-fcf4-4a4b-a8d6-92ee2c988b3b
 ---
 # How to: Access WCF Services with One-Way and Request-Reply Contracts
+
 The following procedures describe how to access a Windows Communication Foundation (WCF) service that defines a one-way contract and a request-reply contract and that does not use the duplex communication pattern.  
   
 ### To define the service  
@@ -103,7 +104,7 @@ The following procedures describe how to access a Windows Communication Foundati
   
 ### To access the service  
   
-1. Run the [ServiceModel Metadata Utility Tool (Svcutil.exe)](../../../../docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) using the metadata exchange endpoint address to create the client class for the service using the following command line: `Svcutil http://localhost:8000/Service` The [ServiceModel Metadata Utility Tool (Svcutil.exe)](../../../../docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) generates a set of interfaces and classes, as shown in the following sample code.  
+1. Run the [ServiceModel Metadata Utility Tool (Svcutil.exe)](../servicemodel-metadata-utility-tool-svcutil-exe.md) using the metadata exchange endpoint address to create the client class for the service using the following command line: `Svcutil http://localhost:8000/Service` The [ServiceModel Metadata Utility Tool (Svcutil.exe)](../servicemodel-metadata-utility-tool-svcutil-exe.md) generates a set of interfaces and classes, as shown in the following sample code.  
   
     ```csharp  
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]  
@@ -141,22 +142,22 @@ The following procedures describe how to access a Windows Communication Foundati
         {  
         }  
   
-        public OneWayCalculatorClient(string endpointConfigurationName) :   
+        public OneWayCalculatorClient(string endpointConfigurationName) :
                 base(endpointConfigurationName)  
         {  
         }  
   
-        public OneWayCalculatorClient(string endpointConfigurationName, string remoteAddress) :   
+        public OneWayCalculatorClient(string endpointConfigurationName, string remoteAddress) :
                 base(endpointConfigurationName, remoteAddress)  
         {  
         }  
   
-        public OneWayCalculatorClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) :   
+        public OneWayCalculatorClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) :
                 base(endpointConfigurationName, remoteAddress)  
         {  
         }  
   
-        public OneWayCalculatorClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) :   
+        public OneWayCalculatorClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) :
                 base(binding, remoteAddress)  
         {  
         }  
@@ -241,6 +242,7 @@ The following procedures describe how to access a Windows Communication Foundati
     ```  
   
 ## Example  
+
  The following is a complete listing of the code used  in this topic.  
   
 ```csharp  
@@ -252,7 +254,7 @@ using System.ServiceModel.Description;
   
 namespace Microsoft.ServiceModel.Samples  
 {  
-    // Define a service contract.   
+    // Define a service contract.
     [ServiceContract(Namespace = "http://Microsoft.ServiceModel.Samples")]  
     public interface IOneWayCalculator  
     {  
@@ -335,7 +337,7 @@ namespace Microsoft.ServiceModel.Samples
             }  
         }  
     }  
-} 
+}
 ```
 
 ```csharp
@@ -396,4 +398,4 @@ namespace Microsoft.ServiceModel.Samples
   
 ## See also
 
-- [One-Way Services](../../../../docs/framework/wcf/feature-details/one-way-services.md)
+- [One-Way Services](one-way-services.md)

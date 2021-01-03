@@ -1,5 +1,6 @@
 ---
 title: "How to: Create a Custom Claim"
+description: Learn how to create a custom claim in WCF. WCF supports a variety of built-in claims and some applications may require custom claims.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -7,6 +8,7 @@ dev_langs:
 ms.assetid: d619976b-eda3-475e-ac23-c7988a2dceb0
 ---
 # How to: Create a Custom Claim
+
 The Identity Model infrastructure in Windows Communication Foundation (WCF) provides a set of built-in claim types and rights with the helper functions for creating <xref:System.IdentityModel.Claims.Claim> instances with those types and rights. These built-in claims are designed to model information found in client credential types that WCF supports by default. In many cases, the built-in claims are sufficient; however some applications may require custom claims. A claim consists of the claim type, the resource for which the claim applies to and the right that is asserted over that resource. This topic describes how to create a custom claim.  
   
 ### To create a custom claim that is based on a primitive data type  
@@ -48,8 +50,8 @@ The Identity Model infrastructure in Windows Communication Foundation (WCF) prov
   
          The following code example defines a custom resource type named `MyResourceType`.  
   
-         [!code-csharp[c_CustomClaim#2](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_customclaim/cs/c_customclaim.cs#2)] 
-         [!code-vb[c_CustomClaim#2](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/c_customclaim/vb/c_customclaim.vb#2)]        
+         [!code-csharp[c_CustomClaim#2](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_customclaim/cs/c_customclaim.cs#2)]
+         [!code-vb[c_CustomClaim#2](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/c_customclaim/vb/c_customclaim.vb#2)]
   
     3. Choose a right that is defined by WCF or a unique value for a custom right.  
   
@@ -59,10 +61,11 @@ The Identity Model infrastructure in Windows Communication Foundation (WCF) prov
   
          The following code example creates a custom claim with a claim type of `http://example.org/claims/complexcustomclaim`, a custom resource type of `MyResourceType`, and with the <xref:System.IdentityModel.Claims.Rights.PossessProperty%2A> right.  
   
-         [!code-csharp[c_CustomClaim#5](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_customclaim/cs/c_customclaim.cs#5)] 
-         [!code-vb[c_CustomClaim#5](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/c_customclaim/vb/c_customclaim.vb#5)]     
+         [!code-csharp[c_CustomClaim#5](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_customclaim/cs/c_customclaim.cs#5)]
+         [!code-vb[c_CustomClaim#5](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/c_customclaim/vb/c_customclaim.vb#5)]
   
 ## Example  
+
  The following code example demonstrates how to create a custom claim with a primitive resource type and a custom claim with a non-primitive resource type.  
   
  [!code-csharp[c_CustomClaim#0](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_customclaim/cs/c_customclaim.cs#0)]

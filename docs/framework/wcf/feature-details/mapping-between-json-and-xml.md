@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 22ee1f52-c708-4024-bbf0-572e0dae64af
 ---
 # Mapping Between JSON and XML
+
 The readers and writers produced by the <xref:System.Runtime.Serialization.Json.JsonReaderWriterFactory> provide an XML API over JavaScript Object Notation (JSON) content. JSON encodes data using a subset of the object literals of JavaScript. The readers and writers produced by this factory are also used when JSON content is being sent or received by Windows Communication Foundation (WCF) applications using the <xref:System.ServiceModel.Channels.WebMessageEncodingBindingElement> or the <xref:System.ServiceModel.WebHttpBinding>.
 
 When initialized with JSON content, the JSON reader behaves in the same way that a textual XML reader does over an instance of XML. The JSON writer, when given a sequence of calls that on a textual XML reader produces a certain XML instance, writes out JSON content. The mapping between this instance of XML and the JSON content is described in this topic for use in advanced scenarios.
@@ -32,7 +33,8 @@ To read this JSON document using one of the readers previously mentioned, use th
 Furthermore, if the JSON message in the example is received by WCF and logged, you would see the XML fragment in the preceding log.
 
 ## Mapping Between JSON and the XML Infoset
-Formally, the mapping is between JSON as described in [RFC 4627](https://go.microsoft.com/fwlink/?LinkId=98808) (except with certain restrictions relaxed and certain other restrictions added) and the XML infoset (and not textual XML) as described in [XML Information Set](https://go.microsoft.com/fwlink/?LinkId=98809). See this topic for the definitions of *information items* and fields in [square brackets].
+
+Formally, the mapping is between JSON as described in [RFC 4627](https://www.ietf.org/rfc/rfc4627.txt) (except with certain restrictions relaxed and certain other restrictions added) and the XML infoset (and not textual XML) as described in [XML Information Set](https://www.w3.org/TR/2004/REC-xml-infoset-20040204/). See this topic for the definitions of *information items* and fields in [square brackets].
 
 A blank JSON document maps to a blank XML document, and a blank XML document maps to a blank JSON document. On the XML to JSON mapping, preceding white space and trailing white space after the document are not allowed.
 
@@ -145,9 +147,9 @@ Member Records work as follows:
 Example: The following element maps to a JSON fragment.
 
 ```xml
-<root type="object"/>
-<myLocalName type="string">aaa</myLocalName>
-</root >
+<root type="object">
+    <myLocalName type="string">aaa</myLocalName>
+</root>
 ```
 
 The following JSON fragment is displayed.
@@ -195,13 +197,13 @@ Array Records work as follows:
 Example: The following element maps to a JSON fragment.
 
 ```xml
-<root type="array"/>
+<root type="array">
     <item type="string">myValue1</item>
     <item type="number">2</item>
     <item type="array">
     <item type="boolean">true</item>
     <item type="null"/></item>
-</root >
+</root>
 ```
 
 The following is the JSON fragment.

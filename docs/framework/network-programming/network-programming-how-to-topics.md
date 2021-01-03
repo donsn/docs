@@ -1,5 +1,6 @@
 ---
 title: "Network Programming How-to Topics"
+description: Use these How-to articles to learn about different facets of network programming in the .NET Framework.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "network resources"
@@ -9,6 +10,7 @@ helpviewer_keywords:
 ms.assetid: 8fd6c675-9ea6-4fad-a412-e2c2c1f233d8
 ---
 # Network Programming How-to Topics
+
 The following list includes links to the How-to topics found in the conceptual documentation for network programming.  
   
  **Requesting Data:**  

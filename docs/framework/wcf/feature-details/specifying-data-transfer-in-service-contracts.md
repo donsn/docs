@@ -9,6 +9,7 @@ helpviewer_keywords:
 ms.assetid: 7c5a26c8-89c9-4bcb-a4bc-7131e6d01f0c
 ---
 # Specifying Data Transfer in Service Contracts
+
 The Windows Communication Foundation (WCF) can be thought of as a messaging infrastructure. Service operations can receive messages, process them, and send them messages. Messages are described using operation contracts. For example, consider the following contract.  
   
 ```csharp  
@@ -34,6 +35,7 @@ End Interface
  This topic explains the various ways in which an operation contract can describe messages.  
   
 ## Describing Messages by Using Parameters  
+
  The simplest way to describe a message is to use a parameter list and the return value. In the preceding example, the `fromCity` and `toCity` string parameters were used to describe the request message, and the float return value was used to describe the reply message. If the return value alone is not enough to describe a reply message, out parameters may be used. For example, the following operation has `fromCity` and `toCity` in its request message, and a number together with a currency in its reply message:  
   
 ```csharp  
@@ -46,7 +48,7 @@ float GetAirfare(string fromCity, string toCity, out string currency);
     Function GetAirfare(fromCity As String, toCity As String) As Double  
 ```  
   
- Additionally, you may use reference parameters to make a parameter part of both the request and the reply message. The parameters must be of types that can be serialized (converted to XML). By default, WCF uses a component called the <xref:System.Runtime.Serialization.DataContractSerializer> class to perform this conversion. Most primitive types (such as `int`, `string`, `float`, and `DateTime`.) are supported. User-defined types must normally have a data contract. For more information, see [Using Data Contracts](../../../../docs/framework/wcf/feature-details/using-data-contracts.md).  
+ Additionally, you may use reference parameters to make a parameter part of both the request and the reply message. The parameters must be of types that can be serialized (converted to XML). By default, WCF uses a component called the <xref:System.Runtime.Serialization.DataContractSerializer> class to perform this conversion. Most primitive types (such as `int`, `string`, `float`, and `DateTime`.) are supported. User-defined types must normally have a data contract. For more information, see [Using Data Contracts](using-data-contracts.md).  
   
 ```csharp
 public interface IAirfareQuoteService  
@@ -118,7 +120,7 @@ Class Itinerary
 End Class  
 ```  
   
- For more information, see [Using the XmlSerializer Class](../../../../docs/framework/wcf/feature-details/using-the-xmlserializer-class.md). Remember that manually switching to the <xref:System.Xml.Serialization.XmlSerializer> as shown here is not recommended unless you have specific reasons to do so as detailed in that topic.  
+ For more information, see [Using the XmlSerializer Class](using-the-xmlserializer-class.md). Remember that manually switching to the <xref:System.Xml.Serialization.XmlSerializer> as shown here is not recommended unless you have specific reasons to do so as detailed in that topic.  
   
  To isolate .NET parameter names from contract names, you can use the <xref:System.ServiceModel.MessageParameterAttribute> attribute, and use the `Name` property to set the contract name. For example, the following operation contract is equivalent to the first example in this topic.  
   
@@ -135,6 +137,7 @@ public float GetAirfare(
 ```  
   
 ## Describing Empty Messages  
+
  An empty request message can be described by having no input or reference parameters. For example, in C#:  
   
  `[OperationContract]`  
@@ -174,6 +177,7 @@ Sub SetLightbulbStatus(isOne As Boolean)
  The `SetTemperatureStatus` operation returns an empty message. It may return a fault instead if there is a problem processing the input message. The `SetLightbulbStatus` operation returns nothing. There is no way to communicate a fault condition from this operation.  
   
 ## Describing Messages by Using Message Contracts  
+
  You may want to use a single type to represent the entire message. While it is possible to use a data contract for this purpose, the recommended way to do this is to use a message contract—this avoids unnecessary levels of wrapping in the resultant XML. Additionally, message contracts allow you to exercise more control over resultant messages. For instance, you can decide which pieces of information should be in the message body and which should be in the message headers. The following example shows the use of message contracts.  
   
 ```csharp  
@@ -215,7 +219,7 @@ End Interface
   
 <MessageContract()>  
 Public Class GetAirfareRequest  
-    <MessageHeader()>   
+    <MessageHeader()>
     Public Property date as DateTime  
     <MessageBodyMember()>  
     Public Property itinerary As Itinerary  
@@ -235,11 +239,12 @@ Public Class Itinerary
 End Class  
 ```  
   
- For more information, see [Using Message Contracts](../../../../docs/framework/wcf/feature-details/using-message-contracts.md).  
+ For more information, see [Using Message Contracts](using-message-contracts.md).  
   
  In the previous example, the <xref:System.Runtime.Serialization.DataContractSerializer> class is still used by default. The <xref:System.Xml.Serialization.XmlSerializer> class can also be used with message contracts. To do this, apply the <xref:System.ServiceModel.XmlSerializerFormatAttribute> attribute to either the operation or the contract, and use types compatible with the <xref:System.Xml.Serialization.XmlSerializer> class in the message headers and body members.  
   
 ## Describing Messages by Using Streams  
+
  Another way to describe messages in operations is to use the <xref:System.IO.Stream> class or one of its derived classes in an operation contract or as a message contract body member (it must be the only member in this case). For incoming messages, the type must be `Stream`—you cannot use derived classes.  
   
  Instead of invoking the serializer, WCF retrieves data from a stream and puts it directly into an outgoing message, or retrieves data from an incoming message and puts it directly into a stream. The following sample shows the use of streams.  
@@ -295,9 +300,10 @@ Public Class UploadFileMessage
 End Class  
 ```  
   
- For more information, see [Large Data and Streaming](../../../../docs/framework/wcf/feature-details/large-data-and-streaming.md).  
+ For more information, see [Large Data and Streaming](large-data-and-streaming.md).  
   
 ## Using the Message Class  
+
  To have complete programmatic control over messages sent or received, you can use the <xref:System.ServiceModel.Channels.Message> class directly, as shown in the following example code.  
   
 ```csharp  
@@ -310,9 +316,10 @@ public void LogMessage(Message m);
 Sub LogMessage(m As Message)  
 ```  
   
- This is an advanced scenario, which is described in detail in [Using the Message Class](../../../../docs/framework/wcf/feature-details/using-the-message-class.md).  
+ This is an advanced scenario, which is described in detail in [Using the Message Class](using-the-message-class.md).  
   
 ## Describing Fault Messages  
+
  In addition to the messages that are described by the return value and output or reference parameters, any operation that is not one-way can return at least two possible messages: its normal response message and a fault message. Consider the following operation contract.  
   
 ```csharp  
@@ -362,11 +369,12 @@ Public Class
 End Class  
 ```  
   
- These additional faults can be generated by throwing a <xref:System.ServiceModel.FaultException%601> of the appropriate data contract type. For more information, see [Handling Exceptions and Faults](../../../../docs/framework/wcf/extending/handling-exceptions-and-faults.md).  
+ These additional faults can be generated by throwing a <xref:System.ServiceModel.FaultException%601> of the appropriate data contract type. For more information, see [Handling Exceptions and Faults](../extending/handling-exceptions-and-faults.md).  
   
  You cannot use the <xref:System.Xml.Serialization.XmlSerializer> class to describe faults. The <xref:System.ServiceModel.XmlSerializerFormatAttribute> has no effect on fault contracts.  
   
 ## Using Derived Types  
+
  You may want to use a base type in an operation or a message contract, and then use a derived type when actually invoking the operation. In this case, you must use either the <xref:System.ServiceModel.ServiceKnownTypeAttribute> attribute or some alternative mechanism to allow the use of derived types. Consider the following operation.  
   
 ```csharp  
@@ -395,7 +403,7 @@ public bool IsLibraryItemAvailable(LibraryItem item);
 [OperationContract]  
 public bool IsLibraryItemAvailable(LibraryItem item);  
   
-// code omitted   
+// code omitted
   
 [DataContract]  
 [KnownType(typeof(Book))]  
@@ -421,9 +429,10 @@ End Class
   
  You can use the <xref:System.Xml.Serialization.XmlIncludeAttribute> attribute when using the <xref:System.Xml.Serialization.XmlSerializer>.  
   
- You can apply the <xref:System.ServiceModel.ServiceKnownTypeAttribute> attribute to an operation or to the entire service. It accepts either a type or the name of the method to call to get a list of known types, just like the <xref:System.Runtime.Serialization.KnownTypeAttribute> attribute. For more information, see [Data Contract Known Types](../../../../docs/framework/wcf/feature-details/data-contract-known-types.md).  
+ You can apply the <xref:System.ServiceModel.ServiceKnownTypeAttribute> attribute to an operation or to the entire service. It accepts either a type or the name of the method to call to get a list of known types, just like the <xref:System.Runtime.Serialization.KnownTypeAttribute> attribute. For more information, see [Data Contract Known Types](data-contract-known-types.md).  
   
 ## Specifying the Use and Style  
+
  When describing services using Web Services Description Language (WSDL), the two commonly used styles are Document and remote procedure call (RPC). In the Document style, the entire message body is described using the schema, and the WSDL describes the various message body parts by referring to elements within that schema. In the RPC style, the WSDL refers to a schema type for each message part rather than an element. In some cases, you have to manually select one of these styles. You can do this by applying the <xref:System.ServiceModel.DataContractFormatAttribute> attribute and setting the `Style` property (when the <xref:System.Runtime.Serialization.DataContractSerializer> is in use), or by setting `Style` on the <xref:System.ServiceModel.XmlSerializerFormatAttribute> attribute (when using the <xref:System.Xml.Serialization.XmlSerializer>).  
   
  Additionally, the <xref:System.Xml.Serialization.XmlSerializer> supports two forms of serialized XML: `Literal` and `Encoded`. `Literal` is the most commonly accepted form, and is the only form the <xref:System.Runtime.Serialization.DataContractSerializer> supports. `Encoded` is a legacy form described in section 5 of the SOAP specification, and is not recommended for new services. To switch to `Encoded` mode, set the `Use` property on the <xref:System.ServiceModel.XmlSerializerFormatAttribute> attribute to `Encoded`.  
@@ -431,10 +440,12 @@ End Class
  In most cases, you should not change the default settings for the `Style` and `Use` properties.  
   
 ## Controlling the Serialization Process  
+
  You can do a number of things to customize the way data is serialized.  
   
 ### Changing Server Serialization Settings  
- When the default <xref:System.Runtime.Serialization.DataContractSerializer> is in use, you can control some aspects of the serialization process on the service by applying the <xref:System.ServiceModel.ServiceBehaviorAttribute> attribute to the service. Specifically, you may use the `MaxItemsInObjectGraph` property to set the quota that limits the maximum number of objects the <xref:System.Runtime.Serialization.DataContractSerializer> deserializes. You can use the `IgnoreExtensionDataObject` property to turn off the round-tripping versioning feature. For more information about quotas, see [Security Considerations for Data](../../../../docs/framework/wcf/feature-details/security-considerations-for-data.md). For more information about round-tripping, see [Forward-Compatible Data Contracts](../../../../docs/framework/wcf/feature-details/forward-compatible-data-contracts.md).  
+
+ When the default <xref:System.Runtime.Serialization.DataContractSerializer> is in use, you can control some aspects of the serialization process on the service by applying the <xref:System.ServiceModel.ServiceBehaviorAttribute> attribute to the service. Specifically, you may use the `MaxItemsInObjectGraph` property to set the quota that limits the maximum number of objects the <xref:System.Runtime.Serialization.DataContractSerializer> deserializes. You can use the `IgnoreExtensionDataObject` property to turn off the round-tripping versioning feature. For more information about quotas, see [Security Considerations for Data](security-considerations-for-data.md). For more information about round-tripping, see [Forward-Compatible Data Contracts](forward-compatible-data-contracts.md).  
   
 ```csharp  
 [ServiceBehavior(MaxItemsInObjectGraph=100000)]  
@@ -458,9 +469,10 @@ End Interface
 ```  
   
 ### Serialization Behaviors  
+
  Two behaviors are available in WCF, the <xref:System.ServiceModel.Description.DataContractSerializerOperationBehavior> and the <xref:System.ServiceModel.Description.XmlSerializerOperationBehavior> that are automatically plugged in depending on which serializer is in use for a particular operation. Because these behaviors are applied automatically, you normally do not have to be aware of them.  
   
- However, the `DataContractSerializerOperationBehavior` has the `MaxItemsInObjectGraph`, `IgnoreExtensionDataObject`, and `DataContractSurrogate` properties that you may use to customize the serialization process. The first two properties have the same meaning as discussed in the previous section. You can use the `DataContractSurrogate` property to enable data contract surrogates, which are a powerful mechanism for customizing and extending the serialization process. For more information, see [Data Contract Surrogates](../../../../docs/framework/wcf/extending/data-contract-surrogates.md).  
+ However, the `DataContractSerializerOperationBehavior` has the `MaxItemsInObjectGraph`, `IgnoreExtensionDataObject`, and `DataContractSurrogate` properties that you may use to customize the serialization process. The first two properties have the same meaning as discussed in the previous section. You can use the `DataContractSurrogate` property to enable data contract surrogates, which are a powerful mechanism for customizing and extending the serialization process. For more information, see [Data Contract Surrogates](../extending/data-contract-surrogates.md).  
   
  You can use the `DataContractSerializerOperationBehavior` to customize both client and server serialization. The following example shows how to increase the `MaxItemsInObjectGraph` quota on the client.  
   
@@ -527,6 +539,7 @@ Dim serviceHost As ServiceHost = New ServiceHost(GetType(IDataService))
  In the Web-hosted case, you must create a new `ServiceHost` derived class and use a service host factory to plug it in.  
   
 ### Controlling Serialization Settings in Configuration  
+
  The `MaxItemsInObjectGraph` and `IgnoreExtensionDataObject` can be controlled through configuration by using the `dataContractSerializer` endpoint or service behavior, as shown in the following example.  
   
 ```xml  
@@ -543,7 +556,7 @@ Dim serviceHost As ServiceHost = New ServiceHost(GetType(IDataService))
         <client>  
             <endpoint address="http://example.com/myservice"  
                   behaviorConfiguration="LargeQuotaBehavior"  
-                binding="basicHttpBinding" bindingConfiguration=""   
+                binding="basicHttpBinding" bindingConfiguration=""
                             contract="IDataService"  
                 name="" />  
         </client>  
@@ -552,6 +565,7 @@ Dim serviceHost As ServiceHost = New ServiceHost(GetType(IDataService))
 ```  
   
 ### Shared Type Serialization, Object Graph Preservation, and Custom Serializers  
+
  The <xref:System.Runtime.Serialization.DataContractSerializer> serializes using data contract names and not .NET type names. This is consistent with service-oriented architecture tenets and allows for a great degree of flexibility—the .NET types can change without affecting the wire contract. In rare cases, you may want to serialize actual .NET type names, thereby introducing a tight coupling between the client and the server, similar to the .NET Framework remoting technology. This is not a recommended practice, except in rare cases that usually occur when migrating to WCF from .NET Framework remoting. In this case, you must use the <xref:System.Runtime.Serialization.NetDataContractSerializer> class instead of the <xref:System.Runtime.Serialization.DataContractSerializer> class.  
   
  The <xref:System.Runtime.Serialization.DataContractSerializer> normally serializes object graphs as object trees. That is, if the same object is referred to more than once, it is serialized more than once. For example, consider a `PurchaseOrder` instance that has two fields of type Address called `billTo` and `shipTo`. If both fields are set to the same Address instance, there are two identical Address instances after serialization and deserialization. This is done because there is no standard interoperable way to represent object graphs in XML (except for the legacy SOAP encoded standard available on the <xref:System.Xml.Serialization.XmlSerializer>, as described in the previous section on `Style` and `Use`). Serializing object graphs as trees has certain disadvantages, for example, graphs with circular references cannot be serialized. Occasionally, it is necessary to switch to true object graph serialization, even though it is not interoperable. This can be done by using the <xref:System.Runtime.Serialization.DataContractSerializer> constructed with the `preserveObjectReferences` parameter set to `true`.  
@@ -566,10 +580,10 @@ Dim serviceHost As ServiceHost = New ServiceHost(GetType(IDataService))
   
 3. Before opening the service host or creating a client channel, remove the existing <xref:System.ServiceModel.Description.DataContractSerializerOperationBehavior> behavior and plug in the custom derived class that you created in the previous steps.  
   
- For more information about advanced serialization concepts, see [Serialization and Deserialization](../../../../docs/framework/wcf/feature-details/serialization-and-deserialization.md).  
+ For more information about advanced serialization concepts, see [Serialization and Deserialization](serialization-and-deserialization.md).  
   
 ## See also
 
-- [Using the XmlSerializer Class](../../../../docs/framework/wcf/feature-details/using-the-xmlserializer-class.md)
-- [How to: Enable Streaming](../../../../docs/framework/wcf/feature-details/how-to-enable-streaming.md)
-- [How to: Create a Basic Data Contract for a Class or Structure](../../../../docs/framework/wcf/feature-details/how-to-create-a-basic-data-contract-for-a-class-or-structure.md)
+- [Using the XmlSerializer Class](using-the-xmlserializer-class.md)
+- [How to: Enable Streaming](how-to-enable-streaming.md)
+- [How to: Create a Basic Data Contract for a Class or Structure](how-to-create-a-basic-data-contract-for-a-class-or-structure.md)

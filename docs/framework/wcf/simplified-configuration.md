@@ -1,12 +1,15 @@
 ---
 title: "Simplified Configuration"
+description: Learn about simplified configuration for WCF services. .NET Framework 4.6.1 provides a way to reduce the size and complexity of service configuration.
 ms.date: "03/30/2017"
 ms.assetid: dcbe1f84-437c-495f-9324-2bc09fd79ea9
 ---
 # Simplified Configuration
+
 Configuring Windows Communication Foundation (WCF) services can be a complex task. There are many different options and it is not always easy to determine what settings are required. While configuration files increase the flexibility of WCF services, they also are the source for many hard to find problems. [!INCLUDE[netfx_current_long](../../../includes/netfx-current-long-md.md)] addresses these problems and provides a way to reduce the size and complexity of service configuration.  
   
 ## Simplified Configuration  
+
  In WCF service configuration files, the <`system.serviceModel`> section contains a <`service`> element for each service hosted. The <`service`> element contains a collection of <`endpoint`> elements that specify the endpoints exposed for each service and optionally a set of service behaviors. The <`endpoint`> elements specify the address, binding, and contract exposed by the endpoint, and optionally binding configuration and endpoint behaviors. The <`system.serviceModel`> section also contains a <`behaviors`> element that allows you to specify service or endpoint behaviors. The following example shows the <`system.serviceModel`> section of a configuration file.  
   
 ```xml  
@@ -14,8 +17,8 @@ Configuring Windows Communication Foundation (WCF) services can be a complex tas
   <behaviors>  
     <serviceBehaviors>  
       <behavior name="MyServiceBehavior">  
-        <serviceMetadata httpGetEnabled="true">  
-        <serviceDebug includeExceptionDetailInFaults="false">  
+        <serviceMetadata httpGetEnabled="true" />  
+        <serviceDebug includeExceptionDetailInFaults="false" />  
       </behavior>  
     </serviceBehaviors>  
   </behaviors>  

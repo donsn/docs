@@ -7,6 +7,7 @@ dev_langs:
 ms.assetid: 938e7825-f63a-4c3d-b603-63772fabfdb3
 ---
 # How to: Exchange Queued Messages with WCF Endpoints
+
 Queues ensure that reliable messaging can occur between a client and a Windows Communication Foundation (WCF) service, even if the service is not available at the time of communication. The following procedures show how to ensure durable communication between a client and a service by using the standard queued binding when implementing the WCF service.  
   
  This section explains how to use <xref:System.ServiceModel.NetMsmqBinding> for queued communication between a WCF client and a WCF service.  
@@ -58,6 +59,7 @@ Queues ensure that reliable messaging can occur between a client and a Windows C
      [!code-vb[S_Msmq_Transacted#8](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/s_msmq_transacted/vb/client.vb#8)]  
   
 ## Example  
+
  The following examples show the service code, hosting application, App.config file, and client code included for this example.  
   
  [!code-csharp[S_Msmq_Transacted#9](../../../../samples/snippets/csharp/VS_Snippets_CFX/s_msmq_transacted/cs/service.cs#9)]
@@ -72,10 +74,10 @@ Queues ensure that reliable messaging can occur between a client and a Windows C
 ## See also
 
 - <xref:System.ServiceModel.NetMsmqBinding>
-- [Transacted MSMQ Binding](../../../../docs/framework/wcf/samples/transacted-msmq-binding.md)
-- [Queuing in WCF](../../../../docs/framework/wcf/feature-details/queuing-in-wcf.md)
-- [How to: Exchange Messages with WCF Endpoints and Message Queuing Applications](../../../../docs/framework/wcf/feature-details/how-to-exchange-messages-with-wcf-endpoints-and-message-queuing-applications.md)
-- [Windows Communication Foundation to Message Queuing](../../../../docs/framework/wcf/samples/wcf-to-message-queuing.md)
-- [Installing Message Queuing (MSMQ)](../../../../docs/framework/wcf/samples/installing-message-queuing-msmq.md)
-- [Message Queuing to Windows Communication Foundation](../../../../docs/framework/wcf/samples/message-queuing-to-wcf.md)
-- [Message Security over Message Queuing](../../../../docs/framework/wcf/samples/message-security-over-message-queuing.md)
+- [Transacted MSMQ Binding](../samples/transacted-msmq-binding.md)
+- [Queuing in WCF](queuing-in-wcf.md)
+- [How to: Exchange Messages with WCF Endpoints and Message Queuing Applications](how-to-exchange-messages-with-wcf-endpoints-and-message-queuing-applications.md)
+- [Windows Communication Foundation to Message Queuing](../samples/wcf-to-message-queuing.md)
+- [Installing Message Queuing (MSMQ)](../samples/installing-message-queuing-msmq.md)
+- [Message Queuing to Windows Communication Foundation](../samples/message-queuing-to-wcf.md)
+- [Message Security over Message Queuing](../samples/message-security-over-message-queuing.md)

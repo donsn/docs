@@ -1,5 +1,6 @@
 ---
 title: "How to: Enable Streaming"
+description: Learn how to enable streamed messages in WCF rather than the default buffered transfers, which must be completely received before they are processed.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -7,6 +8,7 @@ dev_langs:
 ms.assetid: 6ca2cf4b-c7a1-49d8-a79b-843a90556ba4
 ---
 # How to: Enable Streaming
+
 Windows Communication Foundation (WCF) can send messages using either buffered or streamed transfers. In the default buffered-transfer mode, a message must be completely delivered before a receiver can read it. In streaming transfer mode, the receiver can begin to process the message before it is completely delivered. The streaming mode is useful when the information that is passed is lengthy and can be processed serially. Streaming mode is also useful when the message is too large to be entirely buffered.  
   
  To enable streaming, define the `OperationContract` appropriately and enable streaming at the transport level.  
@@ -42,7 +44,7 @@ Windows Communication Foundation (WCF) can send messages using either buffered o
   
     1. The following configuration snippet from the sample shows setting the `TransferMode` property to streaming on the `basicHttpBinding` and a custom HTTP binding.  
   
-         [!code-xml[c_HowTo_EnableStreaming#103](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_howto_enablestreaming/common/app.config#103)]   
+         [!code-xml[c_HowTo_EnableStreaming#103](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_howto_enablestreaming/common/app.config#103)]
   
     2. The following code snippet shows setting the `TransferMode` property to streaming on the `basicHttpBinding` and a custom HTTP binding.  
   
@@ -70,5 +72,5 @@ Windows Communication Foundation (WCF) can send messages using either buffered o
   
 ## See also
 
-- [Large Data and Streaming](../../../../docs/framework/wcf/feature-details/large-data-and-streaming.md)
-- [Stream](../../../../docs/framework/wcf/samples/stream.md)
+- [Large Data and Streaming](large-data-and-streaming.md)
+- [Stream](../samples/stream.md)

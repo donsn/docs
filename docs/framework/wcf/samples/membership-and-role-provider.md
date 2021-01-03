@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 0d11a31c-e75f-4fcf-9cf4-b7f26e056bcd
 ---
 # Membership and Role Provider
+
 The Membership and Role Provider sample demonstrates how a service can use the ASP.NET membership and role providers to authenticate and authorize clients.  
   
  In this sample, the client is a console application (.exe) and the service is hosted by Internet Information Services (IIS).  
@@ -28,7 +29,7 @@ The Membership and Role Provider sample demonstrates how a service can use the A
 ```xml  
 <!-- Set the connection string for SQL Server -->  
 <connectionStrings>  
-  <add name="SqlConn"   
+  <add name="SqlConn"
        connectionString="Data Source=localhost;Integrated Security=SSPI;Initial Catalog=aspnetdb;" />  
 </connectionStrings>  
   
@@ -37,9 +38,9 @@ The Membership and Role Provider sample demonstrates how a service can use the A
   <membership defaultProvider="SqlMembershipProvider" userIsOnlineTimeWindow="15">  
     <providers>  
       <clear />  
-      <add   
-        name="SqlMembershipProvider"   
-        type="System.Web.Security.SqlMembershipProvider"   
+      <add
+        name="SqlMembershipProvider"
+        type="System.Web.Security.SqlMembershipProvider"
         connectionStringName="SqlConn"  
         applicationName="MembershipAndRoleProviderSample"  
         enablePasswordRetrieval="false"  
@@ -51,19 +52,19 @@ The Membership and Role Provider sample demonstrates how a service can use the A
   </membership>  
   
   <!-- Configure the Sql Role Provider -->  
-  <roleManager enabled ="true"   
+  <roleManager enabled ="true"
                defaultProvider ="SqlRoleProvider" >  
     <providers>  
-      <add name ="SqlRoleProvider"   
-           type="System.Web.Security.SqlRoleProvider"   
-           connectionStringName="SqlConn"   
+      <add name ="SqlRoleProvider"
+           type="System.Web.Security.SqlRoleProvider"
+           connectionStringName="SqlConn"
            applicationName="MembershipAndRoleProviderSample"/>  
     </providers>  
   </roleManager>  
 </system.web>  
 ```  
   
- The service exposes a single endpoint for communicating with the service, which is defined by using the Web.config configuration file. The endpoint consists of an address, a binding, and a contract. The binding is configured with a standard `wsHttpBinding`, which defaults to using Windows authentication. This sample sets the standard `wsHttpBinding` to use username authentication. The behavior specifies that the server certificate is to be used for service authentication. The server certificate must contain the same value for the `SubjectName` as the `findValue` attribute in the [\<serviceCertificate>](../../../../docs/framework/configure-apps/file-schema/wcf/servicecertificate-of-servicecredentials.md) configuration element. In addition the behavior specifies that authentication of username-password pairs is performed by the ASP.NET membership provider and role mapping is performed by the ASP.NET role provider by specifying the names defined for the two providers.  
+ The service exposes a single endpoint for communicating with the service, which is defined by using the Web.config configuration file. The endpoint consists of an address, a binding, and a contract. The binding is configured with a standard `wsHttpBinding`, which defaults to using Windows authentication. This sample sets the standard `wsHttpBinding` to use username authentication. The behavior specifies that the server certificate is to be used for service authentication. The server certificate must contain the same value for the `SubjectName` as the `findValue` attribute in the [\<serviceCertificate>](../../configure-apps/file-schema/wcf/servicecertificate-of-servicecredentials.md) configuration element. In addition the behavior specifies that authentication of username-password pairs is performed by the ASP.NET membership provider and role mapping is performed by the ASP.NET role provider by specifying the names defined for the two providers.  
   
 ```xml  
 <system.serviceModel>  
@@ -91,11 +92,11 @@ The Membership and Role Provider sample demonstrates how a service can use the A
                               roleProviderName ="SqlRoleProvider" />  
         <serviceCredentials>  
           <!-- Configure user name authentication to use the Membership Provider -->  
-          <userNameAuthentication userNamePasswordValidationMode ="MembershipProvider"   
+          <userNameAuthentication userNamePasswordValidationMode ="MembershipProvider"
                                   membershipProviderName ="SqlMembershipProvider"/>  
           <!-- Configure the service certificate -->  
-          <serviceCertificate storeLocation ="LocalMachine"   
-                              storeName ="My"   
+          <serviceCertificate storeLocation ="LocalMachine"
+                              storeName ="My"
                               x509FindType ="FindBySubjectName"  
                               findValue ="localhost" />  
         </serviceCredentials>  
@@ -112,7 +113,7 @@ The Membership and Role Provider sample demonstrates how a service can use the A
   
 ### To set up, build, and run the sample  
   
-1. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Running the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/running-the-samples.md).  
+1. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Running the Windows Communication Foundation Samples](running-the-samples.md).  
   
 2. Ensure that you have configured the [ASP.NET Application Services Database](https://go.microsoft.com/fwlink/?LinkId=94997).  
   
@@ -132,7 +133,7 @@ The Membership and Role Provider sample demonstrates how a service can use the A
   
 3. Launch Client.exe from \client\bin. Client activity is displayed on the client console application.  
   
-4. If the client and service are not able to communicate, see [Troubleshooting Tips for WCF Samples](https://docs.microsoft.com/previous-versions/dotnet/netframework-3.5/ms751511(v=vs.90)).  
+4. If the client and service are not able to communicate, see [Troubleshooting Tips for WCF Samples](/previous-versions/dotnet/netframework-3.5/ms751511(v=vs.90)).  
   
 ### To run the sample across computers  
   
@@ -146,7 +147,7 @@ The Membership and Role Provider sample demonstrates how a service can use the A
   
 5. On the server, open a Developer Command Prompt for Visual Studio with administrative privileges and run `setup.bat service`. Running `setup.bat` with the `service` argument creates a service certificate with the fully-qualified domain name of the computer and exports the service certificate to a file named Service.cer.  
   
-6. Edit Web.config to reflect the new certificate name (in the `findValue` attribute in the [\<serviceCertificate>](../../../../docs/framework/configure-apps/file-schema/wcf/servicecertificate-of-servicecredentials.md)), which is the same as the fully-qualified domain name of the computer.  
+6. Edit Web.config to reflect the new certificate name (in the `findValue` attribute in the [\<serviceCertificate>](../../configure-apps/file-schema/wcf/servicecertificate-of-servicecredentials.md)), which is the same as the fully-qualified domain name of the computer.  
   
 7. Copy the Service.cer file from the service directory to the client directory on the client computer.  
   
@@ -154,7 +155,7 @@ The Membership and Role Provider sample demonstrates how a service can use the A
   
 9. On the client, open a Developer Command Prompt for Visual Studio with administrative privileges and run ImportServiceCert.bat. This imports the service certificate from the Service.cer file into the CurrentUser - TrustedPeople store.  
   
-10. On the client computer, launch Client.exe from a command prompt. If the client and service are not able to communicate, see [Troubleshooting Tips for WCF Samples](https://docs.microsoft.com/previous-versions/dotnet/netframework-3.5/ms751511(v=vs.90)).  
+10. On the client computer, launch Client.exe from a command prompt. If the client and service are not able to communicate, see [Troubleshooting Tips for WCF Samples](/previous-versions/dotnet/netframework-3.5/ms751511(v=vs.90)).  
   
 ### To clean up after the sample  
   
@@ -164,6 +165,7 @@ The Membership and Role Provider sample demonstrates how a service can use the A
 > This script does not remove service certificates on a client when running this sample across computers. If you have run Windows Communication Foundation (WCF) samples that use certificates across computers, be sure to clear the service certificates that have been installed in the CurrentUser - TrustedPeople store. To do this, use the following command: `certmgr -del -r CurrentUser -s TrustedPeople -c -n <Fully Qualified Server Machine Name>` For example: `certmgr -del -r CurrentUser -s TrustedPeople -c -n server1.contoso.com`.  
   
 ## The Setup Batch File  
+
  The Setup.bat batch file included with this sample allows you to configure the server with relevant certificates to run a self-hosted application that requires server certificate-based security. This batch file must be modified to work across computers or to work in a non-hosted case.  
   
  The following provides a brief overview of the different sections of the batch files so that they can be modified to run in the appropriate configuration.  
@@ -190,4 +192,4 @@ The Membership and Role Provider sample demonstrates how a service can use the A
   
     ```bat  
     certmgr.exe -add -r LocalMachine -s My -c -n %SERVER_NAME% -r CurrentUser -s TrustedPeople  
-    ```  
+    ```

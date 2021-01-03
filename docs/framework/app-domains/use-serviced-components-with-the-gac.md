@@ -1,5 +1,6 @@
 ---
 title: "Using Serviced Components with the Global Assembly Cache"
+description: Use serviced components (managed code COM+ components) with the global assembly cache in .NET. See if the CLR and COM+ services can handle non-GAC components.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "assemblies [.NET Framework], global assembly cache"
@@ -9,6 +10,7 @@ helpviewer_keywords:
 ms.assetid: 3423e5d9-234c-4571-8161-e35f6d130128
 ---
 # Using Serviced Components with the Global Assembly Cache
+
 Serviced components (managed code COM+ components) should be put in the Global Assembly Cache. In some scenarios, the Common Language Runtime and COM+ Services can handle serviced components that are not in the Global Assembly Cache; in other scenarios, they cannot. The following scenarios illustrate this:  
   
 - For serviced components in a COM+ Server application, the assembly containing the components must be in the Global Assembly Cache, because Dllhost.exe does not run in the same directory as the one that contains the serviced components.  

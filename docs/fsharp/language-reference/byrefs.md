@@ -7,7 +7,7 @@ ms.date: 11/04/2019
 
 F# has two major feature areas that deal in the space of low-level programming:
 
-* The `byref`/`inref`/`outref` types, which are a managed pointers. They have restrictions on usage so that you cannot compile a program that is invalid at runtime.
+* The `byref`/`inref`/`outref` types, which are managed pointers. They have restrictions on usage so that you cannot compile a program that is invalid at run time.
 * A `byref`-like struct, which is a [structure](structures.md) that has similar semantics and the same compile-time restrictions as `byref<'T>`. One example is <xref:System.Span%601>.
 
 ## Syntax
@@ -49,7 +49,7 @@ To use a `inref<'T>`, you need to get a pointer value with `&`:
 open System
 
 let f (dt: inref<DateTime>) =
-    printfn "Now: %s" (dt.ToString())
+    printfn $"Now: %O{dt}"
 
 let usage =
     let dt = DateTime.Now
@@ -62,7 +62,7 @@ To write to the pointer by using an `outref<'T>` or `byref<'T>`, you must also m
 open System
 
 let f (dt: byref<DateTime>) =
-    printfn "Now: %s" (dt.ToString())
+    printfn $"Now: %O{dt}"
     dt <- DateTime.Now
 
 // Make 'dt' mutable
@@ -169,21 +169,27 @@ A "`byref`-like" struct in F# is a stack-bound value type. It is never allocated
 
 This last point is crucial for F# pipeline-style programming, as `|>` is a generic function that parameterizes its input types. This restriction may be relaxed for `|>` in the future, as it is inline and does not make any calls to non-inlined generic functions in its body.
 
-Although these rules very strongly restrict usage, they do so to fulfill the promise of high-performance computing in a safe manner.
+Although these rules strongly restrict usage, they do so to fulfill the promise of high-performance computing in a safe manner.
 
 ## Byref returns
 
 Byref returns from F# functions or members can be produced and consumed. When consuming a `byref`-returning method, the value is implicitly dereferenced. For example:
 
 ```fsharp
-let safeSum(bytes: Span<byte>) =
-    let mutable sum = 0
+let squareAndPrint (data : byref<int>) =
+    let squared = data*data    // data is implicitly dereferenced
+    printfn $"%d{squared}"
+```
+
+To return a value byref, the variable that contains the value must live longer than the current scope.
+Also, to return byref, use `&value` (where value is a variable that lives longer than the current scope).
+
+```fsharp
+let mutable sum = 0
+let safeSum (bytes: Span<byte>) =
     for i in 0 .. bytes.Length - 1 do
         sum <- sum + int bytes.[i]
-    sum
-
-let sum = safeSum(mySpanOfBytes)
-printfn "%d" sum // 'sum' is of type 'int'
+    &sum  // sum lives longer than the scope of this function.
 ```
 
 To avoid the implicit dereference, such as passing a reference through multiple chained calls, use `&x` (where `x` is the value).
@@ -206,13 +212,13 @@ type C() =
 [<EntryPoint>]
 let main argv =
     let c = C()
-    printfn "Original sequence: %s" (c.ToString())
+    printfn $"Original sequence: %O{c}"
 
     let v = &c.FindLargestSmallerThan 16
 
     v <- v*2 // Directly assign to the byref return
 
-    printfn "New sequence:      %s" (c.ToString())
+    printfn $"New sequence:      %O{c}"
 
     0 // return an integer exit code
 ```
@@ -240,4 +246,4 @@ let test () =
     ()
 ```
 
-This prevents you from getting different results depending on if you compile with optimizations on or off.
+This prevents you from getting different results depending on if you compile with optimizations or not.

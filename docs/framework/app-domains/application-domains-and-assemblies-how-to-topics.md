@@ -1,5 +1,6 @@
 ---
 title: "Application Domains and Assemblies How-to Topics"
+description: See links to how-to topics found in the conceptual documentation for programming with application domains and assemblies in .NET.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "assemblies [.NET Framework], how-tos"
@@ -7,6 +8,7 @@ helpviewer_keywords:
 ms.assetid: 2264054e-712e-47e4-8657-1aa1cfec3e3d
 ---
 # Application Domains and Assemblies How-to Topics
+
 The following sections contain links to all How-to topics found in the conceptual documentation for programming with application domains and assemblies.  
   
  **Application Domains**  

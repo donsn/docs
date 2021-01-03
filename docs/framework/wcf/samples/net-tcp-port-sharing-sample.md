@@ -4,22 +4,23 @@ ms.date: "03/30/2017"
 ms.assetid: 03da5959-0574-4e91-8a53-05854b6c55dc
 ---
 # Net.TCP Port Sharing Sample
+
 The TCP/IP protocol uses a 16-bit number, called a port, to differentiate connections to multiple network applications running on the same machine. If an application is listening on a port, then all TCP traffic for that port goes to that application. Other applications cannot listen on that port at the same time.  
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Basic\Binding\Net\TCP\PortSharing`  
   
  Many protocols have a standard or default port number that they use. For example, the HTTP protocol typically uses TCP port 80. Internet Information Services (IIS) has a listener to share a port between multiple HTTP applications. IIS listens on the port directly and forwards messages to the appropriate application based on information inside the message stream. This allows multiple HTTP applications to use the same port number without having to compete to reserve the port for receiving messages.  
   
  NetTcp Port Sharing is a Windows Communication Foundation (WCF)feature that similarly allows multiple network applications to share a single port. The NetTcp Port Sharing Service accepts connections using the net.tcp protocol and forwards messages based on their destination address.  
   
- The NetTcp Port Sharing Service is not enabled by default. Before running this sample, you must manually enable the service. For more information, see [How to: Enable the Net.TCP Port Sharing Service](../../../../docs/framework/wcf/feature-details/how-to-enable-the-net-tcp-port-sharing-service.md). If the service is disabled, an exception is thrown when the server application is started.  
+ The NetTcp Port Sharing Service is not enabled by default. Before running this sample, you must manually enable the service. For more information, see [How to: Enable the Net.TCP Port Sharing Service](../feature-details/how-to-enable-the-net-tcp-port-sharing-service.md). If the service is disabled, an exception is thrown when the server application is started.  
   
 ```console
 Unhandled Exception: System.ServiceModel.CommunicationException: The TransportManager failed to listen on the supplied URI using the NetTcpPortSharing service: failed to start the service because it is disabled. An administrator can enable it by running 'sc.exe config NetTcpPortSharing start= demand'.. ---> System.InvalidOperationException: Cannot start service NetTcpPortSharing on computer '.'. ---> System.ComponentModel.Win32Exception: The service cannot be started, either because it is disabled or because it has no enabled devices associated with it  
@@ -28,6 +29,7 @@ Unhandled Exception: System.ServiceModel.CommunicationException: The TransportMa
  Port sharing is enabled on the server by setting the <xref:System.ServiceModel.NetTcpBinding.PortSharingEnabled%2A> property of the <xref:System.ServiceModel.NetTcpBinding> binding or the <xref:System.ServiceModel.Channels.TcpTransportBindingElement> binding element. The client does not have to know how port sharing has been configured to use it on the server.  
   
 ## Enabling Port Sharing  
+
  The following code demonstrates enabling port sharing on the server. It starts an instance of the `ICalculator` service on a fixed port with a random URI path. Even though two services can share the same port, their overall endpoint addresses still must be unique so that the NetTcp Port Sharing Service can route messages to the correct application.  
 
 ```csharp
@@ -50,6 +52,7 @@ Unhandled Exception: System.ServiceModel.AddressAlreadyInUseException: There is 
 ```  
   
 ## Running the Sample  
+
  You can use the test client to check that messages are correctly routed to services sharing the port.  
 
 ```csharp
@@ -125,10 +128,10 @@ Press <ENTER> to terminate client.
     %windir%\Microsoft.NET\Framework\v4.0.XXXXX\aspnet_regiis.exe /i /enable  
     ```  
   
-2. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/one-time-setup-procedure-for-the-wcf-samples.md).  
+2. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](one-time-setup-procedure-for-the-wcf-samples.md).  
   
 3. Enable the NetTcp Port Sharing Service as previously described in the introduction section.  
   
-4. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).  
+4. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).  
   
-5. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/running-the-samples.md). Specific details for running this sample are included previously in the Running the Sample section.  
+5. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](running-the-samples.md). Specific details for running this sample are included previously in the Running the Sample section.  

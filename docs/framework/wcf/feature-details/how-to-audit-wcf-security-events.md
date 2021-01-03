@@ -9,7 +9,8 @@ helpviewer_keywords:
 ms.assetid: e71e9587-3336-46a2-9a9e-d72a1743ecec
 ---
 # How to: Audit Windows Communication Foundation Security Events
-Windows Communication Foundation (WCF) allows you to log security events to the Windows event log, which can be viewed using the Windows Event Viewer. This topic explains how to set up an application so that it logs security events. For more information about WCF auditing, see [Auditing](../../../../docs/framework/wcf/feature-details/auditing-security-events.md).  
+
+Windows Communication Foundation (WCF) allows you to log security events to the Windows event log, which can be viewed using the Windows Event Viewer. This topic explains how to set up an application so that it logs security events. For more information about WCF auditing, see [Auditing](auditing-security-events.md).  
   
 ### To audit security events in code  
   
@@ -39,14 +40,14 @@ Windows Communication Foundation (WCF) allows you to log security events to the 
   
 ### To set up auditing in configuration  
   
-1. To set up auditing in configuration, add a [\<behavior>](../../../../docs/framework/configure-apps/file-schema/wcf/behavior-of-endpointbehaviors.md) element to the [\<behaviors>](../../../../docs/framework/configure-apps/file-schema/wcf/behaviors.md) section of the web.config file. Then add a [\<serviceSecurityAudit>](../../../../docs/framework/configure-apps/file-schema/wcf/servicesecurityaudit.md) element and set the various attributes, as shown in the following example.  
+1. To set up auditing in configuration, add a [\<behavior>](../../configure-apps/file-schema/wcf/behavior-of-endpointbehaviors.md) element to the [\<behaviors>](../../configure-apps/file-schema/wcf/behaviors.md) section of the web.config file. Then add a [\<serviceSecurityAudit>](../../configure-apps/file-schema/wcf/servicesecurityaudit.md) element and set the various attributes, as shown in the following example.  
   
     ```xml  
     <behaviors>  
        <behavior name="myAuditBehavior">  
           <serviceSecurityAudit auditLogLocation="Application"  
-                suppressAuditFailure="false"   
-                serviceAuthorizationAuditLevel="None"   
+                suppressAuditFailure="false"
+                serviceAuthorizationAuditLevel="None"
                 messageAuthenticationAuditLevel="SuccessOrFailure" />  
           </behavior>  
     </behaviors>  
@@ -56,23 +57,25 @@ Windows Communication Foundation (WCF) allows you to log security events to the 
   
     ```xml  
     <services>  
-        <service type="WCS.Samples.Service.Echo"   
+        <service type="WCS.Samples.Service.Echo"
         behaviorConfiguration=" myAuditBehavior">  
            <endpoint address=""  
                     binding="wsHttpBinding"  
-                    bindingConfiguration="CertificateDefault"   
+                    bindingConfiguration="CertificateDefault"
                     contract="WCS.Samples.Service.IEcho" />  
         </service>  
     </services>  
     ```  
   
 ## Example  
+
  The following code creates an instance of the <xref:System.ServiceModel.ServiceHost> class and adds a new <xref:System.ServiceModel.Description.ServiceSecurityAuditBehavior> to its collection of behaviors.  
   
  [!code-csharp[AuditingSecurityEvents#1](../../../../samples/snippets/csharp/VS_Snippets_CFX/auditingsecurityevents/cs/auditingsecurityevents.cs#1)]
  [!code-vb[AuditingSecurityEvents#1](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/auditingsecurityevents/vb/auditingsecurityevents.vb#1)]  
   
 ## .NET Framework Security  
+
  Setting the <xref:System.ServiceModel.Description.ServiceSecurityAuditBehavior.SuppressAuditFailure%2A> property to `true`, suppresses any failure to generate security audits (if set to `false`, an exception is thrown). However, if you enable the following Windows **Local Security Setting** property, a failure to generate audit events will cause Windows to shut down immediately:  
   
  **Audit: Shut down system immediately if unable to log security audits**  
@@ -86,4 +89,4 @@ Windows Communication Foundation (WCF) allows you to log security events to the 
 - <xref:System.ServiceModel.Description.ServiceSecurityAuditBehavior.AuditLogLocation%2A>
 - <xref:System.ServiceModel.Description.ServiceSecurityAuditBehavior>
 - <xref:System.ServiceModel.AuditLogLocation>
-- [Auditing](../../../../docs/framework/wcf/feature-details/auditing-security-events.md)
+- [Auditing](auditing-security-events.md)

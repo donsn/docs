@@ -1,5 +1,6 @@
 ---
 title: "streamWriterBufferedDataLost MDA"
+description: Review the streamWriterBufferedDataLost managed debugging assistant (MDA), which may activate if a StreamWriter doesn't write the last 1–4 KB of data to a file.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "StreamWriter class, data buffering problems"
@@ -10,23 +11,24 @@ helpviewer_keywords:
   - "data buffering problems"
   - "streamWriterBufferedDataLost MDA"
 ms.assetid: 6e5c07be-bc5b-437a-8398-8779e23126ab
-author: "mairaw"
-ms.author: "mairaw"
 ---
 # streamWriterBufferedDataLost MDA
+
 The `streamWriterBufferedDataLost` managed debugging assistant (MDA) is activated when a <xref:System.IO.StreamWriter> is written to, but the <xref:System.IO.StreamWriter.Flush%2A> or <xref:System.IO.StreamWriter.Close%2A> method is not subsequently called before the instance of the <xref:System.IO.StreamWriter> is destroyed. When this MDA is enabled, the runtime determines whether any buffered data still exists within the <xref:System.IO.StreamWriter>. If buffered data does exist, the MDA is activated. Calling the <xref:System.GC.Collect%2A> and <xref:System.GC.WaitForPendingFinalizers%2A> methods can force finalizers to run. Finalizers will otherwise run at seemingly arbitrary times, and possibly not at all on process exit. Explicitly running finalizers with this MDA enabled will help to more reliably reproduce this type of problem.  
   
 ## Symptoms  
+
  A <xref:System.IO.StreamWriter> does not write the last 1–4 KB of data to a file.  
   
 ## Cause  
+
  The <xref:System.IO.StreamWriter> buffers data internally, which requires that the <xref:System.IO.StreamWriter.Close%2A> or <xref:System.IO.StreamWriter.Flush%2A> method be called to write the buffered data to the underlying data store. If <xref:System.IO.StreamWriter.Close%2A> or <xref:System.IO.StreamWriter.Flush%2A> is not appropriately called, data buffered in the <xref:System.IO.StreamWriter> instance might not be written as expected.  
   
  The following is an example of poorly written code that this MDA should catch.  
   
 ```csharp  
 // Poorly written code.  
-void Write()   
+void Write()
 {  
     StreamWriter sw = new StreamWriter("file.txt");  
     sw.WriteLine("Data");  
@@ -42,10 +44,11 @@ GC.WaitForPendingFinalizers();
 ```  
   
 ## Resolution  
+
  Make sure you call <xref:System.IO.StreamWriter.Close%2A> or <xref:System.IO.StreamWriter.Flush%2A> on the <xref:System.IO.StreamWriter> before closing an application or any code block that has an instance of a <xref:System.IO.StreamWriter>. One of the best mechanisms for achieving this is creating the instance with a C# `using` block (`Using` in Visual Basic), which will ensure the <xref:System.IO.StreamWriter.Dispose%2A> method for the writer is invoked, resulting in the instance being correctly closed.  
   
 ```csharp
-using(StreamWriter sw = new StreamWriter("file.txt"))   
+using(StreamWriter sw = new StreamWriter("file.txt"))
 {  
     sw.WriteLine("Data");  
 }  
@@ -55,12 +58,12 @@ using(StreamWriter sw = new StreamWriter("file.txt"))
   
 ```csharp
 StreamWriter sw;  
-try   
+try
 {  
     sw = new StreamWriter("file.txt"));  
     sw.WriteLine("Data");  
 }  
-finally   
+finally
 {  
     if (sw != null)  
         sw.Close();  
@@ -72,7 +75,7 @@ finally
 ```csharp
 private static StreamWriter log;  
 // static class constructor.  
-static WriteToFile()   
+static WriteToFile()
 {  
     StreamWriter sw = new StreamWriter("log.txt");  
     sw.AutoFlush = true;  
@@ -83,9 +86,11 @@ static WriteToFile()
 ```  
   
 ## Effect on the Runtime  
+
  This MDA has no effect on the runtime.  
   
 ## Output  
+
  A message indicating that this violation occurred.  
   
 ## Configuration  

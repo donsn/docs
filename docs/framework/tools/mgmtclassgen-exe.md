@@ -1,5 +1,6 @@
 ---
 title: "Mgmtclassgen.exe (Management Strongly Typed Class Generator)"
+description: Understand Mgmtclassgen.exe, the Management Strongly Typed Class Generator. This tool lets you quickly generate an early-bound managed class for a WMI class.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -13,13 +14,14 @@ helpviewer_keywords:
 ms.assetid: 02ce6699-49b5-4a0b-b0d5-1003c491232e
 ---
 # Mgmtclassgen.exe (Management Strongly Typed Class Generator)
+
 The Management Strongly Typed Class Generator tool enables you to quickly generate an early-bound managed class for a specified Windows Management Instrumentation (WMI) class. The generated class simplifies the code you must write to access an instance of the WMI class.  
   
 ## Syntax  
   
 ```console  
-mgmtclassgen   
-WMIClass [options]   
+mgmtclassgen
+WMIClass [options]
 ```  
   
 |Argument|Description|  
@@ -38,6 +40,7 @@ WMIClass [options]
 |**/?**|Displays command syntax and options for the tool.|  
   
 ## Remarks  
+
  Mgmtclassgen.exe uses the <xref:System.Management.ManagementClass.GetStronglyTypedClassCode%2A?displayProperty=nameWithType> method. Therefore, you can use any custom code provider to generate code in managed languages other than C#, Visual Basic, and JScript.  
   
  Note that generated classes are bound to the schema for which they are generated. If the underlying schema changes, you must regenerate the class if you want it to reflect changes to the schema.  
@@ -77,15 +80,16 @@ WMIClass [options]
   
 - The WMI uses the term singleton to describe a class that can have only one instance. Therefore, the parameterless constructor for a singleton class will initialize the class to the only instance of the class.  
   
-- A WMI class can have properties that are objects. When you generate a strongly-typed class for this type of WMI class, you should consider generating strongly-typed classes for the types of the embedded object properties. This will allow you to access the embedded objects in a strongly-typed manner. Note that the generated code might not be able to detect the type of the embedded object. In this case, a comment will be created in the generated code to notify you of this issue. You can then modify the generated code to type the property to the other generated class.  
+- A WMI class can have properties that are objects. When you generate a strongly typed class for this type of WMI class, you should consider generating strongly typed classes for the types of the embedded object properties. This will allow you to access the embedded objects in a strongly typed manner. Note that the generated code might not be able to detect the type of the embedded object. In this case, a comment will be created in the generated code to notify you of this issue. You can then modify the generated code to type the property to the other generated class.  
   
 - In WMI, the data value of the CIM_DATETIME data type can represent either a specific date and time or a time interval. If the data value represents a date and time, the data type in the generated class is **DateTime**. If the data value represents a time interval, the data type in the generated class is **TimeSpan**.  
   
- You can alternately generate a strongly-typed class using the Server Explorer Management Extension in Visual Studio .NET.  
+ You can alternately generate a strongly typed class using the Server Explorer Management Extension in Visual Studio .NET.  
   
  For more information about WMI, see the **Windows Management Instrumentation** topic in the Platform SDK documentation.  
   
 ## Examples  
+
  The following command generates a managed class in C# code for the **Win32_LogicalDisk** WMI class in the **Root\cimv2** namespace. The tool writes the managed class to the source file at c:\disk.cs in the **ROOT.CIMV2.Win32** namespace.  
   
 ```console  
@@ -99,11 +103,11 @@ Imports System
 Imports System.Management  
 Imports ROOT.CIMV2.Win32  
   
-Public Class App     
-   Public Shared Sub Main()        
+Public Class App
+   Public Shared Sub Main()
       ' Enumerate instances of the Win32_process.  
       ' Print the Name property of the instance.  
-      Dim ps As Process     
+      Dim ps As Process
       For Each ps In  Process.GetInstances()  
          Console.WriteLine(ps.Name)  
       Next ps  

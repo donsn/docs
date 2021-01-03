@@ -1,7 +1,9 @@
 ---
+description: "using directive - C# Reference"
 title: "using directive - C# Reference"
-ms.custom: seodec18
 ms.date: 07/20/2015
+f1_keywords: 
+  - "using_CSharpKeyword"
 helpviewer_keywords:
   - "using directive [C#]"
 ms.assetid: b42b8e61-5e7e-439c-bb71-370094b44ae8
@@ -63,7 +65,7 @@ Create a `using` alias directive to make it easier to qualify an identifier to a
 
 ```csharp
 using s = System.Text;
-using s.RegularExpressions;
+using s.RegularExpressions; // Generates a compiler error.
 ```
 
 Create a `using` directive to use the types in a namespace without having to specify the namespace. A `using` directive does not give you access to any namespaces that are nested in the namespace you specify.

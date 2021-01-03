@@ -1,5 +1,6 @@
 ---
 title: "Working with Assemblies and the Global Assembly Cache"
+description: Work with assemblies and the global assembly cache (GAC) in .NET. Review the reasons why you might want to install an assembly in the GAC.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "assemblies [.NET Framework], global assembly cache"
@@ -39,6 +40,7 @@ There are several reasons why you might want to install an assembly into the glo
  Note that there are scenarios where you explicitly do not want to install an assembly into the global assembly cache. If you place one of the assemblies that make up an application into the global assembly cache, you can no longer replicate or install the application by using XCOPY to copy the application directory. In this case, you must also move the assembly into the global assembly cache.  
   
 ## In This Section  
+
 [How to: Install an Assembly into the Global Assembly Cache](install-assembly-into-gac.md)  
 Describes the ways to install an assembly into the global assembly cache.  
   
@@ -65,5 +67,5 @@ Explains how to use the [Ildasm.exe (IL Disassembler)](../tools/ildasm-exe-il-di
 [How the Runtime Locates Assemblies](../deployment/how-the-runtime-locates-assemblies.md)  
 Describes how the common language runtime locates and loads the assemblies that make up your application.  
   
-[Programming with Assemblies](../../standard/assembly/program.md)  
+[Programming with Assemblies](../../standard/assembly/index.md)  
 Describes assemblies, the building blocks of managed applications.

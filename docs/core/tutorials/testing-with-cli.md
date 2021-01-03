@@ -1,14 +1,13 @@
 ---
-title: Organizing and testing projects with the .NET Core command line
-description: This tutorial explains how to organize and test .NET Core projects from the command line.
+title: Organizing and testing projects with the .NET CLI
+description: This tutorial explains how to organize and test .NET projects from the command line.
 author: cartermp
 ms.date: 09/10/2018
-ms.custom: "seodec18"
 ---
 
-# Organizing and testing projects with the .NET Core command line
+# Organizing and testing projects with the .NET CLI
 
-This tutorial follows [Get started with .NET Core on Windows/Linux/macOS using the command line](cli-create-console-app.md), taking you beyond the creation of a simple console app to develop advanced and well-organized applications. After showing you how to use folders to organize your code, this tutorial shows you how to extend a console application with the [xUnit](https://xunit.github.io/) testing framework.
+This tutorial follows [Tutorial: Create a console application with .NET using Visual Studio Code](with-visual-studio-code.md), taking you beyond the creation of a simple console app to develop advanced and well-organized applications. After showing you how to use folders to organize your code, this tutorial shows you how to extend a console application with the [xUnit](https://xunit.net/) testing framework.
 
 ## Using folders to organize code
 
@@ -39,6 +38,10 @@ Projects that logically group files into folders are easy to navigate and mainta
 
 ## Organizing and testing using the NewTypes Pets Sample
 
+### Prerequisites
+
+* [.NET 5.0 SDK](https://dotnet.microsoft.com/download) or a later version.
+
 ### Building the sample
 
 For the following steps, you can either follow along using the [NewTypes Pets Sample](https://github.com/dotnet/samples/tree/master/core/console-apps/NewTypesMsBuild) or create your own files and folders. The types are logically organized into a folder structure that permits the addition of more types later, and tests are also logically placed in folders permitting the addition of more tests later.
@@ -61,23 +64,23 @@ Create the following folder structure with file content indicated:
 
 *IPet.cs*:
 
-[!code-csharp[IPet interface](../../../samples/core/console-apps/NewTypesMsBuild/src/NewTypes/Pets/IPet.cs)]
+[!code-csharp[IPet interface](../../../samples/snippets/core/tutorials/testing-with-cli/csharp/src/NewTypes/Pets/IPet.cs)]
 
 *Dog.cs*:
 
-[!code-csharp[Dog class](../../../samples/core/console-apps/NewTypesMsBuild/src/NewTypes/Pets/Dog.cs)]
+[!code-csharp[Dog class](../../../samples/snippets/core/tutorials/testing-with-cli/csharp/src/NewTypes/Pets/Dog.cs)]
 
 *Cat.cs*:
 
-[!code-csharp[Cat class](../../../samples/core/console-apps/NewTypesMsBuild/src/NewTypes/Pets/Cat.cs)]
+[!code-csharp[Cat class](../../../samples/snippets/core/tutorials/testing-with-cli/csharp/src/NewTypes/Pets/Cat.cs)]
 
 *Program.cs*:
 
-[!code-csharp[Main](../../../samples/core/console-apps/NewTypesMsBuild/src/NewTypes/Program.cs)]
+[!code-csharp[Main](../../../samples/snippets/core/tutorials/testing-with-cli/csharp/src/NewTypes/Program.cs)]
 
 *NewTypes.csproj*:
 
-[!code-xml[NewTypes csproj](../../../samples/core/console-apps/NewTypesMsBuild/src/NewTypes/NewTypes.csproj)]
+[!code-xml[NewTypes csproj](../../../samples/snippets/core/tutorials/testing-with-cli/csharp/src/NewTypes/NewTypes.csproj)]
 
 Execute the following command:
 
@@ -96,7 +99,7 @@ Optional exercise: You can add a new pet type, such as a `Bird`, by extending th
 
 ### Testing the sample
 
-The `NewTypes` project is in place, and you've organized it by keeping the pets-related types in a folder. Next, create your test project and start writing tests with the [xUnit](https://xunit.github.io/) test framework. Unit testing allows you to automatically check the behavior of your pet types to confirm that they're operating properly.
+The `NewTypes` project is in place, and you've organized it by keeping the pets-related types in a folder. Next, create your test project and start writing tests with the [xUnit](https://xunit.net/) test framework. Unit testing allows you to automatically check the behavior of your pet types to confirm that they're operating properly.
 
 Navigate back to the *src* folder and create a *test* folder with a *NewTypesTests* folder within it. At a command prompt from the *NewTypesTests* folder, execute `dotnet new xunit`. This produces two files: *NewTypesTests.csproj* and *UnitTest1.cs*.
 
@@ -116,7 +119,7 @@ Or, you also have the option of manually adding the project reference by adding 
 
 *NewTypesTests.csproj*:
 
-[!code-xml[NewTypesTests csproj](../../../samples/core/console-apps/NewTypesMsBuild/test/NewTypesTests/NewTypesTests.csproj)]
+[!code-xml[NewTypesTests csproj](../../../samples/snippets/core/tutorials/testing-with-cli/csharp/test/NewTypesTests/NewTypesTests.csproj)]
 
 The *NewTypesTests.csproj* file contains the following:
 
@@ -177,57 +180,44 @@ The following shows the complete project structure:
       |__NewTypesTests.csproj
 ```
 
-Start in the *test/NewTypesTests* directory. Restore the test project with the [`dotnet restore`](../tools/dotnet-restore.md)
- command. Run the tests with the [`dotnet test`](../tools/dotnet-test.md) command. This command starts the test runner specified in the project file.
-
-[!INCLUDE[DotNet Restore Note](~/includes/dotnet-restore-note.md)]
+Start in the *test/NewTypesTests* directory. Run the tests with the [`dotnet test`](../tools/dotnet-test.md) command. This command starts the test runner specified in the project file.
 
 As expected, testing fails, and the console displays the following output:
 
 ```output
-Test run for c:\Users\ronpet\repos\samples\core\console-apps\NewTypesMsBuild\test\NewTypesTests\bin\Debug\netcoreapp2.1\NewTypesTests.dll(.NETCoreApp,Version=v2.1)
-Microsoft (R) Test Execution Command Line Tool Version 15.8.0
+Test run for C:\Source\dotnet\docs\samples\snippets\core\tutorials\testing-with-cli\csharp\test\NewTypesTests\bin\Debug\net5.0\NewTypesTests.dll (.NETCoreApp,Version=v5.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.8.1
 Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Starting test execution, please wait...
-[xUnit.net 00:00:00.77]     PetTests.DogTalkToOwnerReturnsWoof [FAIL]
-[xUnit.net 00:00:00.78]     PetTests.CatTalkToOwnerReturnsMeow [FAIL]
-Failed   PetTests.DogTalkToOwnerReturnsWoof
-Error Message:
- Assert.NotEqual() Failure
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.50]     PetTests.DogTalkToOwnerReturnsWoof [FAIL]
+  Failed PetTests.DogTalkToOwnerReturnsWoof [6 ms]
+  Error Message:
+   Assert.NotEqual() Failure
 Expected: Not "Woof!"
 Actual:   "Woof!"
-Stack Trace:
-   at PetTests.DogTalkToOwnerReturnsWoof() in c:\Users\ronpet\repos\samples\core\console-apps\NewTypesMsBuild\test\NewTypesTests\PetTests.cs:line 13
-Failed   PetTests.CatTalkToOwnerReturnsMeow
-Error Message:
- Assert.NotEqual() Failure
-Expected: Not "Meow!"
-Actual:   "Meow!"
-Stack Trace:
-   at PetTests.CatTalkToOwnerReturnsMeow() in c:\Users\ronpet\repos\samples\core\console-apps\NewTypesMsBuild\test\NewTypesTests\PetTests.cs:line 22
+  Stack Trace:
+     at PetTests.DogTalkToOwnerReturnsWoof() in C:\Source\dotnet\docs\samples\snippets\core\tutorials\testing-with-cli\csharp\test\NewTypesTests\PetTests.cs:line 13
 
-Total tests: 2. Passed: 0. Failed: 2. Skipped: 0.
-Test Run Failed.
-Test execution time: 1.7000 Seconds
+Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 8 ms - NewTypesTests.dll (net5.0)
 ```
 
 Change the assertions of your tests from `Assert.NotEqual` to `Assert.Equal`:
 
-[!code-csharp[PetTests class](../../../samples/core/console-apps/NewTypesMsBuild/test/NewTypesTests/PetTests.cs)]
+[!code-csharp[PetTests class](../../../samples/snippets/core/tutorials/testing-with-cli/csharp/test/NewTypesTests/PetTests.cs)]
 
 Re-run the tests with the `dotnet test` command and obtain the following output:
 
 ```output
-Test run for c:\Users\ronpet\repos\samples\core\console-apps\NewTypesMsBuild\test\NewTypesTests\bin\Debug\netcoreapp2.1\NewTypesTests.dll(.NETCoreApp,Version=v2.1)
-Microsoft (R) Test Execution Command Line Tool Version 15.8.0
+Test run for C:\Source\dotnet\docs\samples\snippets\core\tutorials\testing-with-cli\csharp\test\NewTypesTests\bin\Debug\net5.0\NewTypesTests.dll (.NETCoreApp,Version=v5.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.8.1
 Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
 
-Total tests: 2. Passed: 2. Failed: 0. Skipped: 0.
-Test Run Successful.
-Test execution time: 1.6029 Seconds
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 2 ms - NewTypesTests.dll (net5.0)
 ```
 
 Testing passes. The pet types' methods return the correct values when talking to the owner.

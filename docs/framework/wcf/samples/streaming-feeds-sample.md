@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 1f1228c0-daaa-45f0-b93e-c4a158113744
 ---
 # Streaming Feeds Sample
+
 This sample demonstrates how to manage syndication feeds that contain large numbers of items. On the server, the sample demonstrates how to delay the creation of individual <xref:System.ServiceModel.Syndication.SyndicationItem> objects within the feed until immediately before the item is written to the network stream.  
   
  On the client, the sample shows how a custom syndication feed formatter can be used to read individual items from the network stream so that the feed being read is never fully buffered into memory.  
@@ -13,6 +14,7 @@ This sample demonstrates how to manage syndication feeds that contain large numb
  The demonstration makes use of Visual C# iterators (using the `yield return` keyword construct). For more information about iterators, see the "Using Iterators" topic on MSDN.  
   
 ## Service  
+
  The service implements a basic <xref:System.ServiceModel.Web.WebGetAttribute> contract that consists of one operation, as shown in the following code.  
   
 ```csharp  
@@ -62,6 +64,7 @@ public Atom10FeedFormatter StreamedFeed()
  As a result, the item stream is never fully buffered into memory. You can observe this behavior by setting a breakpoint on the `yield return` statement inside of the `ItemGenerator.GenerateItems()` method and noting that this breakpoint is encountered for the first time after the service has returned the result of the `StreamedFeed()` method.  
   
 ## Client  
+
  The client in this sample uses a custom <xref:System.ServiceModel.Syndication.SyndicationFeedFormatter> implementation that delays the materialization of individual items in the feed instead of buffering them into memory. The custom `StreamedAtom10FeedFormatter` instance is used as follows.  
   
 ```csharp  
@@ -97,21 +100,21 @@ private IEnumerable<SyndicationItem> DelayReadItems(XmlReader reader, Syndicatio
   
 #### To set up, build, and run the sample  
   
-1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/one-time-setup-procedure-for-the-wcf-samples.md).  
+1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](one-time-setup-procedure-for-the-wcf-samples.md).  
   
-2. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).  
+2. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).  
   
-3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/running-the-samples.md).  
+3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](running-the-samples.md).  
   
 > [!IMPORTANT]
 > The samples may already be installed on your computer. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Extensibility\Syndication\StreamingFeeds`  
   
 ## See also
 
-- [Stand-Alone Diagnostics Feed](../../../../docs/framework/wcf/samples/stand-alone-diagnostics-feed-sample.md)
+- [Stand-Alone Diagnostics Feed](stand-alone-diagnostics-feed-sample.md)

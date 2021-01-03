@@ -6,14 +6,17 @@ helpviewer_keywords:
 ms.assetid: 5636067a-7fbd-4485-aaa2-8141c502acf3
 ---
 # ServiceModel Transaction Configuration
+
 Windows Communication Foundation (WCF) provides three attributes for configuring transactions for a service: `transactionFlow`, `transactionProtocol`, and `transactionTimeout`.  
   
 ## Configuring transactionFlow  
- Most of the predefined bindings WCF provides contain the `transactionFlow` and `transactionProtocol` attributes, so that you can configure the binding to accept incoming transactions for a specific endpoint using a specific transaction flow protocol. In addition, you can use the `transactionFlow` element and its `transactionProtocol` attribute to build your own custom binding. For more information about setting the configuration elements, see [\<binding>](../../configure-apps/file-schema/wcf/bindings.md) and [WCF Configuration Schema](../../../../docs/framework/configure-apps/file-schema/wcf/index.md).  
+
+ Most of the predefined bindings WCF provides contain the `transactionFlow` and `transactionProtocol` attributes, so that you can configure the binding to accept incoming transactions for a specific endpoint using a specific transaction flow protocol. In addition, you can use the `transactionFlow` element and its `transactionProtocol` attribute to build your own custom binding. For more information about setting the configuration elements, see [\<binding>](../../configure-apps/file-schema/wcf/bindings.md) and [WCF Configuration Schema](../../configure-apps/file-schema/wcf/index.md).  
   
  The `transactionFlow` attribute specifies whether transaction flow is enabled for service endpoints that use the binding.  
   
 ## Configuring transactionProtocol  
+
  The `transactionProtocol` attribute specifies the transaction protocol to use with service endpoints that use the binding.  
   
  The following is an example of a configuration section that configures the specified binding to support transaction flow, as well as a use the WS-AtomicTransaction protocol.  
@@ -22,20 +25,21 @@ Windows Communication Foundation (WCF) provides three attributes for configuring
 <netNamedPipeBinding>  
    <binding name="test"  
       closeTimeout="00:00:10"  
-      openTimeout="00:00:20"   
+      openTimeout="00:00:20"
       receiveTimeout="00:00:30"  
       sendTimeout="00:00:40"  
       transactionFlow="true"  
       transactionProtocol="WSAtomicTransactionOctober2004"  
       hostNameComparisonMode="WeakWildcard"  
       maxBufferSize="1001"  
-      maxConnections="123"   
+      maxConnections="123"
       maxReceivedMessageSize="1000">  
    </binding>  
 </netNamedPipeBinding>  
 ```  
   
 ## Configuring transactionTimeout  
+
  You can configure the `transactionTimeout` attribute for your WCF service in the `behavior` element of the configuration file. The following code demonstrates how to do this.  
   
 ```xml  
@@ -59,4 +63,4 @@ Windows Communication Foundation (WCF) provides three attributes for configuring
 ## See also
 
 - [\<binding>](../../configure-apps/file-schema/wcf/bindings.md)
-- [WCF Configuration Schema](../../../../docs/framework/configure-apps/file-schema/wcf/index.md)
+- [WCF Configuration Schema](../../configure-apps/file-schema/wcf/index.md)

@@ -4,9 +4,11 @@ ms.date: "03/30/2017"
 ms.assetid: 8eb0e49a-6d3b-4f7e-a054-0d4febee2ffb
 ---
 # Durable Duplex Correlation
+
 Durable duplex correlation, also known as callback correlation, is useful when a workflow service has a requirement to send a callback to the initial caller. Unlike WCF duplex, the callback can happen at any time in the future and is not tied to the same channel or the channel lifetime; the only requirement is that the caller have an active endpoint listening for the callback message. This allows two workflow services to communicate in a long-running conversation. This topic provides an overview of durable duplex correlation.  
   
 ## Using Durable Duplex Correlation  
+
  To use durable duplex correlation, the two services must use a context-enabled binding that supports two-way operations, such as <xref:System.ServiceModel.NetTcpContextBinding> or <xref:System.ServiceModel.WSHttpContextBinding>. The calling service registers a <xref:System.ServiceModel.WSHttpContextBinding.ClientCallbackAddress%2A> with the desired binding on their client <xref:System.ServiceModel.Endpoint>. The receiving service receives this data in the initial call and then uses it on its own <xref:System.ServiceModel.Endpoint> in the <xref:System.ServiceModel.Activities.Send> activity that makes the call back to the calling service. In this example, two services communicate with each other. The first service invokes a method on the second service and then waits for a reply. The second service knows the name of the callback method, but the endpoint of the service that implements this method is not known at design time.  
   
 > [!NOTE]
@@ -45,7 +47,7 @@ Receive StartOrder = new Receive
   
 Send GetItems = new Send  
 {  
-    CorrelationInitializers =   
+    CorrelationInitializers =
     {  
         new CallbackCorrelationInitializer  
         {  
@@ -59,7 +61,7 @@ Send GetItems = new Send
         AddressUri = new Uri("http://localhost:8081/Service2"),  
         Binding = new WSHttpContextBinding  
         {  
-            ClientCallbackAddress = new Uri("http://localhost:8080/Service1/ItemsReady")                          
+            ClientCallbackAddress = new Uri("http://localhost:8080/Service1/ItemsReady")
         }  
     }  
 };  
@@ -121,7 +123,7 @@ Variable<CorrelationHandle> ItemsCallbackHandle = new Variable<CorrelationHandle
   
 Receive StartItems = new Receive  
 {  
-    CorrelationInitializers =   
+    CorrelationInitializers =
     {  
         new CallbackCorrelationInitializer  
         {  
@@ -183,7 +185,7 @@ Activity wf = new Sequence
 ```output  
 Service1 waiting at: http://localhost:8080/Service1  
 Service2 waiting at: http://localhost:8081/Service2  
-Press enter to exit.   
+Press enter to exit.
 WF1 - Started  
 WF2 - Request Received  
 WF1 - Request Submitted  

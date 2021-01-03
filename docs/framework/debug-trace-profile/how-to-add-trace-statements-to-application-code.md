@@ -1,5 +1,6 @@
 ---
 title: "How to: Add Trace Statements to Application Code"
+description: Learn how to add trace statements to application code in .NET. The methods used most often for tracing are the methods for writing output to listeners.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -13,10 +14,9 @@ helpviewer_keywords:
   - "trace switches, conditional writes based on switches"
   - "WriteIf method"
 ms.assetid: f3a93fa7-1717-467d-aaff-393e5c9828b4
-author: "mairaw"
-ms.author: "mairaw"
 ---
 # How to: Add Trace Statements to Application Code
+
 The methods used most often for tracing are the methods for writing output to listeners: **Write**, **WriteIf**, **WriteLine**, **WriteLineIf**, **Assert**, and **Fail**. These methods can be divided into two categories: **Write**, **WriteLine**, and **Fail** all emit output unconditionally, whereas **WriteIf**, **WriteLineIf**, and **Assert** test a Boolean condition, and write or do not write based on the value of the condition. **WriteIf** and **WriteLineIf** emit output if the condition is `true`, and **Assert** emits output if the condition is `false`.  
   
  When designing your tracing and debugging strategy, you should think about how you want the output to look. Multiple **Write** statements filled with unrelated information will create a log that is difficult to read. On the other hand, using **WriteLine** to put related statements on separate lines may make it difficult to distinguish what information belongs together. In general, use multiple **Write** statements when you want to combine information from multiple sources to create a single informative message, and use the **WriteLine** statement when you want to create a single, complete message.  
@@ -36,7 +36,7 @@ The methods used most often for tracing are the methods for writing output to li
     ```csharp  
     bool errorFlag = false;  
     System.Diagnostics.Trace.WriteLine ("Error in AppendData procedure.");  
-    System.Diagnostics.Trace.WriteLineIf(errorFlag,   
+    System.Diagnostics.Trace.WriteLineIf(errorFlag,
        "Error in AppendData procedure.");  
     ```  
   
@@ -55,7 +55,7 @@ The methods used most often for tracing are the methods for writing output to li
   
     ```csharp  
     bool errorFlag = false;  
-    System.Diagnostics.Trace.WriteIf(errorFlag,   
+    System.Diagnostics.Trace.WriteIf(errorFlag,
        "Error in AppendData procedure.");  
     System.Diagnostics.Debug.WriteIf(errorFlag, "Transaction abandoned.");  
     Trace.Write("Invalid value for data request");  

@@ -1,19 +1,20 @@
 ---
 title: "JIT Tracing ETW Events"
+description: Understand just-in-time (JIT) tracing ETW events. These events collect information relating to the success or failure of JIT inlining and JIT tail calls.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "JIT tracing events [.NET Framework]"
   - "ETW, JIT tracing events (CLR)"
 ms.assetid: 926adde2-c123-452e-bf4f-4b977bf06ffb
-author: "mairaw"
-ms.author: "mairaw"
 ---
 # JIT Tracing ETW Events
+
 These events collect information relating to the success or failure of just-in-time (JIT) inlining and JIT tail calls.
 
 ## JIT Inlining Events
 
 ### MethodJitInliningFailed Event
+
  The following table shows the keyword and level. (For more information, see [CLR ETW Keywords and Levels](clr-etw-keywords-and-levels.md).)  
   
 |Keyword for raising the event|Level|  
@@ -44,6 +45,7 @@ These events collect information relating to the success or failure of just-in-t
 |ClrInstanceID|win:UnicodeString|Unique ID for the instance of CLR or CoreCLR.|  
   
 ### MethodJitInliningSucceeded Event  
+
  The following table shows the keyword and level.  
   
 |Keyword for raising the event|Level|  
@@ -74,6 +76,7 @@ These events collect information relating to the success or failure of just-in-t
 ## JIT Tail Call Events  
   
 ### MethodJITTailCallFailed Event  
+
  The following table shows the keyword and level.  
   
 |Keyword for raising the event|Level|  
@@ -104,6 +107,7 @@ These events collect information relating to the success or failure of just-in-t
 |ClrInstanceID|win:UInt16|Unique ID for the instance of CLR or CoreCLR.|  
   
 ### MethodJITTailCallSucceeded Event  
+
  The following table shows the keyword and level.  
   
 |Keyword for raising the event|Level|  

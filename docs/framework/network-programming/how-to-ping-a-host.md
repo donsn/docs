@@ -1,11 +1,13 @@
 ---
 title: "How to: Ping a Host"
+description: Use this sample code to learn how to ping a remote host in the .NET Framework. This example requires references to the System.Net namespace.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "Ping"
 ms.assetid: bbf20f5b-eca1-4661-af04-cb8837f9af05
 ---
 # How to: Ping a Host
+
 This sample shows how to ping a remote host.  
   
 ## Example  
@@ -71,8 +73,8 @@ namespace Examples.System.Net.NetworkInformation.PingTest
             {  
                 Console.WriteLine ("Ping canceled.");  
   
-                // Let the main thread resume.   
-                // UserToken is the AutoResetEvent object that the main thread   
+                // Let the main thread resume.
+                // UserToken is the AutoResetEvent object that the main thread
                 // is waiting for.  
                 ((AutoResetEvent)e.UserState).Set ();  
             }  
@@ -83,7 +85,7 @@ namespace Examples.System.Net.NetworkInformation.PingTest
                 Console.WriteLine ("Ping failed:");  
                 Console.WriteLine (e.Error.ToString ());  
   
-                // Let the main thread resume.   
+                // Let the main thread resume.
                 ((AutoResetEvent)e.UserState).Set();  
             }  
   
@@ -115,6 +117,7 @@ namespace Examples.System.Net.NetworkInformation.PingTest
 ```  
   
 ## Compiling the Code  
+
  This example requires:  
   
 - References to the **System.Net** namespace.

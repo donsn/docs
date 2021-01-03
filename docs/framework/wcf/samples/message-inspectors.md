@@ -1,9 +1,11 @@
 ---
 title: "Message Inspectors"
+description: Learn how to implement and configure WCF client and service message inspectors, which provide a message validation mechanism.
 ms.date: "03/30/2017"
 ms.assetid: 9bd1f305-ad03-4dd7-971f-fa1014b97c9b
 ---
 # Message Inspectors
+
 This sample demonstrates how to implement and configure client and service message inspectors.  
   
  A message inspector is an extensibility object that can be used in the service model's client runtime and dispatch runtime programmatically or through configuration and that can inspect and alter messages after they are received or before they are sent.  
@@ -11,6 +13,7 @@ This sample demonstrates how to implement and configure client and service messa
  This sample implements a basic client and service message validation mechanism that validates incoming messages against a set of configurable XML Schema documents. Note that this sample does not validate messages for each operation. This is an intentional simplification.  
   
 ## Message Inspector  
+
  Client message inspectors implement the <xref:System.ServiceModel.Dispatcher.IClientMessageInspector> interface and service message inspectors implement the <xref:System.ServiceModel.Dispatcher.IDispatchMessageInspector> interface. The implementations can be combined into a single class to form a message inspector that works for both sides. This sample implements such a combined message inspector. The inspector is constructed passing in a set of schemas against which incoming and outgoing messages are validated and allows the developer to specify whether incoming or outgoing messages are validated and whether the inspector is in dispatch or client mode, which affects the error handling as discussed later in this topic.  
   
 ```csharp
@@ -59,7 +62,7 @@ void IDispatchMessageInspector.BeforeSendReply(ref System.ServiceModel.Channels.
 {  
     if (validateReply)  
     {  
-        // Inspect the reply, catch a possible validation error   
+        // Inspect the reply, catch a possible validation error
         try  
         {  
             ValidateMessageBody(ref reply, false);  
@@ -68,7 +71,7 @@ void IDispatchMessageInspector.BeforeSendReply(ref System.ServiceModel.Channels.
         {  
             // if a validation error occurred, the message is replaced  
             // with the validation fault.  
-            reply = Message.CreateMessage(reply.Version,   
+            reply = Message.CreateMessage(reply.Version,
                     fault.CreateMessageFault(), reply.Headers.Action);  
         }  
     }  
@@ -114,20 +117,20 @@ void ValidateMessageBody(ref System.ServiceModel.Channels.Message message, bool 
 {  
     if (!message.IsFault)  
     {  
-        XmlDictionaryReaderQuotas quotas =   
+        XmlDictionaryReaderQuotas quotas =
                 new XmlDictionaryReaderQuotas();  
-        XmlReader bodyReader =   
+        XmlReader bodyReader =
             message.GetReaderAtBodyContents().ReadSubtree();  
-        XmlReaderSettings wrapperSettings =   
+        XmlReaderSettings wrapperSettings =
                               new XmlReaderSettings();  
         wrapperSettings.CloseInput = true;  
         wrapperSettings.Schemas = schemaSet;  
-        wrapperSettings.ValidationFlags =   
+        wrapperSettings.ValidationFlags =
                                 XmlSchemaValidationFlags.None;  
         wrapperSettings.ValidationType = ValidationType.Schema;  
-        wrapperSettings.ValidationEventHandler += new   
+        wrapperSettings.ValidationEventHandler += new
            ValidationEventHandler(InspectionValidationHandler);  
-        XmlReader wrappedReader = XmlReader.Create(bodyReader,   
+        XmlReader wrappedReader = XmlReader.Create(bodyReader,
                                             wrapperSettings);  
   
         // pull body into a memory backed writer to validate  
@@ -137,11 +140,11 @@ void ValidateMessageBody(ref System.ServiceModel.Channels.Message message, bool 
               XmlDictionaryWriter.CreateBinaryWriter(memStream);  
         xdw.WriteNode(wrappedReader, false);  
         xdw.Flush(); memStream.Position = 0;  
-        XmlDictionaryReader xdr =   
+        XmlDictionaryReader xdr =
         XmlDictionaryReader.CreateBinaryReader(memStream, quotas);  
   
         // reconstruct the message with the validated body  
-        Message replacedMessage =   
+        Message replacedMessage =
             Message.CreateMessage(message.Version, null, xdr);  
         replacedMessage.Headers.CopyHeadersFrom(message.Headers);  
         replacedMessage.Properties.CopyProperties(message.Properties);  
@@ -180,7 +183,7 @@ void ValidateMessageBody(ref System.ServiceModel.Channels.Message message, bool 
         {  
             if (isRequest)  
             {  
-                // this fault is caught by the ServiceModel   
+                // this fault is caught by the ServiceModel
                 // infrastructure and turned into a fault reply.  
                 throw new RequestValidationFault(e.Message);  
              }  
@@ -196,6 +199,7 @@ void ValidateMessageBody(ref System.ServiceModel.Channels.Message message, bool 
 ```  
   
 ## Behavior  
+
  Message inspectors are extensions to the client runtime or the dispatch runtime. Such extensions are configured using *behaviors*. A behavior is a class that changes the behavior of the service model runtime by changing the default configuration or adding extensions (such as message inspectors) to it.  
   
  The following `SchemaValidationBehavior` class is the behavior used to add this sample's message inspector to the client or dispatch runtime. The implementation is rather basic in both cases. In <xref:System.ServiceModel.Description.IEndpointBehavior.ApplyClientBehavior%2A> and <xref:System.ServiceModel.Description.IEndpointBehavior.ApplyDispatchBehavior%2A>, the message inspector is created and added to the <xref:System.ServiceModel.Dispatcher.ClientRuntime.MessageInspectors%2A> collection of the respective runtime.  
@@ -203,11 +207,11 @@ void ValidateMessageBody(ref System.ServiceModel.Channels.Message message, bool 
 ```csharp
 public class SchemaValidationBehavior : IEndpointBehavior  
 {  
-    XmlSchemaSet schemaSet;   
-    bool validateRequest;   
+    XmlSchemaSet schemaSet;
+    bool validateRequest;
     bool validateReply;  
   
-    public SchemaValidationBehavior(XmlSchemaSet schemaSet, bool   
+    public SchemaValidationBehavior(XmlSchemaSet schemaSet, bool
                            inspectRequest, bool inspectReply)  
     {  
         this.schemaSet = schemaSet;  
@@ -216,27 +220,27 @@ public class SchemaValidationBehavior : IEndpointBehavior
     }  
     #region IEndpointBehavior Members  
   
-    public void AddBindingParameters(ServiceEndpoint endpoint,   
-       System.ServiceModel.Channels.BindingParameterCollection   
+    public void AddBindingParameters(ServiceEndpoint endpoint,
+       System.ServiceModel.Channels.BindingParameterCollection
                                             bindingParameters)  
     {  
     }  
   
-    public void ApplyClientBehavior(ServiceEndpoint endpoint,   
+    public void ApplyClientBehavior(ServiceEndpoint endpoint,
             System.ServiceModel.Dispatcher.ClientRuntime clientRuntime)  
     {  
-        SchemaValidationMessageInspector inspector =   
-           new SchemaValidationMessageInspector(schemaSet,   
+        SchemaValidationMessageInspector inspector =
+           new SchemaValidationMessageInspector(schemaSet,
                       validateRequest, validateReply, true);  
             clientRuntime.MessageInspectors.Add(inspector);  
     }  
   
-    public void ApplyDispatchBehavior(ServiceEndpoint endpoint,   
-         System.ServiceModel.Dispatcher.EndpointDispatcher   
+    public void ApplyDispatchBehavior(ServiceEndpoint endpoint,
+         System.ServiceModel.Dispatcher.EndpointDispatcher
                                           endpointDispatcher)  
     {  
-        SchemaValidationMessageInspector inspector =   
-           new SchemaValidationMessageInspector(schemaSet,   
+        SchemaValidationMessageInspector inspector =
+           new SchemaValidationMessageInspector(schemaSet,
                         validateRequest, validateReply, false);  
    endpointDispatcher.DispatchRuntime.MessageInspectors.Add(inspector);  
     }  
@@ -253,6 +257,7 @@ public class SchemaValidationBehavior : IEndpointBehavior
 > This particular behavior does not double as an attribute and therefore cannot be added declaratively onto a contract type of a service type. This is a by-design decision made because the schema collection cannot be loaded in an attribute declaration and referring to an extra configuration location (for instance to the application settings) in this attribute means creating a configuration element that is not consistent with the rest of the service model configuration. Therefore, this behavior can only be added imperatively through code and through a service model configuration extension.  
   
 ## Adding the Message Inspector through Configuration  
+
  For configuring a custom behavior on an endpoint in the application configuration file, the service model requires implementers to create a configuration *extension element* represented by a class derived from <xref:System.ServiceModel.Configuration.BehaviorExtensionElement>. This extension must then be added to the service model's configuration section for extensions as shown for the following extension discussed in this section.  
   
 ```xml  
@@ -279,7 +284,7 @@ public class SchemaValidationBehavior : IEndpointBehavior
         <behavior name="HelloServiceEndpointBehavior">  
           <schemaValidator validateRequest="True" validateReply="True">  
             <schemas>  
-              <add location="messages.xsd" />    
+              <add location="messages.xsd" />
             </schemas>  
           </schemaValidator>  
         </behavior>  
@@ -300,12 +305,12 @@ public class SchemaValidationBehaviorExtensionElement : BehaviorExtensionElement
     {  
     }  
   
-    public override Type BehaviorType   
-    {   
+    public override Type BehaviorType
+    {
         get  
         {  
             return typeof(SchemaValidationBehavior);  
-        }   
+        }
     }  
   
     protected override object CreateBehavior()  
@@ -313,15 +318,15 @@ public class SchemaValidationBehaviorExtensionElement : BehaviorExtensionElement
         XmlSchemaSet schemaSet = new XmlSchemaSet();  
         foreach (SchemaConfigElement schemaCfg in this.Schemas)  
         {  
-            Uri baseSchema = new   
+            Uri baseSchema = new
                 Uri(AppDomain.CurrentDomain.BaseDirectory);  
-            string location = new   
+            string location = new
                 Uri(baseSchema,schemaCfg.Location).ToString();  
-            XmlSchema schema =   
+            XmlSchema schema =
                 XmlSchema.Read(new XmlTextReader(location), null);  
             schemaSet.Add(schema);  
         }  
-     return new   
+     return new
      SchemaValidationBehavior(schemaSet,ValidateRequest,ValidateReply);  
     }  
   
@@ -340,8 +345,8 @@ public bool ValidateRequest
         }  
   
      //Declare the Schema collection property.  
-     //Note: the "IsDefaultCollection = false" instructs   
-     //.NET Framework to build a nested section of   
+     //Note: the "IsDefaultCollection = false" instructs
+     //.NET Framework to build a nested section of
      //the kind <Schema> ...</Schema>.  
     [ConfigurationProperty("schemas", IsDefaultCollection = true)]  
     [ConfigurationCollection(typeof(SchemasCollection),  
@@ -361,6 +366,7 @@ public bool ValidateRequest
 ```  
   
 ## Adding Message Inspectors Imperatively  
+
  Except through attributes (which is not supported in this sample for the reason cited previously) and configuration, behaviors can quite easily be added to a client and service runtime using imperative code. In this sample, this is done in the client application to test the client message inspector. The `GenericClient` class is derived from <xref:System.ServiceModel.ClientBase%601>, which exposes the endpoint configuration to the user code. Before the client is implicitly opened the endpoint configuration can be changed, for instance by adding behaviors as shown in the following code. Adding the behavior on the service is largely equivalent to the client technique shown here and must be performed before the service host is opened.  
   
 ```csharp  
@@ -370,11 +376,11 @@ try
     GenericClient client = new GenericClient();  
   
     // Configure client programmatically, adding behavior  
-    XmlSchema schema = XmlSchema.Read(new StreamReader("messages.xsd"),   
+    XmlSchema schema = XmlSchema.Read(new StreamReader("messages.xsd"),
                                                           null);  
     XmlSchemaSet schemaSet = new XmlSchemaSet();  
     schemaSet.Add(schema);  
-    client.Endpoint.Behaviors.Add(new   
+    client.Endpoint.Behaviors.Add(new
                 SchemaValidationBehavior(schemaSet, true, true));  
   
     Console.WriteLine("--- Sending valid client request:");  
@@ -392,17 +398,17 @@ catch (Exception e)
   
 #### To set up, build, and run the sample  
   
-1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/one-time-setup-procedure-for-the-wcf-samples.md).  
+1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](one-time-setup-procedure-for-the-wcf-samples.md).  
   
-2. To build the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).  
+2. To build the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).  
   
-3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/running-the-samples.md).  
+3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](running-the-samples.md).  
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Extensibility\MessageInspectors`  

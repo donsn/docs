@@ -4,9 +4,11 @@ ms.date: "03/30/2017"
 ms.assetid: 58aeffb0-8f3f-4b40-80c8-15f3f1652fd3
 ---
 # WAS Activation Architecture
+
 This topic itemizes and discusses the components of the Windows Process Activation Service (also known as WAS).  
   
 ## Activation Components  
+
  WAS consists of several architectural components:  
   
 - Listener adapters. Windows services that receive messages on specific network protocols and communicate with WAS to route incoming messages to the correct worker process.  
@@ -24,6 +26,7 @@ This topic itemizes and discusses the components of the Windows Process Activati
  ![Screenshot that shows the WAS architecture.](./media/was-activation-architecture/windows-process-application-service-architecture.gif)  
   
 ### Listener Adapters  
+
  Listener adapters are individual Windows services that implement the network communication logic used to receive messages using the network protocol on which they listen. The following table lists the listener adapters for Windows Communication Foundation (WCF) protocols.  
   
 |Listener adapter service name|Protocol|Notes|  
@@ -40,31 +43,32 @@ This topic itemizes and discusses the components of the Windows Process Activati
 <system.applicationHost>  
     <listenerAdapters>  
         <add name="http" />  
-        <add name="net.tcp"   
+        <add name="net.tcp"
           identity="S-1-5-80-3579033775-2824656752-1522793541-1960352512-462907086" />  
-         <add name="net.pipe"   
+         <add name="net.pipe"
            identity="S-1-5-80-2943419899-937267781-4189664001-1229628381-3982115073" />  
-          <add name="net.msmq"   
+          <add name="net.msmq"
             identity="S-1-5-80-89244771-1762554971-1007993102-348796144-2203111529" />  
-           <add name="msmq.formatname"   
+           <add name="msmq.formatname"
              identity="S-1-5-80-89244771-1762554971-1007993102-348796144-2203111529" />  
     </listenerAdapters>  
 </system.applicationHost>  
 ```  
   
 ### Protocol Handlers  
+
  Process and AppDomain protocol handlers for specific protocols are registered in the machine-level Web.config file.  
   
 ```xml  
 <system.web>  
    <protocols>  
-      <add name="net.tcp"   
+      <add name="net.tcp"
         processHandlerType=  
          "System.ServiceModel.WasHosting.TcpProcessProtocolHandler"  
         appDomainHandlerType=  
          "System.ServiceModel.WasHosting.TcpAppDomainProtocolHandler"  
         validate="false" />  
-      <add name="net.pipe"   
+      <add name="net.pipe"
         processHandlerType=  
          "System.ServiceModel.WasHosting.NamedPipeProcessProtocolHandler"  
           appDomainHandlerType=  
@@ -81,5 +85,5 @@ This topic itemizes and discusses the components of the Windows Process Activati
   
 ## See also
 
-- [Configuring WAS for Use with WCF](../../../../docs/framework/wcf/feature-details/configuring-the-wpa--service-for-use-with-wcf.md)
-- [Windows Server App Fabric Hosting Features](https://go.microsoft.com/fwlink/?LinkId=201276)
+- [Configuring WAS for Use with WCF](configuring-the-wpa--service-for-use-with-wcf.md)
+- [Windows Server App Fabric Hosting Features](/previous-versions/appfabric/ee677189(v=azure.10))

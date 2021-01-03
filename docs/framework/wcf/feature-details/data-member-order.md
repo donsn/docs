@@ -1,5 +1,6 @@
 ---
 title: "Data Member Order"
+description: Learn about data member order in WCF. Applications might need to know or change the order in which data members are sent or expected.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -9,9 +10,11 @@ helpviewer_keywords:
 ms.assetid: 0658a47d-b6e5-4ae0-ba72-ababc3c6ff33
 ---
 # Data Member Order
+
 In some applications, it is useful to know the order in which data from the various data members is sent or is expected to be received (such as the order in which data appears in the serialized XML). Sometimes it may be necessary to change this order. This topic explains the ordering rules.  
   
 ## Basic Rules  
+
  The basic rules for data ordering include:  
   
 - If a data contract type is a part of an inheritance hierarchy, data members of its base types are always first in the order.  
@@ -23,6 +26,7 @@ In some applications, it is useful to know the order in which data from the vari
  Alphabetical order is established by calling the <xref:System.String.CompareOrdinal%2A> method.  
   
 ## Examples  
+
  Consider the following code.  
   
  [!code-csharp[C_DataContractNames#4](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_datacontractnames/cs/source.cs#4)]
@@ -33,13 +37,13 @@ In some applications, it is useful to know the order in which data from the vari
 ```xml  
 <DerivedType>  
     <!-- Zebra is a base data member, and appears first. -->  
-    <zebra/>   
+    <zebra/>
   
     <!-- Cat has no Order, appears alphabetically first. -->  
     <cat/>  
   
    <!-- Dog has no Order, appears alphabetically last. -->  
-    <dog/>   
+    <dog/>
   
     <!-- Bird is the member with the smallest Order value -->  
     <bird/>  
@@ -52,12 +56,12 @@ In some applications, it is useful to know the order in which data from the vari
   
     <!-- Antelope is the member with the highest Order value. Note that   
     Order=2 is skipped -->  
-     <antelope/>   
+     <antelope/>
 </DerivedType>  
 ```  
   
 ## See also
 
 - <xref:System.Runtime.Serialization.DataContractAttribute>
-- [Data Contract Equivalence](../../../../docs/framework/wcf/feature-details/data-contract-equivalence.md)
-- [Using Data Contracts](../../../../docs/framework/wcf/feature-details/using-data-contracts.md)
+- [Data Contract Equivalence](data-contract-equivalence.md)
+- [Using Data Contracts](using-data-contracts.md)

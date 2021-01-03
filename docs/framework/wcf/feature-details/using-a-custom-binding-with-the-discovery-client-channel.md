@@ -4,14 +4,16 @@ ms.date: "03/30/2017"
 ms.assetid: 36f95e75-04f7-44f3-a995-a0d623624d7f
 ---
 # Using a Custom Binding with the Discovery Client Channel
+
 When using a custom binding with the <xref:System.ServiceModel.Discovery.DiscoveryClientBindingElement>, you must define a <xref:System.ServiceModel.Discovery.DiscoveryEndpointProvider> that creates <xref:System.ServiceModel.Discovery.DiscoveryEndpoint> instances.  
   
 ## Creating a DiscoveryEndpointProvider  
+
  The <xref:System.ServiceModel.Discovery.DiscoveryEndpointProvider> is responsible for creating <xref:System.ServiceModel.Discovery.DiscoveryEndpoint> instances on demand. To define a discovery endpoint provider, derive a class from <xref:System.ServiceModel.Discovery.DiscoveryEndpointProvider> and override the <xref:System.ServiceModel.Discovery.DiscoveryEndpointProvider.GetDiscoveryEndpoint%2A> method and return a new discovery endpoint. The following example shows how to create a discovery endpoint provider.  
   
 ```csharp
 // Extend DiscoveryEndpointProvider class to change the default DiscoveryEndpoint  
-// to the DiscoveryClientBindingElement. The Discovery ClientChannel   
+// to the DiscoveryClientBindingElement. The Discovery ClientChannel
 // uses this endpoint to send Probe message.  
 public class UdpDiscoveryEndpointProvider : DiscoveryEndpointProvider  
 {  
@@ -37,9 +39,9 @@ CustomBinding customBinding = new CustomBinding(new NetTcpBinding());
 customBinding.Elements.Insert(0, discoveryBindingElement);  
 ```  
   
- For more information about using the discovery client channel, see [Using the Discovery Client Channel](../../../../docs/framework/wcf/feature-details/using-the-discovery-client-channel.md). 
+ For more information about using the discovery client channel, see [Using the Discovery Client Channel](using-the-discovery-client-channel.md).
   
 ## See also
 
-- [WCF Discovery Overview](../../../../docs/framework/wcf/feature-details/wcf-discovery-overview.md)
-- [Using the Discovery Client Channel](../../../../docs/framework/wcf/feature-details/using-the-discovery-client-channel.md)
+- [WCF Discovery Overview](wcf-discovery-overview.md)
+- [Using the Discovery Client Channel](using-the-discovery-client-channel.md)

@@ -1,5 +1,6 @@
 ---
 title: "Storeadm.exe (Isolated Storage Tool)"
+description: Read about Storeadm.exe, the Isolated Storage tool. This tool lists or removes all existing stores for the current user.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "Storeadm.exe"
@@ -8,10 +9,9 @@ helpviewer_keywords:
   - "stores, current user"
   - "removing stores"
 ms.assetid: b81202b8-d91d-4b23-9c53-4a112f74a44a
-author: "mairaw"
-ms.author: "mairaw"
 ---
 # Storeadm.exe (Isolated Storage Tool)
+
 The Isolated Storage tool lists or removes all existing stores for the current user.  
   
  This tool is automatically installed with Visual Studio. To run the tool, use the Developer Command Prompt for Visual Studio (or the Visual Studio Command Prompt in Windows 7). For more information, see [Command Prompts](developer-command-prompt-for-vs.md).  
@@ -37,6 +37,7 @@ storeadm [/list][/machine][/remove][/roaming][/quiet]
 |**/?**|Displays command syntax and options for the tool.|  
   
 ## Remarks  
+
  Running Storeadm.exe from the command line without specifying any options displays the syntax and options for the tool.  
   
  The **/list** and **/remove** options are typically used one at a time; however, if two or more options are specified they will be performed in the order in which they appear on the command line.  

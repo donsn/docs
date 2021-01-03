@@ -4,17 +4,20 @@ ms.date: "03/30/2017"
 ms.assetid: 154d049f-2140-4696-b494-c7e53f6775ef
 ---
 # Instancing Initialization
-This sample extends the [Pooling](../../../../docs/framework/wcf/samples/pooling.md) sample by defining an interface, `IObjectControl`, which customizes the initialization of an object by activating and deactivating it. The client invokes methods that return the object to the pool and that do not return the object to the pool.  
+
+This sample extends the [Pooling](pooling.md) sample by defining an interface, `IObjectControl`, which customizes the initialization of an object by activating and deactivating it. The client invokes methods that return the object to the pool and that do not return the object to the pool.  
   
 > [!NOTE]
 > The setup procedure and build instructions for this sample are located at the end of this topic.  
   
 ## Extensibility Points  
+
  The first step in creating a Windows Communication Foundation (WCF) extension is to decide the extensibility point to use. In WCF, the term *EndpointDispatcher* refers to a run-time component responsible for converting incoming messages into method invocations on the user’s service and for converting return values from that method to an outgoing message. A WCF service creates an EndpointDispatcher for each endpoint.  
   
  The EndpointDispatcher offers endpoint scope (for all messages received or sent by the service) extensibility using the <xref:System.ServiceModel.Dispatcher.EndpointDispatcher> class. This class allows you to customize various properties that control the behavior of the EndpointDispatcher. This sample focuses on the <xref:System.ServiceModel.Dispatcher.DispatchRuntime.InstanceProvider%2A> property that points to the object that provides the instances of the service class.  
   
 ## IInstanceProvider  
+
  In WCF, the EndpointDispatcher creates instances of a service class by using an instance provider that implements the <xref:System.ServiceModel.Dispatcher.IInstanceProvider> interface. This interface has only two methods:  
   
 - <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A>: When a message arrives, the Dispatcher calls the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> method to create an instance of the service class to process the message. The frequency of the calls to this method is determined by the <xref:System.ServiceModel.ServiceBehaviorAttribute.InstanceContextMode%2A> property. For example if the <xref:System.ServiceModel.ServiceBehaviorAttribute.InstanceContextMode%2A> property is set to <xref:System.ServiceModel.InstanceContextMode.PerCall?displayProperty=nameWithType>, a new instance of service class is created to process each message that arrives, so <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> is called whenever a message arrives.  
@@ -22,12 +25,13 @@ This sample extends the [Pooling](../../../../docs/framework/wcf/samples/pooling
 - <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A>: When the service instance finishes processing the message, the EndpointDispatcher calls the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A> method. As in the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> method, the frequency of the calls to this method is determined by the <xref:System.ServiceModel.ServiceBehaviorAttribute.InstanceContextMode%2A> property.  
   
 ## The Object Pool  
+
  The `ObjectPoolInstanceProvider` class contains the implementation for the object pool. This class implements the <xref:System.ServiceModel.Dispatcher.IInstanceProvider> interface to interact with the service model layer. When the EndpointDispatcher calls the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> method, instead of creating a new instance, the custom implementation looks for an existing object in an in-memory pool. If one is available, it is returned. Otherwise, `ObjectPoolInstanceProvider` checks whether the `ActiveObjectsCount` property (number of objects returned from the pool) has reached the maximum pool size. If not, a new instance is created and returned to the caller and `ActiveObjectsCount` is subsequently incremented. Otherwise an object creation request is queued for a configured period of time. The implementation for `GetObjectFromThePool` is shown in the following sample code.  
   
 ```csharp
 private object GetObjectFromThePool()  
 {  
-    bool didNotTimeout =   
+    bool didNotTimeout =
        availableCount.WaitOne(creationTimeout, true);  
     if(didNotTimeout)  
     {  
@@ -50,7 +54,7 @@ private object GetObjectFromThePool()
                         WritePoolMessage(  
                              ResourceHelper.GetString("MsgNewObject"));  
                        #endif  
-                   }                          
+                   }
             }  
            idleTimer.Stop();  
       }  
@@ -73,7 +77,7 @@ public void ReleaseInstance(InstanceContext instanceContext, object instance)
 {  
     lock (poolLock)  
     {  
-        // Check whether the object can be pooled.   
+        // Check whether the object can be pooled.
         // Call the Deactivate method if possible.  
         if (instance is IObjectControl)  
         {  
@@ -87,7 +91,7 @@ public void ReleaseInstance(InstanceContext instanceContext, object instance)
                 #if(DEBUG)  
                 WritePoolMessage(  
                     ResourceHelper.GetString("MsgObjectPooled"));  
-                #endif                          
+                #endif
             }  
             else  
             {  
@@ -104,14 +108,14 @@ public void ReleaseInstance(InstanceContext instanceContext, object instance)
             #if(DEBUG)  
             WritePoolMessage(  
                 ResourceHelper.GetString("MsgObjectPooled"));  
-            #endif   
+            #endif
         }  
   
         activeObjectsCount--;  
   
         if (activeObjectsCount == 0)  
         {  
-            idleTimer.Start();                       
+            idleTimer.Start();
         }  
     }  
   
@@ -124,7 +128,7 @@ public void ReleaseInstance(InstanceContext instanceContext, object instance)
 ```csharp  
 if (activeObjectsCount == 0)  
 {  
-    idleTimer.Start();   
+    idleTimer.Start();
 }  
 ```  
   
@@ -165,7 +169,7 @@ public void ApplyDispatchBehavior(ServiceDescription description, ServiceHostBas
         instanceProvider = new ObjectPoolInstanceProvider(description.ServiceType,  
         maxPoolSize, minPoolSize, creationTimeout);  
   
-        // Assign our instance provider to Dispatch behavior in each   
+        // Assign our instance provider to Dispatch behavior in each
         // endpoint.  
         foreach (ChannelDispatcherBase cdb in serviceHostBase.ChannelDispatchers)  
         {  
@@ -179,7 +183,7 @@ public void ApplyDispatchBehavior(ServiceDescription description, ServiceHostBas
              }  
          }  
      }  
-}   
+}
 ```  
   
  In addition to an <xref:System.ServiceModel.Description.IServiceBehavior> implementation the `ObjectPoolingAttribute` class has several members to customize the object pool using the attribute arguments. These members include `MaxSize`, `MinSize`, `Enabled` and `CreationTimeout`, to match the object pooling feature set provided by .NET Enterprise Services.  
@@ -187,7 +191,7 @@ public void ApplyDispatchBehavior(ServiceDescription description, ServiceHostBas
  The object pooling behavior can now be added to a WCF service by annotating the service implementation with the newly created custom `ObjectPooling` attribute.  
   
 ```csharp  
-[ObjectPooling(MaxSize=1024, MinSize=10, CreationTimeout=30000]      
+[ObjectPooling(MaxSize=1024, MinSize=10, CreationTimeout=30000]
 public class PoolService : IPoolService  
 {  
   // …  
@@ -195,6 +199,7 @@ public class PoolService : IPoolService
 ```  
   
 ## Hooking Activation and Deactivation  
+
  The primary objective of object pooling is to optimize short-lived objects with relatively expensive creation and initialization. Therefore it can give a dramatic performance boost to an application if properly used. Because the object is returned from the pool, the constructor is called only once. However, some applications require some level of control so that they can initialize and clean-up the resources used during a single context. For example, an object being used for a set of calculations can reset its private fields before processing the next calculation. Enterprise Services enabled this kind of context-specific initialization by letting the object developer override `Activate` and `Deactivate` methods from the <xref:System.EnterpriseServices.ServicedComponent> base class.  
   
  The object pool calls the `Activate` method just before returning the object from the pool. `Deactivate` is called when the object returns back to the pool. The <xref:System.EnterpriseServices.ServicedComponent> base class also has a `boolean` property called `CanBePooled`, which can be used to notify the pool whether the object can be pooled further.  
@@ -229,7 +234,7 @@ if (instance is IObjectControl)
 if (pool.Count > minPoolSize)  
 {  
   // Clean the surplus objects.  
-}                      
+}
 else if (pool.Count < minPoolSize)  
 {  
   // Reinitialize the missing objects.  
@@ -244,17 +249,17 @@ else if (pool.Count < minPoolSize)
   
 #### To set up, build, and run the sample  
   
-1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/one-time-setup-procedure-for-the-wcf-samples.md).  
+1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](one-time-setup-procedure-for-the-wcf-samples.md).  
   
-2. To build the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).  
+2. To build the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).  
   
-3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/running-the-samples.md).  
+3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](running-the-samples.md).  
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Extensibility\Instancing\Initialization`  

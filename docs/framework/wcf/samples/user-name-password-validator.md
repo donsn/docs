@@ -4,15 +4,16 @@ ms.date: "03/30/2017"
 ms.assetid: 42f03841-286b-42d8-ba58-18c75422bc8e
 ---
 # User Name Password Validator
+
 This sample demonstrates how to implement a custom UserNamePassword Validator. This is useful in cases where none of the built-in UserNamePassword Validation modes is appropriate for the requirements of the application; for example, when username/password pairs are stored in some external store, such as a database. This sample shows a service that has a custom validator that checks for two particular username/password pairs. The client uses such a username/password pair to authenticate to the service.
 
 > [!IMPORTANT]
 > The samples may already be installed on your computer. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Extensibility\Security\UserNamePasswordValidator`  
   
 > [!NOTE]
@@ -26,7 +27,7 @@ This sample demonstrates how to implement a custom UserNamePassword Validator. T
 
 - The server is authenticated using the server's X.509 certificate.
 
- The service exposes a single endpoint for communicating with the service, defined using the configuration file, App.config. The endpoint consists of an address, a binding, and a contract. The binding is configured with a standard `wsHttpBinding` that defaults to using WS-Security and username authentication. The service behavior specifies the `Custom` mode for validating client username/password pairs along with the type of the validator class. The behavior also specifies the server certificate using the `serviceCertificate` element. The server certificate has to contain the same value for the `SubjectName` as the `findValue` in the [\<serviceCertificate>](../../../../docs/framework/configure-apps/file-schema/wcf/servicecertificate-of-servicecredentials.md).
+ The service exposes a single endpoint for communicating with the service, defined using the configuration file, App.config. The endpoint consists of an address, a binding, and a contract. The binding is configured with a standard `wsHttpBinding` that defaults to using WS-Security and username authentication. The service behavior specifies the `Custom` mode for validating client username/password pairs along with the type of the validator class. The behavior also specifies the server certificate using the `serviceCertificate` element. The server certificate has to contain the same value for the `SubjectName` as the `findValue` in the [\<serviceCertificate>](../../configure-apps/file-schema/wcf/servicecertificate-of-servicecredentials.md).
 
 ```xml
 <system.serviceModel>
@@ -236,6 +237,7 @@ serviceHost.Credentials. UserNameAuthentication.CustomUserNamePasswordValidator 
     -->
     <userNameAuthentication userNamePasswordValidationMode="Custom" customUserNamePasswordValidatorType="Microsoft.ServiceModel.Samples.CalculatorService+CustomUserNameValidator, service" />
    ...
+   </serviceCredentials>
   </behavior>
  </serviceBehaviors>
 </behaviors>
@@ -244,6 +246,7 @@ serviceHost.Credentials. UserNameAuthentication.CustomUserNamePasswordValidator 
  When you run the sample, the operation requests and responses are displayed in the client console window. The client should successfully call all the methods. Press ENTER in the client window to shut down the client.
 
 ## Setup Batch File
+
  The Setup.bat batch file included with this sample allows you to configure the server with relevant certificates to run a self-hosted application that requires server certificate-based security. This batch file must be modified to work across machines or to work in a non-self-hosted case.
 
  The following provides a brief overview of the different sections of the batch files so that they can be modified to run in the appropriate configuration.
@@ -272,7 +275,7 @@ serviceHost.Credentials. UserNameAuthentication.CustomUserNamePasswordValidator 
 
 #### To set up and build the sample
 
-1. To build the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).
+1. To build the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).
 
 2. To run the sample in a single- or cross-machine configuration, use the following instructions.
 
@@ -287,7 +290,7 @@ serviceHost.Credentials. UserNameAuthentication.CustomUserNamePasswordValidator 
   
 3. Launch Client.exe from \client\bin. Client activity is displayed on the client console application.  
   
-4. If the client and service are not able to communicate, see [Troubleshooting Tips for WCF Samples](https://docs.microsoft.com/previous-versions/dotnet/netframework-3.5/ms751511(v=vs.90)).  
+4. If the client and service are not able to communicate, see [Troubleshooting Tips for WCF Samples](/previous-versions/dotnet/netframework-3.5/ms751511(v=vs.90)).  
   
 #### To run the sample across machines  
   
@@ -309,8 +312,8 @@ serviceHost.Credentials. UserNameAuthentication.CustomUserNamePasswordValidator 
   
 9. On the client machine, launch Client.exe from a command prompt window.  
   
-10. If the client and service are not able to communicate, see [Troubleshooting Tips for WCF Samples](https://docs.microsoft.com/previous-versions/dotnet/netframework-3.5/ms751511(v=vs.90)).  
+10. If the client and service are not able to communicate, see [Troubleshooting Tips for WCF Samples](/previous-versions/dotnet/netframework-3.5/ms751511(v=vs.90)).  
   
 #### To clean up after the sample  
   
-1. Run Cleanup.bat in the samples folder once you have finished running the sample. This removes the server certificate from the certificate store.  
+1. Run Cleanup.bat in the samples folder once you have finished running the sample. This removes the server certificate from the certificate store.

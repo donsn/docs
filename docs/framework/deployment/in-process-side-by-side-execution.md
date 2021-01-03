@@ -1,17 +1,18 @@
 ---
 title: "In-Process Side-by-Side Execution"
+description: Use in-process side-by-side hosting to execute many versions of the common language runtime (CLR) in a single .NET process.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "in-process side-by-side execution"
   - "side-by-side execution, in-process"
 ms.assetid: 18019342-a810-4986-8ec2-b933a17c2267
-author: "mairaw"
-ms.author: "mairaw"
 ---
 # In-Process Side-by-Side Execution
+
 Starting with the .NET Framework 4, you can use in-process side-by-side hosting to run multiple versions of the common language runtime (CLR) in a single process. By default, managed COM components run with the .NET Framework version they were built with, regardless of the .NET Framework version that is loaded for the process.  
   
 ## Background  
+
  The .NET Framework has always provided side-by-side hosting for managed code applications, but before the .NET Framework 4, it did not provide that functionality for managed COM components. In the past, managed COM components that were loaded into a process ran either with the version of the runtime that was already loaded or with the latest installed version of the .NET Framework. If this version was not compatible with the COM component, the component would fail.  
   
  The .NET Framework 4 provides a new approach to side-by-side hosting that ensures the following:  
@@ -41,7 +42,8 @@ Starting with the .NET Framework 4, you can use in-process side-by-side hosting 
 > [!NOTE]
 > .NET Framework versions 3.0 and 3.5 are built incrementally on version 2.0, and do not need to run side by side. These are inherently the same version.  
   
-<a name="scenarios"></a>   
+<a name="scenarios"></a>
+
 ## Common Side-by-Side Hosting Scenarios  
   
 - **Scenario 1:** Native application that uses COM components built with earlier versions of the .NET Framework.  
@@ -80,6 +82,7 @@ Starting with the .NET Framework 4, you can use in-process side-by-side hosting 
     ```  
   
 ## Example  
+
  The following example demonstrates an unmanaged COM host that is running a managed COM component by using the version of the .NET Framework that the component was compiled to use.  
   
  To run the following example, compile and register the following managed COM component using the .NET Framework 3.5. To register the component, on the **Project** menu, click **Properties**, click the **Build** tab, and then select the **Register for COM interop** check box.  
@@ -147,7 +150,7 @@ int _tmain(int argc, _TCHAR* argv[])
     IDispatch* pPrintInfo;  
     pUnk->QueryInterface(IID_IDispatch, (void**)&pPrintInfo);  
     OLECHAR FAR* szMethod[1];  
-    szMethod[0]=OLESTR("PrintInfo");   
+    szMethod[0]=OLESTR("PrintInfo");
     hr = pPrintInfo->GetIDsOfNames(IID_NULL,szMethod, 1, LOCALE_SYSTEM_DEFAULT, &dispid);  
     DISPPARAMS dispparams;  
     dispparams.cNamedArgs = 0;  

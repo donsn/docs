@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 2e5a0510-db3c-4988-a09c-696285836650
 ---
 # How to: Deploy a COM+ Integration Application
+
 Once you have written a COM+ integration application, you may want to deploy it on another machine. This topic describes how to move a COM+ integration application from one machine to another.  
   
 ### Moving a COM+ hosted Integration App  
@@ -34,6 +35,6 @@ Once you have written a COM+ integration application, you may want to deploy it 
   
 ## See also
 
-- [Integrating with COM+ Applications Overview](../../../../docs/framework/wcf/feature-details/integrating-with-com-plus-applications-overview.md)
-- [How to: Configure COM+ Service Settings](../../../../docs/framework/wcf/feature-details/how-to-configure-com-service-settings.md)
-- [How to: Use the COM+ Service Model Configuration Tool](../../../../docs/framework/wcf/feature-details/how-to-use-the-com-service-model-configuration-tool.md)
+- [Integrating with COM+ Applications Overview](integrating-with-com-plus-applications-overview.md)
+- [How to: Configure COM+ Service Settings](how-to-configure-com-service-settings.md)
+- [How to: Use the COM+ Service Model Configuration Tool](how-to-use-the-com-service-model-configuration-tool.md)

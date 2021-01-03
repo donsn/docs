@@ -1,14 +1,14 @@
 ---
 title: F# code formatting guidelines
 description: Learn guidelines for formatting F# code.
-ms.date: 11/04/2019
+ms.date: 08/31/2020
 ---
 # F# code formatting guidelines
 
 This article offers guidelines for how to format your code so that your F# code is:
 
-* Generally viewed as more legible
-* Is in accordance with conventions applied by formatting tools in Visual Studio and other editors
+* More legible
+* In accordance with conventions applied by formatting tools in Visual Studio and other editors
 * Similar to other code online
 
 These guidelines are based on [A comprehensive guide to F# Formatting Conventions](https://github.com/dungpa/fantomas/blob/master/docs/FormattingConventions.md) by [Anh-Dung Phan](https://github.com/dungpa).
@@ -19,9 +19,9 @@ F# uses significant white space by default. The following guidelines are intende
 
 ### Using spaces
 
-When indentation is required, you must use spaces, not tabs. At least one space is required. Your organization can create coding standards to specify the number of spaces to use for indentation; two, three or four spaces of indentation at each level where indentation occurs is typical.
+When indentation is required, you must use spaces, not tabs. At least one space is required. Your organization can create coding standards to specify the number of spaces to use for indentation; two, three, or four spaces of indentation at each level where indentation occurs is typical.
 
-**We recommend 4 spaces per indentation.**
+**We recommend four spaces per indentation.**
 
 That said, indentation of programs is a subjective matter. Variations are OK, but the first rule you should follow is *consistency of indentation*. Choose a generally accepted style of indentation and use it systematically throughout your codebase.
 
@@ -37,7 +37,7 @@ Always use white space around binary arithmetic expressions:
 let subtractThenAdd x = x - 1 + 3
 ```
 
-Unary `-` operators should always have the value they are negating immediately follow:
+Unary `-` operators should always be immediately followed by the value they are negating:
 
 ```fsharp
 // OK
@@ -94,28 +94,158 @@ let myFun (a: decimal) b c = a + b + c
 let myFunBad (a:decimal)(b)c = a + b + c
 ```
 
-### Place parameters on a new line for very long member definitions
+### Avoid name-sensitive alignments
 
-If you have a very long member definition, place the parameters on new lines and indent them one scope.
+In general, seek to avoid indentation and alignment that is sensitive to naming:
 
 ```fsharp
-type C() =
-    member _.LongMethodWithLotsOfParameters(
-        aVeryLongType: AVeryLongTypeThatYouNeedToUse
-        aSecondVeryLongType: AVeryLongTypeThatYouNeedToUse
-        aThirdVeryLongType: AVeryLongTypeThatYouNeedToUse) =
+// OK
+let myLongValueName =
+    someExpression
+    |> anotherExpression
+
+
+// Bad
+let myLongValueName = someExpression
+                      |> anotherExpression
+```
+
+This is sometimes called “vanity alignment” or “vanity indentation”. The primary reasons for avoiding this are:
+
+* Important code is moved far to the right
+* There is less width left for the actual code
+* Renaming can break the alignment
+
+Do the same for `do`/`do!` in order to keep the indentation consistent with `let`/`let!`. Here is an example using `do` in a class:
+
+```fsharp
+// OK
+type Foo () =
+    let foo =
+        fooBarBaz
+        |> loremIpsumDolorSitAmet
+        |> theQuickBrownFoxJumpedOverTheLazyDog
+    do
+        fooBarBaz
+        |> loremIpsumDolorSitAmet
+        |> theQuickBrownFoxJumpedOverTheLazyDog
+
+// Bad - notice the "do" expression is indented one space less than the `let` expression
+type Foo () =
+    let foo =
+        fooBarBaz
+        |> loremIpsumDolorSitAmet
+        |> theQuickBrownFoxJumpedOverTheLazyDog
+    do fooBarBaz
+       |> loremIpsumDolorSitAmet
+       |> theQuickBrownFoxJumpedOverTheLazyDog
+```
+
+Here is an example with `do!` using 2 spaces of indentation (because with `do!` there is coincidentally no difference between the approaches when using 4 spaces of indentation):
+
+```fsharp
+// OK
+async {
+  let! foo =
+    fooBarBaz
+    |> loremIpsumDolorSitAmet
+    |> theQuickBrownFoxJumpedOverTheLazyDog
+  do!
+    fooBarBaz
+    |> loremIpsumDolorSitAmet
+    |> theQuickBrownFoxJumpedOverTheLazyDog
+}
+
+// Bad - notice the "do!" expression is indented two spaces more than the `let!` expression
+async {
+  let! foo =
+    fooBarBaz
+    |> loremIpsumDolorSitAmet
+    |> theQuickBrownFoxJumpedOverTheLazyDog
+  do! fooBarBaz
+      |> loremIpsumDolorSitAmet
+      |> theQuickBrownFoxJumpedOverTheLazyDog
+}
+```
+
+### Place parameters on a new line for long definitions
+
+If you have a long function definition, place the parameters on new lines and indent them to match the indentation level of the subsequent parameter.
+
+```fsharp
+module M =
+    let longFunctionWithLotsOfParameters
+        (aVeryLongParam: AVeryLongTypeThatYouNeedToUse)
+        (aSecondVeryLongParam: AVeryLongTypeThatYouNeedToUse)
+        (aThirdVeryLongParam: AVeryLongTypeThatYouNeedToUse)
+        =
+        // ... the body of the method follows
+
+    let longFunctionWithLotsOfParametersAndReturnType
+        (aVeryLongParam: AVeryLongTypeThatYouNeedToUse)
+        (aSecondVeryLongParam: AVeryLongTypeThatYouNeedToUse)
+        (aThirdVeryLongParam: AVeryLongTypeThatYouNeedToUse)
+        : ReturnType =
+        // ... the body of the method follows
+
+    let longFunctionWithLongTupleParameter
+        (
+            aVeryLongParam: AVeryLongTypeThatYouNeedToUse,
+            aSecondVeryLongParam: AVeryLongTypeThatYouNeedToUse,
+            aThirdVeryLongParam: AVeryLongTypeThatYouNeedToUse
+        ) =
+        // ... the body of the method follows
+
+    let longFunctionWithLongTupleParameterAndReturnType
+        (
+            aVeryLongParam: AVeryLongTypeThatYouNeedToUse,
+            aSecondVeryLongParam: AVeryLongTypeThatYouNeedToUse,
+            aThirdVeryLongParam: AVeryLongTypeThatYouNeedToUse
+        ) : ReturnType =
         // ... the body of the method follows
 ```
 
-This also applies to constructors:
+This also applies to members, constructors, and parameters using tuples:
 
 ```fsharp
-type C(
-    aVeryLongType: AVeryLongTypeThatYouNeedToUse
-    aSecondVeryLongType: AVeryLongTypeThatYouNeedToUse
-    aThirdVeryLongType: AVeryLongTypeThatYouNeedToUse) =
+type TM() =
+    member _.LongMethodWithLotsOfParameters
+        (
+            aVeryLongParam: AVeryLongTypeThatYouNeedToUse,
+            aSecondVeryLongParam: AVeryLongTypeThatYouNeedToUse,
+            aThirdVeryLongParam: AVeryLongTypeThatYouNeedToUse
+        ) =
+        // ... the body of the method
+
+type TC
+    (
+        aVeryLongCtorParam: AVeryLongTypeThatYouNeedToUse,
+        aSecondVeryLongCtorParam: AVeryLongTypeThatYouNeedToUse,
+        aThirdVeryLongCtorParam: AVeryLongTypeThatYouNeedToUse
+    ) =
     // ... the body of the class follows
 ```
+
+If the parameters are currified or there's an explicit return type annotation, it is preferable to place the `=` character on a new line:
+
+```fsharp
+type C() =
+    member _.LongMethodWithLotsOfParameters
+        (
+            aVeryLongParam: AVeryLongTypeThatYouNeedToUse,
+            aSecondVeryLongParam: AVeryLongTypeThatYouNeedToUse,
+            aThirdVeryLongParam: AVeryLongTypeThatYouNeedToUse
+        ) : AReturnType =
+        // ... the body of the method
+    member _.LongMethodWithLotsOfCurrifiedParams
+        (aVeryLongParam: AVeryLongTypeThatYouNeedToUse)
+        (aSecondVeryLongParam: AVeryLongTypeThatYouNeedToUse)
+        (aThirdVeryLongParam: AVeryLongTypeThatYouNeedToUse)
+        =
+        // ... the body of the method
+```
+
+This is a way to avoid too long lines (in case return type might have long name) and have less line-damage when adding parameters.
 
 ### Type annotations
 
@@ -174,7 +304,7 @@ let f x = x + 1 // Increment by one.
 
 ## Naming conventions
 
-### Use camelCase for class-bound, expression-bound and pattern-bound values and functions
+### Use camelCase for class-bound, expression-bound, and pattern-bound values and functions
 
 It is common and accepted F# style to use camelCase for all names bound as local variables or in pattern matches and function definitions.
 
@@ -189,7 +319,7 @@ let addIAndJ I J = I+J
 let AddIAndJ i j = i + j
 ```
 
-Locally-bound functions in classes should also use camelCase.
+Locally bound functions in classes should also use camelCase.
 
 ```fsharp
 type MyClass() =
@@ -279,9 +409,9 @@ Namespaces, exceptions, events, and project/`.dll` names should also use PascalC
 
 ### Avoid underscores in names
 
-Historically, some F# libraries have used underscores in names. However, this is no longer widely accepted, partly because it clashes with .NET naming conventions. That said, some F# programmers use underscores heavily, partly for historical reasons, and tolerance and respect is important. However, be aware that the style is often disliked by others who have a choice about whether to use it.
+Historically, some F# libraries have used underscores in names. However, this is no longer widely accepted, partly because it clashes with .NET naming conventions. That said, some F# programmers use underscores heavily, partly for historical reasons, and tolerance and respect is important. However, the style is often disliked by others who have a choice about whether to use it.
 
-Some exceptions includes interoperating with native components, where underscores are very common.
+One exception includes interoperating with native components, where underscores are common.
 
 ### Use standard F# operators
 
@@ -319,7 +449,7 @@ For all other types, use the prefix form.
 
 ## Formatting tuples
 
-A tuple instantiation should be parenthesized, and the delimiting commas within should be followed by a single space, for example: `(1, 2)`, `(x, y, z)`.
+A tuple instantiation should be parenthesized, and the delimiting commas within it should be followed by a single space, for example: `(1, 2)`, `(x, y, z)`.
 
 It is commonly accepted to omit parentheses in pattern matching of tuples:
 
@@ -348,7 +478,7 @@ In summary, prefer parenthesized tuple instantiations, but when using tuples for
 
 ## Formatting discriminated union declarations
 
-Indent `|` in type definition by 4 spaces:
+Indent `|` in type definition by four spaces:
 
 ```fsharp
 // OK
@@ -387,7 +517,7 @@ let tree1 =
 
 ## Formatting record declarations
 
-Indent `{` in type definition by 4 spaces and start the field list on the same line:
+Indent `{` in type definition by four spaces and start the field list on the same line:
 
 ```fsharp
 // OK
@@ -395,14 +525,14 @@ type PostalAddress =
     { Address: string
       City: string
       Zip: string }
-    member x.ZipAndCity = sprintf "%s %s" x.Zip x.City
+    member x.ZipAndCity = $"{x.Zip} {x.City}"
 
 // Not OK
 type PostalAddress =
   { Address: string
     City: string
     Zip: string }
-    member x.ZipAndCity = sprintf "%s %s" x.Zip x.City
+    member x.ZipAndCity = $"{x.Zip} {x.City}"
 
 // Unusual in F#
 type PostalAddress =
@@ -422,8 +552,8 @@ type PostalAddress =
         Address: string
         City: string
         Zip: string
-    } with
-    member x.ZipAndCity = sprintf "%s %s" x.Zip x.City
+    }
+    member x.ZipAndCity = $"{x.Zip} {x.City}"
 
 type MyRecord =
     {
@@ -475,10 +605,11 @@ type MyRecord =
 
 let foo a =
     a
-    |> Option.map (fun x ->
-        {
-            MyField = x
-        })
+    |> Option.map
+        (fun x ->
+            {
+                MyField = x
+            })
 ```
 
 The same rules apply for list and array elements.
@@ -499,20 +630,21 @@ Longer expressions should use new lines:
 let rainbow2 =
     { rainbow with
         Boss = "Jeffrey"
-        Lackeys = ["Zippy"; "George"; "Bungle"] }
+        Lackeys = [ "Zippy"; "George"; "Bungle" ] }
 ```
 
-And as with the record guidance, you may want to dedicate separate lines for the braces and indent one scope to the right with the expression. Note that in some special cases, such as wrapping a value with an optional without parentheses, you may need to keep a brace on one line:
+And as with the record guidance, you may want to dedicate separate lines for the braces and indent one scope to the right with the expression. In some special cases, such as wrapping a value with an optional without parentheses, you may need to keep a brace on one line:
 
 ```fsharp
 type S = { F1: int; F2: string }
-type State = { F:  S option }
+type State = { Foo: S option }
 
-let state = { F = Some { F1 = 1; F2 = "Hello" } }
+let state = { Foo = Some { F1 = 1; F2 = "Hello" } }
 let newState =
     {
         state with
-            F = Some {
+            Foo =
+                Some {
                     F1 = 0
                     F2 = ""
                 }
@@ -573,10 +705,10 @@ When generating arrays and lists programmatically, prefer `->` over `do ... yiel
 
 ```fsharp
 // Preferred
-let squares = [ for x in 1..10 -> x*x ]
+let squares = [ for x in 1..10 -> x * x ]
 
 // Not preferred
-let squares' = [ for x in 1..10 do yield x*x ]
+let squares' = [ for x in 1..10 do yield x * x ]
 ```
 
 Older versions of the F# language required specifying `yield` in situations where data may be generated conditionally, or there may be consecutive expressions to be evaluated. Prefer omitting these `yield` keywords unless you must compile with an older F# language version:
@@ -613,21 +745,17 @@ In some cases, `do...yield` may aid in readability. These cases, though subjecti
 
 ## Formatting if expressions
 
-Indentation of conditionals depends on the sizes of the expressions that make them up. If `cond`, `e1` and `e2` are short, simply write them on one line:
+Indentation of conditionals depends on the size and complexity of the expressions that make them up.
+Write them on one line when:
+
+- `cond`, `e1`, and `e2` are short
+- `e1` and `e2` are not `if/then/else` expressions themselves.
 
 ```fsharp
 if cond then e1 else e2
 ```
 
-If either `cond`, `e1` or `e2` are longer, but not multi-line:
-
-```fsharp
-if cond
-then e1
-else e2
-```
-
-If any of the expressions are multi-line:
+If any of the expressions are multi-line or `if/then/else` expressions.
 
 ```fsharp
 if cond then
@@ -636,13 +764,26 @@ else
     e2
 ```
 
-Multiple conditionals with `elif` and `else` are indented at the same scope as the `if`:
+Multiple conditionals with `elif` and `else` are indented at the same scope as the `if` when they follow the rules of the one line `if/then/else` expressions.
 
 ```fsharp
 if cond1 then e1
 elif cond2 then e2
 elif cond3 then e3
 else e4
+```
+
+If any of the conditions or expressions is multi-line, the entire `if/then/else` expression is multi-line:
+
+```fsharp
+if cond1 then
+    e1
+elif cond2 then
+    e2
+elif cond3 then
+    e3
+else
+    e4
 ```
 
 ### Pattern matching constructs
@@ -679,13 +820,14 @@ Pattern matching of anonymous functions, starting by `function`, should generall
 
 ```fsharp
 lambdaList
-|> List.map (function
-    | Abs(x, body) -> 1 + sizeLambda 0 body
-    | App(lam1, lam2) -> sizeLambda (sizeLambda 0 lam1) lam2
-    | Var v -> 1)
+|> List.map
+    (function
+        | Abs(x, body) -> 1 + sizeLambda 0 body
+        | App(lam1, lam2) -> sizeLambda (sizeLambda 0 lam1) lam2
+        | Var v -> 1)
 ```
 
-Pattern matching in functions defined by `let` or `let rec` should be indented 4 spaces after starting of `let`, even if `function` keyword is used:
+Pattern matching in functions defined by `let` or `let rec` should be indented four spaces after starting of `let`, even if `function` keyword is used:
 
 ```fsharp
 let rec sizeLambda acc = function
@@ -715,11 +857,27 @@ with
 
 ## Formatting function parameter application
 
-In general, most function parameter application is done on the same line.
-
-If you wish to apply parameters to a function on a new line, indent them by one scope.
+In general, most arguments are provided on the same line:
 
 ```fsharp
+let x = sprintf "\t%s - %i\n\r" x.IngredientName x.Quantity
+
+let printListWithOffset a list1 =
+    List.iter (fun elem -> printfn $"%d{a + elem}") list1
+```
+
+When pipelines are concerned, the same is typically also true, where a curried function is applied as an argument on the same line:
+
+```
+let printListWithOffsetPiped a list1 =
+    list1
+    |> List.iter (fun elem -> printfn $"%d{a + elem}")
+```
+
+However, you may wish to pass arguments to a function on a new line, as a matter of readability or because the list of arguments or the argument names are too long. In that case, indent with one scope:
+
+```fsharp
+
 // OK
 sprintf "\t%s - %i\n\r"
      x.IngredientName x.Quantity
@@ -737,23 +895,23 @@ let printVolumes x =
         (convertVolumeImperialPint x)
 ```
 
-The same guidelines apply for lambda expressions as function arguments. If the body of a lambda expression, the body can have another line, indented by one scope
+For lambda expressions, you may also want to consider placing the body of a lambda expression on a new line, indented by one scope, if it is long enough:
 
 ```fsharp
 let printListWithOffset a list1 =
     List.iter
-        (fun elem -> printfn "%d" (a + elem))
+        (fun elem ->
+            printfn $"%d{a + elem}")
         list1
 
-// OK if lambda body is long enough
-let printListWithOffset a list1 =
-    List.iter
+let printListWithOffsetPiped a list1 =
+    list1
+    |> List.iter
         (fun elem ->
-            printfn "%d" (a + elem))
-        list1
+            printfn $"%d{a + elem}")
 ```
 
-However, if the body of a lambda expression is more than one line, consider factoring it out into a separate function rather than have a multi-line construct applied as a single argument to a function.
+If the body of a lambda expression is multiple lines long, you should consider refactoring it into a locally-scoped function.
 
 ### Formatting infix operators
 
@@ -771,7 +929,7 @@ let function1 arg1 arg2 arg3 arg4 =
     arg3 + arg4
 ```
 
-### Formatting pipeline operators
+### Formatting pipeline operators or mutable assignments
 
 Pipeline `|>` operators should go underneath the expressions they operate on.
 
@@ -794,6 +952,32 @@ let methods2 = System.AppDomain.CurrentDomain.GetAssemblies()
             |> List.ofArray
             |> List.map (fun t -> t.GetMethods())
             |> Array.concat
+
+// Not OK either
+let methods2 = System.AppDomain.CurrentDomain.GetAssemblies()
+               |> List.ofArray
+               |> List.map (fun assm -> assm.GetTypes())
+               |> Array.concat
+               |> List.ofArray
+               |> List.map (fun t -> t.GetMethods())
+               |> Array.concat
+```
+
+This also applies to mutable setters:
+
+```fsharp
+// Preferred approach
+ctx.Response.Headers.[HeaderNames.ContentType] <-
+    Constants.jsonApiMediaType |> StringValues
+ctx.Response.Headers.[HeaderNames.ContentLength] <-
+    bytes.Length |> string |> StringValues
+
+// Not OK
+ctx.Response.Headers.[HeaderNames.ContentType] <- Constants.jsonApiMediaType
+                                                  |> StringValues
+ctx.Response.Headers.[HeaderNames.ContentLength] <- bytes.Length
+                                                    |> string
+                                                    |> StringValues
 ```
 
 ### Formatting modules
@@ -810,15 +994,15 @@ let function1 a b = a - b * b
 ```fsharp
 // A1 and A2 are local modules.
 module A1 =
-    let function1 a b = a*a + b*b
+    let function1 a b = a * a + b * b
 
 module A2 =
-    let function2 a b = a*a - b*b
+    let function2 a b = a * a - b * b
 ```
 
 ### Formatting object expressions and interfaces
 
-Object expressions and interfaces should be aligned in the same way with `member` being indented after 4 spaces.
+Object expressions and interfaces should be aligned in the same way with `member` being indented after four spaces.
 
 ```fsharp
 let comparer =
@@ -852,6 +1036,41 @@ let makeStreamReader x = new System.IO.StreamReader(path=x)
 let makeStreamReader x = new System.IO.StreamReader(path = x)
 ```
 
+### Formatting constructors, static members, and member invocations
+
+If the expression is short, separate arguments with spaces and keep it in one line.
+
+```fsharp
+let person = new Person(a1, a2)
+
+let myRegexMatch = Regex.Match(input, regex)
+
+let untypedRes = checker.ParseFile(file, source, opts)
+```
+
+If the expression is long, use newlines and indent one scope, rather than indenting to the bracket.
+
+```fsharp
+let person =
+    new Person(
+        argument1,
+        argument2
+    )
+
+let myRegexMatch =
+    Regex.Match(
+        "my longer input string with some interesting content in it",
+        "myRegexPattern"
+    )
+
+let untypedRes =
+    checker.ParseFile(
+        fileName,
+        sourceText,
+        parsingOptionsWithDefines
+    )
+```
+
 ## Formatting attributes
 
 [Attributes](../language-reference/attributes.md) are placed above a construct:
@@ -870,9 +1089,18 @@ type MyRecord =
       Label2: string }
 ```
 
+They should go after any XML documentation:
+
+```fsharp
+/// Module with some things in it.
+[<RequireQualifiedAccess>]
+module M =
+    let f x = x
+```
+
 ### Formatting attributes on parameters
 
-Attributes can also be places on parameters. In this case, place then on the same line as the parameter and before the name:
+Attributes can also be placed on parameters. In this case, place then on the same line as the parameter and before the name:
 
 ```fsharp
 // Defines a class that takes an optional value as input defaulting to false.
@@ -907,3 +1135,47 @@ let MyUrl = "www.mywebsitethatiamworkingwith.com"
 ```
 
 Avoid placing the attribute on the same line as the value.
+
+## Formatting computation expression operations
+
+When creating custom operations for [computation expressions](../language-reference/computation-expressions.md), it is recommended to use camelCase naming:
+
+```fsharp
+type MathBuilder () =
+    member _.Yield _ = 0
+
+    [<CustomOperation("addOne")>]
+    member _.AddOne (state: int) =
+        state + 1
+
+    [<CustomOperation("subtractOne")>]
+    member _.SubtractOne (state: int) =
+        state - 1
+
+    [<CustomOperation("divideBy")>]
+    member _.DivideBy (state: int, divisor: int) =
+        state / divisor
+
+    [<CustomOperation("multiplyBy")>]
+    member _.MultiplyBy (state: int, factor: int) =
+        state * factor
+
+let math = MathBuilder()
+
+// 10
+let myNumber =
+    math {
+        addOne
+        addOne
+        addOne
+
+        subtractOne
+
+        divideBy 2
+
+        multiplyBy 10
+    }
+```
+
+The domain that's being modeled should ultimately drive the naming convention.
+If it is idiomatic to use a different convention, that convention should be used instead.

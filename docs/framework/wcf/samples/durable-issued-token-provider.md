@@ -4,9 +4,11 @@ ms.date: "03/30/2017"
 ms.assetid: 76fb27f5-8787-4b6a-bf4c-99b4be1d2e8b
 ---
 # Durable Issued Token Provider
+
 This sample demonstrates how to implement a custom client issued token provider.  
   
 ## Discussion  
+
  A token provider in Windows Communication Foundation (WCF) is used to supply credentials to the security infrastructure. The token provider in general examines the target and issues appropriate credentials so that the security infrastructure can secure the message. WCF ships with a CardSpace token provider. Custom token providers are useful in the following cases:  
   
 - If you have a credential store that the built-in token provider cannot operate with.  
@@ -30,16 +32,16 @@ This sample demonstrates how to implement a custom client issued token provider.
 > [!NOTE]
 > The set-up procedure and build instructions for this sample are located at the end of this topic.  
   
- This sample exposes the ICalculator contract using the [\<wsHttpBinding>](../../../../docs/framework/configure-apps/file-schema/wcf/wshttpbinding.md). The configuration of this binding on the client is shown in the following code.  
+ This sample exposes the ICalculator contract using the [\<wsHttpBinding>](../../configure-apps/file-schema/wcf/wshttpbinding.md). The configuration of this binding on the client is shown in the following code.  
   
 ```xml  
 <bindings>
   <wsFederationHttpBinding>
     <binding name="ServiceFed">
       <security mode="Message">
-        <message issuedKeyType="SymmetricKey" 
+        <message issuedKeyType="SymmetricKey"
                  issuedTokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1">
-          <issuer address="http://localhost:8000/sts/windows" 
+          <issuer address="http://localhost:8000/sts/windows"
                   binding="wsHttpBinding" />
         </message>
       </security>
@@ -57,13 +59,13 @@ This sample demonstrates how to implement a custom client issued token provider.
   <wsFederationHttpBinding>
     <binding name="ServiceFed">
       <security mode="Message">
-        <message issuedKeyType="SymmetricKey" 
+        <message issuedKeyType="SymmetricKey"
                  issuedTokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1">
           <issuerMetadata address="http://localhost:8000/sts/mex">
             <identity>
-              <certificateReference storeLocation="CurrentUser" 
-                                    storeName="TrustedPeople" 
-                                    x509FindType="FindBySubjectDistinguishedName" 
+              <certificateReference storeLocation="CurrentUser"
+                                    storeName="TrustedPeople"
+                                    x509FindType="FindBySubjectDistinguishedName"
                                     findValue="CN=STS" />
             </identity>
           </issuerMetadata>
@@ -85,15 +87,15 @@ This sample demonstrates how to implement a custom client issued token provider.
   <serviceCredentials>
     <issuedTokenAuthentication>
       <knownCertificates>
-        <add storeLocation="LocalMachine" 
-              storeName="TrustedPeople" 
-              x509FindType="FindBySubjectDistinguishedName" 
+        <add storeLocation="LocalMachine"
+              storeName="TrustedPeople"
+              x509FindType="FindBySubjectDistinguishedName"
               findValue="CN=STS" />
       </knownCertificates>
     </issuedTokenAuthentication>
-    <serviceCertificate storeLocation="LocalMachine" 
-                        storeName="My" 
-                        x509FindType="FindBySubjectDistinguishedName" 
+    <serviceCertificate storeLocation="LocalMachine"
+                        storeName="My"
+                        x509FindType="FindBySubjectDistinguishedName"
                         findValue="CN=localhost" />
   </serviceCredentials>
 </behavior>  
@@ -104,6 +106,7 @@ This sample demonstrates how to implement a custom client issued token provider.
  The Security Token Service exposes a single endpoint using the standard wsHttpBinding. The Security Token Service responds to request from clients for tokens and, provided the client authenticates using a Windows account, issues a token that contains the client's user name as a claim in the issued token. As part of creating the token, the Security Token Service signs the token using the private key associated with the CN=STS certificate. In addition, it creates a symmetric key and encrypts it using the public key associated with the CN=localhost certificate. In returning the token to the client, the Security Token Service also returns the symmetric key. The client presents the issued token to the Calculator service, and proves that it knows the symmetric key by signing the message with that key.  
   
 ## Custom Client Credentials and Token Provider  
+
  The following steps show how to develop a custom token provider that caches issued tokens and integrate it with WCF: security.  
   
 ### To develop a custom token provider  
@@ -220,16 +223,18 @@ This sample demonstrates how to implement a custom client issued token provider.
     ```  
   
 ## Running the sample  
+
  See the following instructions to run the sample. When you run the sample, the request for the security token is shown in the Security Token Service console window. The operation requests and responses are displayed in the client and service console windows. Press ENTER in any of the console windows to shut down the application.  
   
 ## The Setup.cmd Batch File  
+
  The Setup.cmd batch file included with this sample allows you to configure the server and security token service with relevant certificates to run a self-hosted application. The batch file creates two certificates both in the CurrentUser/TrustedPeople certificate store. The first certificate has a subject name of CN=STS and is used by the Security Token Service to sign the security tokens that it issues to the client. The second certificate has a subject name of CN=localhost and is used by the Security Token Service to encrypt a secret so that the service can decrypt it.  
   
 ### To set up, build, and run the sample  
   
 1. Run the Setup.cmd file to create the required certificates.  
   
-2. To build the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md). Ensure that all the projects in the solution are built (Shared, RSTRSTR, Service, SecurityTokenService, and Client).  
+2. To build the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md). Ensure that all the projects in the solution are built (Shared, RSTRSTR, Service, SecurityTokenService, and Client).  
   
 3. Ensure that Service.exe and SecurityTokenService.exe are both running with administrator privileges.  
   
@@ -241,9 +246,9 @@ This sample demonstrates how to implement a custom client issued token provider.
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Extensibility\Security\DurableIssuedTokenProvider`  

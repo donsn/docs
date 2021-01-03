@@ -6,6 +6,7 @@ helpviewer_keywords:
 ms.assetid: 04a4c200-0af0-4c5d-a3d9-87cb7339e054
 ---
 # Using WS-AtomicTransaction
+
 WS-AtomicTransaction (WS-AT) is an interoperable transaction protocol. It enables you to flow distributed transactions by using Web service messages, and coordinate in an interoperable manner between heterogeneous transaction infrastructures. WS-AT uses the two-phase commit protocol to drive an atomic outcome between distributed applications, transaction managers, and resource managers.  
   
  The WS-AT implementation Windows Communication Foundation (WCF) provides includes a protocol service built into the Microsoft Distributed Transaction Coordinator (MSDTC) transaction manager. Using WS-AT, WCF applications can flow transactions to other applications, including interoperable Web services built using third-party technology.  
@@ -18,8 +19,8 @@ WS-AtomicTransaction (WS-AT) is an interoperable transaction protocol. It enable
   
 - The network protocol used to run the two-phase commit protocol between the client's transaction manager and the server's transaction, in order to resolve the outcome of the transaction.  
   
- If the server and client are written using WCF, you do not need to use WS-AT. Instead, you can use the default settings of `NetTcpBinding` with the `TransactionFlow` attribute enabled, which will use the `OleTransactions` protocol instead. For more information, see [\<netTcpBinding>](../../../../docs/framework/configure-apps/file-schema/wcf/nettcpbinding.md). Otherwise, if you are flowing transactions to Web services built on third-party technologies, you must use WS-AT.  
+ If the server and client are written using WCF, you do not need to use WS-AT. Instead, you can use the default settings of `NetTcpBinding` with the `TransactionFlow` attribute enabled, which will use the `OleTransactions` protocol instead. For more information, see [\<netTcpBinding>](../../configure-apps/file-schema/wcf/nettcpbinding.md). Otherwise, if you are flowing transactions to Web services built on third-party technologies, you must use WS-AT.  
   
 ## See also
 
-- [Configuring WS-Atomic Transaction Support](../../../../docs/framework/wcf/feature-details/configuring-ws-atomic-transaction-support.md)
+- [Configuring WS-Atomic Transaction Support](configuring-ws-atomic-transaction-support.md)

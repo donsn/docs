@@ -1,5 +1,6 @@
 ---
 title: "How to: Specify a Service Binding in Configuration"
+description: Learn how to configure an endpoint for a WCF service in a configuration file. A contract is defined for a service and implemented in a class.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -7,6 +8,7 @@ dev_langs:
 ms.assetid: 885037f7-1c2b-4d7a-90d9-06b89be172f2
 ---
 # How to: Specify a Service Binding in Configuration
+
 In this example, an `ICalculator` contract is defined for a basic calculator service, the service is implemented in the `CalculatorService` class, and then its endpoint is configured in the Web.config file, where it is specified that the service uses the <xref:System.ServiceModel.BasicHttpBinding>. For a description of how to configure this service using code instead of a configuration, see [How to: Specify a Service Binding in Code](how-to-specify-a-service-binding-in-code.md).  
   
  It is usually the best practice to specify the binding and address information declaratively in configuration rather than imperatively in code. Defining endpoints in code is usually not practical because the bindings and addresses for a deployed service are typically different from those used while the service is being developed. More generally, keeping the binding and addressing information out of the code allows them to change without having to recompile or redeploy the application.  
@@ -38,7 +40,7 @@ In this example, an `ICalculator` contract is defined for a basic calculator ser
       <system.serviceModel>  
         <services>  
           <service name=" CalculatorService" >  
-            
+
             <!-- Leave the address blank to be populated by default -->
             <!-- from the hosting environment,in this case IIS, so -->
             <!-- the address will just be that of the IIS Virtual -->
@@ -49,8 +51,8 @@ In this example, an `ICalculator` contract is defined for a basic calculator ser
             <!-- want to modify the properties of the binding. -->
             <!-- The bindingConfiguration name Binding1 is defined -->
             <!-- below in the bindings element. -->
-            <endpoint   
-                address=""   
+            <endpoint
+                address=""
                 binding="wsHttpBinding"  
                 bindingConfiguration="Binding1"  
                 contract="ICalculator" />  
@@ -70,8 +72,8 @@ In this example, an `ICalculator` contract is defined for a basic calculator ser
   
 4. Create a Service.svc file that contains the following line and place it in your Internet Information Services (IIS) virtual directory.  
   
-    ```  
-    <%@ServiceHost language=c# Service="CalculatorService" %>   
+    ```aspx-csharp
+    <%@ServiceHost language=c# Service="CalculatorService" %>
     ```  
   
 ## To modify the default values of the binding properties  

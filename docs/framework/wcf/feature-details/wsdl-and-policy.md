@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: cea87440-3519-4640-8494-b8a2b0e88c84
 ---
 # WSDL and Policy
+
 This topic covers Windows Communication Foundation (WCF) WSDL 1.1, WS-Policy and WS-PolicyAttachment implementation details, as well as additional WS-Policy assertions and WSDL 1.1 extensions introduced by WCF.  
   
  WCF implements WS-Policy and WS-PolicyAttachment specifications submitted to W3C with constraints and clarifications described in this document.  
@@ -12,16 +13,17 @@ This topic covers Windows Communication Foundation (WCF) WSDL 1.1, WS-Policy and
   
 |Prefix|Namespace|  
 |------------|---------------|  
-|wsp (WS-Policy 1.2)|http://schemas.xmlsoap.org/ws/2004/09/policy|  
-|wsp (WS-Policy 1.5)|http://www.w3.org/ns/ws-policy|  
-|http|http://schemas.microsoft.com/ws/06/2004/policy/http|  
-|msmq|http://schemas.microsoft.com/ws/06/2004/mspolicy/msmq|  
-|msf|http://schemas.microsoft.com/ws/2006/05/framing/policy|  
-|mssp|http://schemas.microsoft.com/ws/2005/07/securitypolicy|  
-|msc|http://schemas.microsoft.com/ws/2005/12/wsdl/contract|  
-|cdp|http://schemas.microsoft.com/net/2006/06/duplex|  
+|wsp (WS-Policy 1.2)|`http://schemas.xmlsoap.org/ws/2004/09/policy`|  
+|wsp (WS-Policy 1.5)|`http://www.w3.org/ns/ws-policy`|  
+|http|`http://schemas.microsoft.com/ws/06/2004/policy/http`|  
+|msmq|`http://schemas.microsoft.com/ws/06/2004/mspolicy/msmq`|  
+|msf|`http://schemas.microsoft.com/ws/2006/05/framing/policy`|  
+|mssp|`http://schemas.microsoft.com/ws/2005/07/securitypolicy`|  
+|msc|`http://schemas.microsoft.com/ws/2005/12/wsdl/contract`|  
+|cdp|`http://schemas.microsoft.com/net/2006/06/duplex`|  
   
 ## WCF WSDL1.1 Extensions  
+
  WCF uses the following WSDL1.1 extensions to describe contract session requirements.  
   
  wsdl:portType/wsdl:operation/@msc:isInitiating  
@@ -34,16 +36,18 @@ This topic covers Windows Communication Foundation (WCF) WSDL 1.1, WS-Policy and
  xs:boolean, indicates this contract requires session to be established.  
   
 ### SOAP 1.x HTTP Binding Transport URIs  
+
  WCF uses the following URIs to indicate transports to be used for WSDL 1.1, SOAP 1.1, and SOAP 1.2 binding extension elements.  
   
 |Transport|URI|  
 |---------------|---------|  
-|HTTP|http://schemas.xmlsoap.org/soap/http|  
-|TCP|http://schemas.microsoft.com/soap/tcp|  
-|MSMQ|http://schemas.microsoft.com/soap/msmq|  
-|Named Pipes|http://schemas.microsoft.com/soap/named-pipe|  
+|HTTP|`http://schemas.xmlsoap.org/soap/http`|  
+|TCP|`http://schemas.microsoft.com/soap/tcp`|  
+|MSMQ|`http://schemas.microsoft.com/soap/msmq`|  
+|Named Pipes|`http://schemas.microsoft.com/soap/named-pipe`|  
   
 ## Policy Assertions Implemented by WCF  
+
  In addition to policy assertions introduced in the Web Services specifications (WS-*) and mentioned in other sections of this document, WCF implements the following policy assertions.  
   
 |Policy assertion|Policy subject|Description|  
@@ -68,6 +72,6 @@ This topic covers Windows Communication Foundation (WCF) WSDL 1.1, WS-Policy and
   
 ## See also
 
-- [Custom WSDL Publication](../../../../docs/framework/wcf/samples/custom-wsdl-publication.md)
-- [How to: Export Custom WSDL](../../../../docs/framework/wcf/extending/how-to-export-custom-wsdl.md)
-- [How to: Import Custom WSDL](../../../../docs/framework/wcf/extending/how-to-import-custom-wsdl.md)
+- [Custom WSDL Publication](../samples/custom-wsdl-publication.md)
+- [How to: Export Custom WSDL](../extending/how-to-export-custom-wsdl.md)
+- [How to: Import Custom WSDL](../extending/how-to-import-custom-wsdl.md)

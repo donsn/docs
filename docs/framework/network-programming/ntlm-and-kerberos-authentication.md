@@ -1,5 +1,6 @@
 ---
 title: "NTLM and Kerberos Authentication"
+description: Learn how default NTLM authentication and Kerberos authentication work for a .NET Framework application and learn about non-default NTLM authentication.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -21,6 +22,7 @@ helpviewer_keywords:
 ms.assetid: 9ef65560-f596-4469-bcce-f4d5407b55cd
 ---
 # NTLM and Kerberos Authentication
+
 Default NTLM authentication and Kerberos authentication use the Microsoft Windows NT user credentials associated with the calling application to attempt authentication with the server. When using non-default NTLM authentication, the application sets the authentication type to NTLM and uses a <xref:System.Net.NetworkCredential> object to pass the user name, password, and domain to the host, as shown in the following example.  
   
 ```vb  
@@ -33,7 +35,7 @@ WReq.Credentials = _
 ```csharp  
 String MyURI = "http://www.contoso.com/";  
 WebRequest WReq = WebRequest.Create (MyURI);  
-WReq.Credentials =   
+WReq.Credentials =
     new NetworkCredential(UserName, SecurelyStoredPassword, Domain);  
 ```  
   

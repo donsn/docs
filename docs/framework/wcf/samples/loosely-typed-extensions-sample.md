@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 56ce265b-8163-4b85-98e7-7692a12c4357
 ---
 # Loosely-Typed Extensions Sample
+
 The Syndication object model provides rich support for working with extension data—information that is present in a syndication feed's XML representation but not explicitly exposed by classes such as <xref:System.ServiceModel.Syndication.SyndicationFeed> and <xref:System.ServiceModel.Syndication.SyndicationItem>. This sample illustrates the basic techniques for working with extension data.  
   
  The sample uses the <xref:System.ServiceModel.Syndication.SyndicationFeed> class for the purposes of the example. However, the patterns demonstrated in this sample can be used with all of the Syndication classes that support extension data:  
@@ -19,6 +20,7 @@ The Syndication object model provides rich support for working with extension da
  <xref:System.ServiceModel.Syndication.SyndicationLink>  
   
 ## Sample XML  
+
  For reference, the following XML document is used in this sample.  
   
 ```xml  
@@ -59,10 +61,11 @@ w.w3.org/2001/XMLSchema" xmlns="">
 - `<xElementExtension>` element.  
   
 ## Writing Extension Data  
+
  Attribute extensions are created by adding entries to the <xref:System.ServiceModel.Syndication.SyndicationFeed.AttributeExtensions%2A> collection as shown in the following sample code.  
   
 ```csharp  
-//Attribute extensions are stored in a dictionary indexed by   
+//Attribute extensions are stored in a dictionary indexed by
 // XmlQualifiedName  
 feed.AttributeExtensions.Add(new XmlQualifiedName("myAttribute", ""), "someValue");  
 ```  
@@ -91,11 +94,12 @@ feed.ElementExtensions.Add( new XmlSerializerExtension { Key = "Y", Value = 8 },
 ```csharp  
 feed.ElementExtensions.Add(new XElement("xElementExtension",  
         new XElement("Key", new XAttribute("attr1", "someValue"), "Z"),  
-        new XElement("Value", new XAttribute("attr1", "someValue"),   
+        new XElement("Value", new XAttribute("attr1", "someValue"),
         "15")).CreateReader());  
 ```  
   
 ## Reading Extension Data  
+
  The values for attribute extensions can be obtained by looking up the attribute in the <xref:System.ServiceModel.Syndication.SyndicationFeed.AttributeExtensions%2A> collection by its <xref:System.Xml.XmlQualifiedName> as shown in the following sample code.  
   
 ```csharp  
@@ -134,22 +138,22 @@ foreach (SyndicationElementExtension extension in feed2.ElementExtensions.Where<
   
 #### To set up, build, and run the sample  
   
-1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/one-time-setup-procedure-for-the-wcf-samples.md).  
+1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](one-time-setup-procedure-for-the-wcf-samples.md).  
   
-2. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).  
+2. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).  
   
-3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/running-the-samples.md).  
+3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](running-the-samples.md).  
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Basic\Syndication\LooselyTypedExtensions`  
   
 ## See also
 
-- [Strongly-Typed Extensions](../../../../docs/framework/wcf/samples/strongly-typed-extensions-sample.md)
-- [WCF Syndication](../../../../docs/framework/wcf/feature-details/wcf-syndication.md)
+- [Strongly typed Extensions](strongly-typed-extensions-sample.md)
+- [WCF Syndication](../feature-details/wcf-syndication.md)

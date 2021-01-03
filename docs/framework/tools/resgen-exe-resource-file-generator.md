@@ -1,5 +1,6 @@
 ---
 title: "Resgen.exe (Resource File Generator)"
+description: Use Resgen.exe, the Resource File Generator. Convert text (.txt, .restext) and XML resource format (.resx) files to embeddable CLR runtime binaries (.resources).
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "resource files, .resources files"
@@ -17,6 +18,7 @@ helpviewer_keywords:
 ms.assetid: 8ef159de-b660-4bec-9213-c3fbc4d1c6f4
 ---
 # Resgen.exe (Resource File Generator)
+
 The Resource File Generator (Resgen.exe) converts text (.txt or .restext) files and XML-based resource format (.resx) files to common language runtime binary (.resources) files that can be embedded in a runtime binary executable or satellite assembly. (See [Creating Resource Files](../resources/creating-resource-files-for-desktop-apps.md).)  
   
  Resgen.exe is a general-purpose resource conversion utility that performs the following tasks:  
@@ -54,7 +56,7 @@ resgen /?
 ## Syntax  
   
 ```console  
-resgen  [-define:symbol1[,symbol2,...]] [/useSourcePath] filename.extension  | /compile filename.extension... [outputFilename.extension] [/r:assembly] [/str:lang[,namespace[,class[,file]]] [/publicclass]]   
+resgen  [-define:symbol1[,symbol2,...]] [/useSourcePath] filename.extension  | /compile filename.extension... [outputFilename.extension] [/r:assembly] [/str:lang[,namespace[,class[,file]]] [/publicclass]]
 ```  
   
 ```console  
@@ -76,9 +78,11 @@ resgen filename.extension [outputDirectory]
 |`/publicClass`|Creates a strongly typed resource class as a public class. By default, the resource class is `internal` in C# and `Friend` in Visual Basic.<br /><br /> This option is ignored if the `/str:` option is not used.|  
   
 ## Resgen.exe and Resource File Types  
+
  In order for Resgen.exe to successfully convert resources, text and .resx files must follow the correct format.  
   
 ### Text (.txt and .restext) Files  
+
  Text (.txt or .restext) files may contain only string resources. String resources are useful if you are writing an application that must have strings translated into several languages. For example, you can easily regionalize menu strings by using the appropriate string resource. Resgen.exe reads text files that contain name/value pairs, where the name is a string that describes the resource and the value is the resource string itself.  
   
 > [!NOTE]
@@ -89,6 +93,7 @@ resgen filename.extension [outputDirectory]
  Resgen.exe checks the text file for duplicate resource names. If the text file contains duplicate resource names, Resgen.exe will emit a warning and ignore the second value.  
   
 ### .resx Files  
+
  The .resx resource file format consists of XML entries. You can specify string resources within these XML entries, as you would in text files. A primary advantage of .resx files over text files is that you can also specify or embed objects. When you view a .resx file, you can see the binary form of an embedded object (for example, a picture) when this binary information is a part of the resource manifest. As with text files, you can open a .resx file with a text editor (such as Notepad or Microsoft Word) and write, parse, and manipulate its contents. Note that this requires a good knowledge of XML tags and the .resx file structure. For more details on the .resx file format, see the "Resources in .resx Files" section of [Creating Resource Files](../resources/creating-resource-files-for-desktop-apps.md).  
   
  In order to create a .resources file that contains embedded nonstring objects, you must either use Resgen.exe to convert a .resx file containing objects or add the object resources to your file directly from code by calling the methods provided by the <xref:System.Resources.ResourceWriter> class.  
@@ -96,6 +101,7 @@ resgen filename.extension [outputDirectory]
  If your .resx or .resources file contains objects and you use Resgen.exe to convert it to a text file, all the string resources will be converted correctly, but the data types of the nonstring objects will also be written to the file as strings. You will lose the embedded objects in the conversion, and Resgen.exe will report that an error occurred in retrieving the resources.  
   
 ### Converting Between Resources File Types  
+
  When you convert between different resource file types, Resgen.exe may not be able to perform the conversion or may lose information about specific resources, depending on the source and target file types. The following table specifies the types of conversions that are successful when converting from one resource file type to another.  
   
 |Convert from|To text file|To .resx file|To .resw file|To .resources file|  
@@ -106,6 +112,7 @@ resgen filename.extension [outputDirectory]
 |.exe or .dll assembly|Not supported|Not supported|Only string resources (including path names) are recognized as resources|Not supported|  
   
 ## Performing Specific Resgen.exe Tasks  
+
  You can use Resgen.exe in diverse ways: to compile a text-based or XML-based resource file into a binary file, to convert between resource file formats, and to generate a class that wraps <xref:System.Resources.ResourceManager> functionality and provides access to resources. This section provides detailed information about each task:  
   
 - [Compiling Resources into a Binary File](resgen-exe-resource-file-generator.md#Compiling)  
@@ -120,14 +127,16 @@ resgen filename.extension [outputDirectory]
   
 - [Generating a Strongly Typed Resource Class](resgen-exe-resource-file-generator.md#Strong)  
   
-<a name="Compiling"></a>   
+<a name="Compiling"></a>
+
 ### Compiling Resources into a Binary File  
+
  The most common use of Resgen.exe is to compile a text-based resource file (a .txt or .restext file) or an XML-based resource file (a .resx file) into a binary .resources file. The output file then can be embedded in a main assembly by a language compiler or in a satellite assembly by [Assembly Linker (AL.exe)](al-exe-assembly-linker.md).  
   
  The syntax to compile a resource file is:  
   
 ```console  
-resgen inputFilename [outputFilename]   
+resgen inputFilename [outputFilename]
 ```  
   
  where the parameters are:  
@@ -143,7 +152,7 @@ resgen inputFilename [outputFilename]
  The following command reads the name/value pairs in Resources.txt and writes a binary .resources file named Resources.resources. Because the output file name is not specified explicitly, it receives the same name as the input file by default.  
   
 ```console  
-resgen Resources.txt   
+resgen Resources.txt
 ```  
   
  The following command reads the name/value pairs in Resources.restext and writes a binary resources file named StringResources.resources.  
@@ -158,8 +167,10 @@ resgen Resources.restext StringResources.resources
 resgen Resources.resx Resources.resources  
 ```  
   
-<a name="Convert"></a>   
+<a name="Convert"></a>
+
 ### Converting Between Resource File Types  
+
  In addition to compiling text-based or XML-based resource files into binary .resources files, Resgen.exe can convert any supported file type to any other supported file type. This means that it can perform the following conversions:  
   
 - .txt and .restext files to .resx files.  
@@ -193,8 +204,10 @@ resgen Resources.resx Resources.txt
 resgen Resources.resx Resources.restext  
 ```  
   
-<a name="Multiple"></a>   
+<a name="Multiple"></a>
+
 ### Compiling or Converting Multiple Files  
+
  You can use the `/compile` switch to convert a list of resource files from one format to another in a single operation. The syntax is:  
   
 ```console  
@@ -207,8 +220,10 @@ resgen /compile filename.extension [filename.extension...]
 resgen /compile StringResources.txt TableResources.resx ImageResources.resx  
 ```  
   
-<a name="Exporting"></a>   
+<a name="Exporting"></a>
+
 ### Exporting Resources to a .resw File  
+
  If you're developing a Windows 8.x Store app, you may want to use resources from an existing desktop app. However, the two kinds of applications support different file formats. In desktop apps, resources in text (.txt or .restext) or .resx files are compiled into binary .resources files. In Windows 8.x Store apps, .resw files are compiled into binary package resource index (PRI) files. You can use Resgen.exe to bridge this gap by extracting resources from an executable or a satellite assembly and writing them to one or more .resw files that can be used when developing a Windows 8.x Store app.  
   
 > [!IMPORTANT]
@@ -234,8 +249,10 @@ resgen filename.extension  [outputDirectory]
 resgen MyApp.exe Win8Resources  
 ```  
   
-<a name="Conditional"></a>   
+<a name="Conditional"></a>
+
 ### Conditionally Compiling Resources  
+
  Starting with the .NET Framework 4.5, Resgen.exe supports conditional compilation of string resources in text (.txt and .restext) files. This enables you to use a single text-based resource file in multiple build configurations.  
   
  In a .txt or .restext file, you use the `#ifdef`…`#endif` construct to include a resource in the binary .resources file if a symbol is defined, and you use the `#if !`... `#endif` construct to include a resource if a symbol is not defined. At compile time, you then define symbols by using the `/define:` option followed by a comma-delimited list of symbols. The comparison is cased-sensitive; the case of symbols defined by `/define` must match the case of symbols in the text files to be compiled.  
@@ -244,7 +261,7 @@ resgen MyApp.exe Win8Resources
   
 ```text
 #ifdef PRODUCTION  
-AppTitle=My Software Company Project Manager   
+AppTitle=My Software Company Project Manager
 #endif  
 #ifdef CONSULT  
 AppTitle=My Consulting Company Project Manager  
@@ -263,8 +280,10 @@ resgen /define:CONSULT UIResources.restext
   
  This produces a .resources file that contains two string resources. The value of the `AppTitle` resource is "My Consulting Company Project Manager".  
   
-<a name="Strong"></a>   
+<a name="Strong"></a>
+
 ### Generating a Strongly Typed Resource Class  
+
  Resgen.exe supports strongly typed resources, which encapsulates access to resources by creating classes that contain a set of static read-only properties. This provides an alternative to calling the methods of the <xref:System.Resources.ResourceManager> class directly to retrieve resources. You can enable strongly typed resource support by using the `/str` option in Resgen.exe, which wraps the functionality of the <xref:System.Resources.Tools.StronglyTypedResourceBuilder> class. When you specify the `/str` option, the output of Resgen.exe is a class that contains strongly typed properties that match the resources that are referenced in the input parameter. This class provides strongly typed read-only access to the resources that are available in the file processed.  
   
  The syntax to create a strongly typed resource is:  
@@ -286,7 +305,7 @@ resgen inputFilename [outputFilename] /str:language[,namespace,[classname[,filen
  If `inputFilename` is a .resources file, Resgen.exe copies the .resources file if `outputFilename` is also a .resources file. If `outputFilename` is omitted, Resgen.exe overwrites `inputFilename` with an identical .resources file.  
   
  *language*  
- The language in which to generate source code for the strongly-typed resource class. Possible values are `cs`, `C#`, and `csharp` for C# code, `vb` and `visualbasic` for Visual Basic code, `vbs` and `vbscript` for VBScript code, and `c++`, `mc`, and `cpp` for C++ code.  
+ The language in which to generate source code for the strongly typed resource class. Possible values are `cs`, `C#`, and `csharp` for C# code, `vb` and `visualbasic` for Visual Basic code, `vbs` and `vbscript` for VBScript code, and `c++`, `mc`, and `cpp` for C++ code.  
   
  *namespace*  
  The namespace that contains the strongly typed resource class. The .resources file and the resource class should have the same namespace. For information about specifying the namespace in the `outputFilename`, see [Compiling Resources into a Binary File](resgen-exe-resource-file-generator.md#Compiling). If *namespace* is omitted, the resource class is not contained in a namespace.  
@@ -318,7 +337,7 @@ resgen inputFilename [outputFilename] /str:language[,namespace,[classname[,filen
  For example, the following command compiles a resource file named StringResources.txt into StringResources.resources and generates a class named `StringResources` in a Visual Basic source code file named StringResources.vb that can be used to access the Resource Manager.  
   
 ```console  
-resgen StringResources.txt /str:vb,,StringResources   
+resgen StringResources.txt /str:vb,,StringResources
 ```  
   
 ## See also

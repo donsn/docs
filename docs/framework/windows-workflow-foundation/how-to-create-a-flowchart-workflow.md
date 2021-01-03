@@ -1,5 +1,6 @@
 ---
 title: "How to: Create a Flowchart Workflow"
+description: This article describes creating a workflow that uses both built-in activities and the custom activities from the previous article.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -7,6 +8,7 @@ dev_langs:
 ms.assetid: 185d7aea-68a6-4bd8-adde-45050f33170a
 ---
 # How to: Create a Flowchart Workflow
+
 Workflows can be constructed from built-in activities as well as from custom activities. This topic steps through creating a workflow that uses both built-in activities such as the <xref:System.Activities.Statements.Flowchart> activity, and the custom activities from the previous [How to: Create an Activity](how-to-create-an-activity.md) topic. The workflow models a number guessing game.  
   
 > [!NOTE]

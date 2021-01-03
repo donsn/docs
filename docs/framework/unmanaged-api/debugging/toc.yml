@@ -1449,6 +1449,8 @@
     - name: IXCLRDataProcess Interface
       href: ixclrdataprocess-interface.md
       items:
+      - name: GetRuntimeNameByAddress
+        href: ixclrdataprocess-getruntimenamebyaddress-method.md
       - name: GetAppDomainByUniqueId
         href: ixclrdataprocess-getappdomainbyuniqueid-method.md
       - name: StartEnumModules
@@ -1608,6 +1610,11 @@
       href: cordebugexceptionobjectstackframe-structure.md
     - name: CorDebugGuidToTypeMapping Structure
       href: cordebugguidtotypemapping-structure.md
+    - name: DacpGetModuleAddress Structure
+      href: dacpgetmoduleaddress-structure.md
+      items:
+      - name: "DacpGetModuleAddress::Request Method"
+        href: dacpgetmoduleaddress-request-method.md
     - name: DacpMethodDescData Structure
       href: dacpmethoddescdata-structure.md
     - name: DacpModuleData Structure

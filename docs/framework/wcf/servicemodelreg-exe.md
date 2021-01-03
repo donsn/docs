@@ -1,9 +1,11 @@
 ---
 title: "ServiceModel Registration Tool (ServiceModelReg.exe)"
+description: Use this command-line tool to manage the registration of WCF and WF components on a single machine if you experience problems with service activation.
 ms.date: "03/30/2017"
 ms.assetid: 396ec5ae-e34f-4c64-a164-fcf50e86b6ac
 ---
 # ServiceModel Registration Tool (ServiceModelReg.exe)
+
 This command-line tool provides the ability to manage the registration of WCF and WF components on a single machine. Under normal circumstances you should not need to use this tool as WCF and WF components are configured when installed. But if you are experiencing problems with service activation, you can try to register the components using this tool.  
   
 ## Syntax  
@@ -13,6 +15,7 @@ ServiceModelReg.exe[(-ia|-ua|-r)|((-i|-u) -c:<command>)] [-v|-q] [-nologo] [-?]
 ```  
   
 ## Remarks  
+
  The tool can be found in the following location:  
   
  %SystemRoot%\Microsoft.Net\Framework\v3.0\Windows Communication Foundation\  
@@ -36,6 +39,7 @@ ServiceModelReg.exe[(-ia|-ua|-r)|((-i|-u) -c:<command>)] [-v|-q] [-nologo] [-?]
 |`-?`|Displays help text|  
   
 ## Fixing the FileLoadException Error  
+
  If you installed previous versions of WCF on your machine, you may get a `FileLoadFoundException` error when you run the ServiceModelReg tool to register a new installation. This can happen even if you have manually removed files from the previous install, but left the machine.config settings intact.  
   
  The error message is similar to the following.  
@@ -50,18 +54,19 @@ File name: 'System.ServiceModel, Version=2.0.0.0, Culture=neutral, PublicKeyToke
  ServiceModelReg.exe cannot clean up prior version entries, nor can it register the new version's entries. The only workaround is to manually edit machine.config. You can locate this file at the following location.  
   
 ```console  
-%windir%\Microsoft.NET\Framework\v2.0.50727\config\machine.config   
+%windir%\Microsoft.NET\Framework\v2.0.50727\config\machine.config
 ```  
   
  If you are running WCF on a 64-bit machine, you should also edit the same file at this location.  
   
 ```console  
-%windir%\Microsoft.NET\Framework64\v2.0.50727\config\machine.config   
+%windir%\Microsoft.NET\Framework64\v2.0.50727\config\machine.config
 ```  
   
  Locate any XML nodes in this file that refer to "System.ServiceModel, Version=2.0.0.0", delete them and any child nodes. Save the file and re-run ServiceModelReg.exe resolves this problem.  
   
 ## Examples  
+
  The following examples show how to use the most common options of the ServiceModelReg.exe tool.  
   
 ```console  

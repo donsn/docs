@@ -4,12 +4,15 @@ ms.date: "03/30/2017"
 ms.assetid: 67001ed1-7f4d-4ada-ae57-a31176901a53
 ---
 # Declarative Constraints
+
 Declarative constraints provide a powerful method of validation for an activity and its relationships with other activities. Constraints are configured for an activity during the authoring process, but additional constraints can also be specified by the workflow host. This topic provides an overview of using declarative constraints to provide activity validation.  
   
 ## Using Declarative Constraints  
+
  A constraint is an activity that contains validation logic. This constraint activity can be authored in code or in XAML. After a constraint activity is created, activity authors add this constraint to the <xref:System.Activities.Activity.Constraints%2A> property of the activity to validate, or they use the constraint to provide additional validation by using the <xref:System.Activities.Validation.ValidationSettings.AdditionalConstraints%2A> property of a <xref:System.Activities.Validation.ValidationSettings> instance. The validation logic can consist of simple validations such as validating an activity’s metadata, but it can also perform validation that takes into account the relationship of the current activity to its parent, children, and sibling activities. Constraints are authored by using the <xref:System.Activities.Validation.Constraint%601> activity, and several additional validation activities are provided to assist with the creation of validation errors and warnings and to provide information about related activities in the workflow.  
   
 ### AssertValidation and AddValidationError  
+
  The <xref:System.Activities.Validation.AssertValidation> activity evaluates the expression referenced by its <xref:System.Activities.Validation.AssertValidation.Assertion%2A> property, and if the expression evaluates to `false`, a validation error or warning is added to the <xref:System.Activities.Validation.ValidationResults>. The <xref:System.Activities.Validation.AssertValidation.Message%2A> property describes the validation error and the <xref:System.Activities.Validation.AssertValidation.IsWarning%2A> property indicates whether the validation failure is an error or a warning. The default value for <xref:System.Activities.Validation.AssertValidation.IsWarning%2A> is `false`.  
   
  In the following example, a constraint is declared that returns a validation warning if the <xref:System.Activities.Activity.DisplayName%2A> of the activity being validated is two characters or less in length. The generic type parameter used for <xref:System.Activities.Validation.Constraint%601> specifies the type of activity that is validated by the constraint. This constraint uses <xref:System.Activities.Activity> as the generic type and can be used to validate all types of activities.  
@@ -65,58 +68,58 @@ public sealed class CreateState : CodeActivity
     public CreateState()  
     {  
         base.Constraints.Add(CheckParent());  
-        this.Cities = new List<Activity>();              
+        this.Cities = new List<Activity>();
     }  
   
     public List<Activity> Cities { get; set; }  
   
-    public string Name { get; set; }    
+    public string Name { get; set; }
   
     static Constraint CheckParent()  
     {  
         DelegateInArgument<CreateState> element = new DelegateInArgument<CreateState>();  
-        DelegateInArgument<ValidationContext> context = new DelegateInArgument<ValidationContext>();                          
+        DelegateInArgument<ValidationContext> context = new DelegateInArgument<ValidationContext>();
         Variable<bool> result = new Variable<bool>();  
         DelegateInArgument<Activity> parent = new DelegateInArgument<Activity>();  
   
         return new Constraint<CreateState>  
-        {                                     
+        {
             Body = new ActivityAction<CreateState,ValidationContext>  
-            {                      
+            {
                 Argument1 = element,  
                 Argument2 = context,  
                 Handler = new Sequence  
                 {  
                     Variables =  
                     {  
-                        result   
+                        result
                     },  
                     Activities =  
                     {  
                         new ForEach<Activity>  
-                        {                                  
+                        {
                             Values = new GetParentChain  
                             {  
-                                ValidationContext = context                                      
+                                ValidationContext = context
                             },  
                             Body = new ActivityAction<Activity>  
-                            {     
-                                Argument = parent,   
+                            {
+                                Argument = parent,
                                 Handler = new If()  
-                                {                                            
-                                    Condition = new InArgument<bool>((env) => object.Equals(parent.Get(env).GetType(),typeof(CreateCountry))),                                          
+                                {
+                                    Condition = new InArgument<bool>((env) => object.Equals(parent.Get(env).GetType(),typeof(CreateCountry))),
                                     Then = new Assign<bool>  
                                     {  
                                         Value = true,  
                                         To = result  
                                     }  
                                 }  
-                            }                                  
+                            }
                         },  
                         new AssertValidation  
                         {  
                             Assertion = new InArgument<bool>(result),  
-                            Message = new InArgument<string> ("CreateState has to be inside a CreateCountry activity"),                                                                  
+                            Message = new InArgument<string> ("CreateState has to be inside a CreateCountry activity"),
                         }  
                     }  
                 }  
@@ -132,6 +135,7 @@ public sealed class CreateState : CodeActivity
 ```
   
 ## Additional Constraints  
+
  Workflow host authors can specify additional validation constraints for activities in a workflow by creating constraints and adding them to the <xref:System.Activities.Validation.ValidationSettings.AdditionalConstraints%2A> dictionary of a <xref:System.Activities.Validation.ValidationSettings> instance. Each item in <xref:System.Activities.Validation.ValidationSettings.AdditionalConstraints%2A> contains the type of activity for which the constraints apply and a list of the additional constraints for that type of activity. When validation is invoked for the workflow, each activity of the specified type, including derived classes, evaluates the constraints. In this example, the `ActivityDisplayNameIsNotSetWarning` constraint from the previous section is applied to all activities in a workflow.  
   
 ```csharp  
@@ -145,7 +149,7 @@ ValidationSettings settings = new ValidationSettings()
   
     AdditionalConstraints =  
     {  
-        {typeof(Activity), new List<Constraint> {ActivityDisplayNameIsNotSetWarning()}},       
+        {typeof(Activity), new List<Constraint> {ActivityDisplayNameIsNotSetWarning()}},
     }  
 };  
   

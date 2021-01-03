@@ -1,5 +1,6 @@
 ---
 title: "pInvokeLog MDA"
+description: Understand the pInvokeLog managed debugging assistant (MDA), which is activated for each unique platform invoke signature used during execution in .NET.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "signatures, platform invoke"
@@ -9,19 +10,21 @@ helpviewer_keywords:
   - "PInvokeLog MDA"
   - "managed debugging assistants (MDAs), platform invoke"
 ms.assetid: b830444a-5003-49fe-b89b-b8bee22f7b1a
-author: "mairaw"
-ms.author: "mairaw"
 ---
 # pInvokeLog MDA
+
 The `pInvokeLog` managed debugging assistant (MDA) is activated for each unique platform invoke signature used during execution.  
   
 ## Effect on the Runtime  
+
  This MDA has no effect on the CLR.  
   
 ## Output  
+
  A message indicating the platform invoke signature used during execution.  
   
 ## Configuration  
+
  Each match element filters the .dll files to which platform invoke calls are made.  
   
 ```xml  

@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: f64a3c04-62b4-47b2-91d9-747a3af1659f
 ---
 # Dispatch by Body Element
+
 This sample demonstrates how to implement an alternate algorithm for assigning incoming messages to operations.  
   
  By default, the service model dispatcher selects the appropriate handling method for an incoming message based on the message's WS-Addressing "Action" header or the equivalent information in the HTTP SOAP request.  
@@ -53,7 +54,7 @@ public string SelectOperation(ref System.ServiceModel.Channels.Message message)
  Accessing the message body with <xref:System.ServiceModel.Channels.Message.GetReaderAtBodyContents%2A> or any of the other methods that provide access to the message's body content causes the message to be marked as "read", which means that the message is invalid for any further processing. Therefore, the operation selector creates a copy of the incoming message with the method shown in the following code. Because the reader's position has not been changed during the inspection, it can be referenced by the newly created message to which the message properties and the message headers are also copied, which results in an exact clone of the original message:  
   
 ```csharp
-private Message CreateMessageCopy(Message message,   
+private Message CreateMessageCopy(Message message,
                                      XmlDictionaryReader body)  
 {  
     Message copy = Message.CreateMessage(message.Version,message.Headers.Action,body);  
@@ -64,6 +65,7 @@ private Message CreateMessageCopy(Message message,
 ```  
   
 ## Adding an Operation Selector to a Service  
+
  Service dispatch operation selectors are extensions to the Windows Communication Foundation (WCF) dispatcher. For selecting methods on the callback channel of duplex contracts, there are also client operation selectors, which work very much like the dispatch operation selectors described here, but which are not explicitly covered in this sample.  
   
  Like most service model extensions, dispatch operation selectors are added to the dispatcher using behaviors. A *behavior* is a configuration object, which either adds one or more extensions to the dispatch runtime (or to the client runtime) or otherwise changes its settings.  
@@ -76,7 +78,7 @@ private Message CreateMessageCopy(Message message,
 [AttributeUsage(AttributeTargets.Class|AttributeTargets.Interface)]  
 class DispatchByBodyElementBehaviorAttribute : Attribute, IContractBehavior  
 {  
-    // public void AddBindingParameters(...)   
+    // public void AddBindingParameters(...)
     // public void ApplyClientBehavior(...)  
     // public void Validate(...)  
 ```  
@@ -90,28 +92,29 @@ class DispatchByBodyElementBehaviorAttribute : Attribute, IContractBehavior
 ```csharp
 public void ApplyDispatchBehavior(ContractDescription contractDescription, ServiceEndpoint endpoint, System.ServiceModel.Dispatcher.DispatchRuntime dispatchRuntime)  
 {  
-    Dictionary<XmlQualifiedName,string> dispatchDictionary =   
+    Dictionary<XmlQualifiedName,string> dispatchDictionary =
                      new Dictionary<XmlQualifiedName,string>();  
-    foreach( OperationDescription operationDescription in   
+    foreach( OperationDescription operationDescription in
                               contractDescription.Operations )  
     {  
-        DispatchBodyElementAttribute dispatchBodyElement =   
+        DispatchBodyElementAttribute dispatchBodyElement =
    operationDescription.Behaviors.Find<DispatchBodyElementAttribute>();  
         if ( dispatchBodyElement != null )  
         {  
-             dispatchDictionary.Add(dispatchBodyElement.QName,   
+             dispatchDictionary.Add(dispatchBodyElement.QName,
                               operationDescription.Name);  
         }  
     }  
-    dispatchRuntime.OperationSelector =   
+    dispatchRuntime.OperationSelector =
             new DispatchByBodyElementOperationSelector(  
-               dispatchDictionary,   
+               dispatchDictionary,
                dispatchRuntime.UnhandledDispatchOperation.Name);  
     }  
 }  
 ```  
   
 ## Implementing the Service  
+
  The behavior implemented in this sample directly affects how messages from the wire are interpreted and dispatched, which is a function of the service contract. Consequently, the behavior should be declared on the service contract level in any service implementation that chooses to use it.  
   
  The sample project service applies the `DispatchByBodyElementBehaviorAttribute` contract behavior to the `IDispatchedByBody` service contract and labels each of the two operations `OperationForBodyA()` and `OperationForBodyB()` with a `DispatchBodyElementAttribute` operation behavior. When a service host for a service that implements this contract is opened, this metadata is picked up by the dispatcher builder as previously described.  
@@ -123,10 +126,10 @@ public void ApplyDispatchBehavior(ContractDescription contractDescription, Servi
                             DispatchByBodyElementBehavior]  
 public interface IDispatchedByBody  
 {  
-    [OperationContract(ReplyAction="*"),   
+    [OperationContract(ReplyAction="*"),
      DispatchBodyElement("bodyA","http://tempuri.org")]  
     Message OperationForBodyA(Message msg);  
-    [OperationContract(ReplyAction = "*"),   
+    [OperationContract(ReplyAction = "*"),
      DispatchBodyElement("bodyB", "http://tempuri.org")]  
     Message OperationForBodyB(Message msg);  
     [OperationContract(Action="*", ReplyAction="*")]  
@@ -137,6 +140,7 @@ public interface IDispatchedByBody
  The sample service implementation is straightforward. Every method wraps the received message into a reply message and echoes it back to the client.  
   
 ## Running and Building the Sample  
+
  When you run the sample, the body content of the operation responses are displayed in the client console window similar to the following (formatted) output.  
   
  The client sends three messages to the service whose body content element is named `bodyA`, `bodyB`, and `bodyX`, respectively. As can be deferred from the previous description and the service contract shown, the incoming message with the `bodyA` element is dispatched to the `OperationForBodyA()` method. Because there is no explicit dispatch target for the message with the `bodyX` body element, the message is dispatched to the `DefaultOperation()`. Each of the service operations wraps the received message body into an element specific to the method and returns it, which is done to correlate input and output messages clearly for this sample:  
@@ -158,17 +162,17 @@ public interface IDispatchedByBody
   
 #### To set up, build, and run the sample  
   
-1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/one-time-setup-procedure-for-the-wcf-samples.md).  
+1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](one-time-setup-procedure-for-the-wcf-samples.md).  
   
-2. To build the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).  
+2. To build the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).  
   
-3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/running-the-samples.md).  
+3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](running-the-samples.md).  
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Extensibility\Interop\AdvancedDispatchByBody`  

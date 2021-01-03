@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 51b25c86-292c-43e4-8d13-273d2badc8ad
 ---
 # How to: Configure Workflow Unhandled Exception Behavior with WorkflowServiceHost
+
 The <xref:System.ServiceModel.Activities.Description.WorkflowUnhandledExceptionBehavior> is a behavior that enables you to specify the action to take if an unhandled exception occurs within a workflow hosted in <xref:System.ServiceModel.Activities.WorkflowServiceHost>. This topic shows how to configure this behavior in a configuration file.  
   
 ### To configure WorkflowUnhandledExceptionBehavior  
@@ -14,14 +15,14 @@ The <xref:System.ServiceModel.Activities.Description.WorkflowUnhandledExceptionB
     <behaviors>  
       <serviceBehaviors>  
         <behavior name="">  
-          <workflowUnhandledException action="abandonAndSuspend"/>   
+          <workflowUnhandledException action="abandonAndSuspend"/>
         </behavior>  
       </serviceBehaviors>  
     </behaviors>  
     ```  
   
     > [!NOTE]
-    > The preceding configuration sample is using simplified configuration. For more information, see [Simplified Configuration](../../../../docs/framework/wcf/simplified-configuration.md).  
+    > The preceding configuration sample is using simplified configuration. For more information, see [Simplified Configuration](../simplified-configuration.md).  
   
      This behavior can be configured in code as shown in the following example.  
   
@@ -43,9 +44,9 @@ The <xref:System.ServiceModel.Activities.Description.WorkflowUnhandledExceptionB
      **terminate**  
      Completes the instance in memory and removes it from the instance store.  
   
-     For more information about <xref:System.ServiceModel.Activities.Description.WorkflowUnhandledExceptionBehavior>, see [Workflow Service Host Extensibility](../../../../docs/framework/wcf/feature-details/workflow-service-host-extensibility.md).  
+     For more information about <xref:System.ServiceModel.Activities.Description.WorkflowUnhandledExceptionBehavior>, see [Workflow Service Host Extensibility](workflow-service-host-extensibility.md).  
   
 ## See also
 
-- [Workflow Service Host Extensibility](../../../../docs/framework/wcf/feature-details/workflow-service-host-extensibility.md)
-- [Workflow Services](../../../../docs/framework/wcf/feature-details/workflow-services.md)
+- [Workflow Service Host Extensibility](workflow-service-host-extensibility.md)
+- [Workflow Services](workflow-services.md)

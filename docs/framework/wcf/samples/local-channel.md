@@ -4,12 +4,15 @@ ms.date: "03/30/2017"
 ms.assetid: fa1917a4-f701-4e82-a439-14a16282c7cc
 ---
 # Local Channel
+
 Local Channel is a Windows Communication Foundation (WCF) transport channel that is used for communication within the same application domain. This is useful for scenarios where the client and the service are running in the same application domain and the overhead of the typical WCF channel stack (serialization and deserialization of messages) must be avoided.  
   
 ## Demonstrates  
+
  Local Channel  
   
 ## Discussion  
+
  The sample consists of two project files:  
   
 - **LocalChannel**: The programmatic representation of the local channel within the current application domain. In this project, the sending component places the message in an in-memory queue and the receiving component de-queues the message to receive it.  
@@ -26,9 +29,9 @@ Local Channel is a Windows Communication Foundation (WCF) transport channel that
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Extensibility\Channels\LocalChannel`

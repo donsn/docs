@@ -4,9 +4,11 @@ ms.date: "03/30/2017"
 ms.assetid: f9714a64-d0ae-4a98-bca0-5d370fdbd631
 ---
 # Middle-Tier Client Applications
+
 This topic discusses various issues specific to middle-tier client applications that use Windows Communication Foundation (WCF).  
   
 ## Increasing Middle-Tier Client Performance  
+
  Compared to previous communications technologies, such as Web services using ASP.NET, the creation of a WCF client instance can be more complex due to the rich feature set of WCF. For example, when a <xref:System.ServiceModel.ChannelFactory%601> object is opened it can establish a secure session with the service, a procedure that increases the startup time for the client instance. Typically, these additional feature capabilities do not affect client applications greatly since the WCF client makes several calls, and then closes.  
   
  Middle-tier client applications, however, can create many WCF client objects quickly and, as a result, experience increased initialization requirements. There are two main approaches to increasing the performance of middle-tier applications when calling services:  
@@ -25,10 +27,10 @@ This topic discusses various issues specific to middle-tier client applications 
   
 - You must handle faulted channels regardless of whether you share the channel. When channels are reused, however, a faulting channel can take down more than one pending request or send.  
   
- For an example that demonstrates best practices for reusing a client for multiple requests, see [Data Binding in an ASP.NET Client](../../../../docs/framework/wcf/samples/data-binding-in-an-aspnet-client.md).  
+ For an example that demonstrates best practices for reusing a client for multiple requests, see [Data Binding in an ASP.NET Client](../samples/data-binding-in-an-aspnet-client.md).  
   
- In addition, you can increase the startup performance for those clients that use data types that are serializable using the <xref:System.Xml.Serialization.XmlSerializer> generate and compile serialization code for those data types at runtime, which can result in slow start-up performance. The [ServiceModel Metadata Utility Tool (Svcutil.exe)](../../../../docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) can improve start-up performance for these applications by generating the necessary serialization code from the compiled assemblies for the application. For more information, see [How to: Improve the Startup Time of WCF Client Applications using the XmlSerializer](../../../../docs/framework/wcf/feature-details/startup-time-of-wcf-client-applications-using-the-xmlserializer.md).  
+ In addition, you can increase the startup performance for those clients that use data types that are serializable using the <xref:System.Xml.Serialization.XmlSerializer> generate and compile serialization code for those data types at runtime, which can result in slow start-up performance. The [ServiceModel Metadata Utility Tool (Svcutil.exe)](../servicemodel-metadata-utility-tool-svcutil-exe.md) can improve start-up performance for these applications by generating the necessary serialization code from the compiled assemblies for the application. For more information, see [How to: Improve the Startup Time of WCF Client Applications using the XmlSerializer](startup-time-of-wcf-client-applications-using-the-xmlserializer.md).  
   
 ## See also
 
-- [Accessing Services Using a WCF Client](../../../../docs/framework/wcf/feature-details/accessing-services-using-a-client.md)
+- [Accessing Services Using a WCF Client](accessing-services-using-a-client.md)

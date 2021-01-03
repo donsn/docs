@@ -4,9 +4,11 @@ ms.date: "03/30/2017"
 ms.assetid: 11f38339-79c7-4295-b610-24a7223bbf6d
 ---
 # Pausing and Resuming a Workflow
+
 Workflows will pause and resume in response to bookmarks and blocking activities such as <xref:System.Activities.Statements.Delay>, but a workflow can also be explicitly paused, unloaded, and resumed by using persistence.  
   
 ## Pausing a Workflow  
+
  To pause a workflow, use <xref:System.Activities.WorkflowApplication.Unload%2A>.  This method requests that the workflow persist and unload, and will throw a <xref:System.TimeoutException> if the workflow does not unload in 30 seconds.  
   
 ```csharp  
@@ -22,6 +24,7 @@ catch (TimeoutException e)
 ```  
   
 ## Resuming a Workflow  
+
  To resume a previously paused and unloaded workflow, use <xref:System.Activities.WorkflowApplication.Load%2A>. This method loads a workflow from a persistence store into memory.  
   
 ```csharp  
@@ -31,23 +34,24 @@ application.Load(id);
 ```  
   
 ## Example  
+
  The following code sample demonstrates how to pause and resume a workflow by using persistence.  
   
 ```csharp  
 static string bkName = "bkName";  
-static void Main(string[] args)   
+static void Main(string[] args)
 {  
     StartAndUnloadInstance();  
 }  
   
-static void StartAndUnloadInstance()   
+static void StartAndUnloadInstance()
 {  
     AutoResetEvent waitHandler = new AutoResetEvent(false);  
     WorkflowApplication wfApp = new WorkflowApplication(GetDelayedWF());  
     SqlWorkflowInstanceStore instanceStore = SetupSqlpersistenceStore();  
     wfApp.InstanceStore = instanceStore;  
     wfApp.Extensions.Add(SetupMyFileTrackingParticipant);  
-    wfApp.PersistableIdle = (e) => {          ///persists application state and remove it from memory   
+    wfApp.PersistableIdle = (e) => {          ///persists application state and remove it from memory
     return PersistableIdleAction.Unload;  
     };  
     wfApp.Unloaded = (e) => {  
@@ -59,8 +63,8 @@ static void StartAndUnloadInstance()
     LoadAndCompleteInstance(id);  
 }  
   
-static void LoadAndCompleteInstance(Guid id)   
-{            
+static void LoadAndCompleteInstance(Guid id)
+{
     Console.WriteLine("Press <enter> to load the persisted workflow");  
     Console.ReadLine();  
     AutoResetEvent waitHandler = new AutoResetEvent(false);  
@@ -80,7 +84,7 @@ static void LoadAndCompleteInstance(Guid id)
     waitHandler.WaitOne();  
 }  
   
-public static Activity GetDelayedWF()   
+public static Activity GetDelayedWF()
 {  
     return new Sequence {  
         Activities ={  
@@ -91,8 +95,8 @@ public static Activity GetDelayedWF()
     };  
 }  
   
-private static SqlWorkflowInstanceStore SetupSqlpersistenceStore()   
-{   
+private static SqlWorkflowInstanceStore SetupSqlpersistenceStore()
+{
      string connectionString = ConfigurationManager.AppSettings["SqlWF4PersistenceConnectionString"].ToString();  
     SqlWorkflowInstanceStore sqlWFInstanceStore = new SqlWorkflowInstanceStore(connectionString);  
     sqlWFInstanceStore.InstanceCompletionAction = InstanceCompletionAction.DeleteAll;  

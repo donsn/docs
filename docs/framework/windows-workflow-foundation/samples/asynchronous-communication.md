@@ -4,12 +4,15 @@ ms.date: "03/30/2017"
 ms.assetid: 128dc092-9eb2-4e33-9470-9a7f62b60df6
 ---
 # Asynchronous Communication
+
 This sample demonstrates how the communication between two different Windows Workflow Foundation (WF) services is done asynchronously by default.  
   
 ## Demonstrates  
+
  Asynchronous communication between [!INCLUDE[wf1](../../../../includes/wf1-md.md)] services.  
   
 ## Discussion  
+
  This sample shows how the communication between [!INCLUDE[wf1](../../../../includes/wf1-md.md)] applications is done asynchronously by using the messaging activities provided by .NET Framework.  
   
  This sample consists of the following three projects.  
@@ -35,9 +38,9 @@ This sample demonstrates how the communication between two different Windows Wor
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WF\Scenario\Services\AsynchronousCommunication`

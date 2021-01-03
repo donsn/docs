@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 95d0aed3-16a2-4398-89bb-39418eeb7355
 ---
 # How to: Use Svcutil.exe to Export Metadata from Compiled Service Code
+
 Svcutil.exe can export metadata for services, contracts, and data types in compiled assemblies, as follows:  
   
 - To export metadata for all compiled service contracts for a set of assemblies using Svcutil.exe, specify the assemblies as input parameters. This is the default behavior.  
@@ -70,6 +71,7 @@ Svcutil.exe can export metadata for services, contracts, and data types in compi
     ```  
   
 ## Example  
+
  The following example demonstrates how to generate metadata for a simple service implementation and configuration.  
   
  To export metadata for the service contract.  
@@ -162,5 +164,5 @@ public class MyService : IPersonFinder
   
 ## See also
 
-- [ServiceModel Metadata Utility Tool (Svcutil.exe)](../../../../docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md)
-- [Exporting and Importing Metadata](../../../../docs/framework/wcf/feature-details/exporting-and-importing-metadata.md)
+- [ServiceModel Metadata Utility Tool (Svcutil.exe)](../servicemodel-metadata-utility-tool-svcutil-exe.md)
+- [Exporting and Importing Metadata](exporting-and-importing-metadata.md)

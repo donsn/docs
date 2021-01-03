@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: b13a3508-1b97-4359-b336-03d85fa23bc4
 ---
 # How to: Deserialize Instance Data Properties
+
 There may be situations when a user or workflow administrator may want to manually inspect the state of a persisted workflow instance. <xref:System.Activities.DurableInstancing.SqlWorkflowInstanceStore> provides a view on the Instances table that exposes the following four columns:  
   
 - ReadWritePrimitiveDataProperties  
@@ -98,7 +99,7 @@ namespace PropertyReader
                     // if the instance state is compressed using GZip algorithm  
                     if (isCompressed)  
                     {  
-                        // decompress the data using the GZip   
+                        // decompress the data using the GZip
                         using (GZipStream stream = new GZipStream(memoryStream, CompressionMode.Decompress))  
                         {  
                             // create an XmlReader object and pass it on to the helper method ReadPrimitiveDataProperties  
@@ -111,7 +112,7 @@ namespace PropertyReader
                     }  
                     else  
                     {  
-                        // if the instance data is not compressed   
+                        // if the instance data is not compressed
                         // create an XmlReader object and pass it on to the helper method ReadPrimitiveDataProperties  
                         using (XmlReader reader = XmlDictionaryReader.CreateBinaryReader(memoryStream, XmlDictionaryReaderQuotas.Max))  
                         {  

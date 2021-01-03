@@ -4,12 +4,15 @@ ms.date: "03/30/2017"
 ms.assetid: 3fcb4225-addc-44f2-935d-30e4943a8812
 ---
 # Standard Endpoints
+
 Endpoints are defined by specifying an address, a binding, and a contract. Other parameters that may be set on an endpoint include behavior configuration, headers, and listen URIs.  For certain types of endpoints these values do not change. For example, metadata exchange endpoints always use the <xref:System.ServiceModel.Description.IMetadataExchange> contract. Other endpoints, such as <xref:System.ServiceModel.Description.WebHttpEndpoint> always require a specified endpoint behavior. The usability of an endpoint can be improved by having endpoints with default values for commonly used endpoint properties. Standard endpoints enable a developer to define an endpoint that has default values or where one or more endpoint’s properties does not change.  These endpoints allow you to use such an endpoint without having to specify information of a static nature. Standard endpoints can be used for infrastructure and application endpoints.  
   
 ## Infrastructure Endpoints  
+
  A service may expose endpoints with some of the properties not explicitly implemented by the service author. For example, the metadata exchange endpoint exposes the <xref:System.ServiceModel.Description.IMetadataExchange> contract but as a service author you do not implement that interface, it is implemented by WCF. Such infrastructure endpoints have default values for one or more endpoint properties, some of which may be unalterable. The <xref:System.ServiceModel.Description.ServiceEndpoint.Contract%2A> property of the metadata exchange endpoint must be <xref:System.ServiceModel.Description.IMetadataExchange>, while other properties like binding can be supplied by the developer. Infrastructure endpoints are identified by setting the <xref:System.ServiceModel.Description.ServiceEndpoint.IsSystemEndpoint%2A> property to `true`.  
   
 ## Application Endpoints  
+
  Application developers can define their own standard endpoints which specify default values for the address, binding, or contract. You define a standard endpoint by deriving a class from <xref:System.ServiceModel.Description.ServiceEndpoint> and setting the appropriate endpoint properties. You can provide default values for properties that can be changed. Some other properties will have static values that cannot change. The following example shows how to implement a standard endpoint.  
   
 ```csharp
@@ -18,11 +21,11 @@ public class CustomEndpoint : ServiceEndpoint
     public CustomEndpoint()
         : this(string.Empty)
     { }  
-    
+
     public CustomEndpoint(string address)
         : this(address, ContractDescription.GetContract(typeof(ICalculator)))
     { }  
-    
+
     // Create the custom endpoint with a fixed binding
     public CustomEndpoint(string address, ContractDescription contract)
         : base(contract)
@@ -30,7 +33,7 @@ public class CustomEndpoint : ServiceEndpoint
         this.Binding = new BasicHttpBinding();
         this.IsSystemEndpoint = false;
     }
-    
+
     // Definition of the additional property of this endpoint
     public bool Property { get; set; }
 }
@@ -115,9 +118,12 @@ The following example shows how to register a standard endpoint in the extension
           name="customStandardEndpoint"  
           type="CustomEndpointCollectionElement, Example.dll,  
                 Version=1.0.0.0, Culture=neutral, PublicKeyToken=ffffffffffffffff"/>  
+      </standardEndpointExtensions>
+</extensions>  
 ```  
   
 ## Configuring a Standard Endpoint  
+
  Standard endpoints can be added in code or in configuration.  To add a standard endpoint in code simply instantiate the appropriate standard endpoint type and add it to the service host as shown in the following example:  
   
 ```csharp  
@@ -132,7 +138,7 @@ serviceHost.AddServiceEndpoint(new CustomEndpoint());
     <endpoint isSystemEndpoint="true" kind="udpDiscoveryEndpoint" />  
   </service>  
 </services>  
-<standardEndpoints>    
+<standardEndpoints>
   <udpDiscoveryEndpoint>  
      <standardEndpoint multicastAddress="soap.udp://239.255.255.250:3702" />
   </udpDiscoveryEndpoint>
@@ -142,6 +148,7 @@ serviceHost.AddServiceEndpoint(new CustomEndpoint());
  The type of standard endpoint is specified using the kind attribute in the <`endpoint`> element. The endpoint is configured within the <`standardEndpoints`> element. In the example above, a <xref:System.ServiceModel.Discovery.UdpDiscoveryEndpoint> endpoint is added and configured. The <`udpDiscoveryEndpoint`> element contains a <`standardEndpoint`> that sets the <xref:System.ServiceModel.Discovery.UdpDiscoveryEndpoint.MulticastAddress%2A> property of the <xref:System.ServiceModel.Discovery.UdpDiscoveryEndpoint>.  
   
 ## Standard Endpoints Shipped with the .NET Framework  
+
  The following table lists the standard endpoints shipped with [!INCLUDE[netfx_current_long](../../../../includes/netfx-current-long-md.md)].  
   
  `Mex Endpoint`  

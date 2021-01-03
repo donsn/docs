@@ -1,15 +1,19 @@
 ---
 title: "Large Data and Streaming"
+description: Learn about considerations for WCF XML-based communication, encoders, and streaming data, including the transfer of binary data.
 ms.date: "03/30/2017"
 ms.assetid: ab2851f5-966b-4549-80ab-c94c5c0502d2
 ---
 # Large Data and Streaming
-Windows Communication Foundation (WCF) is an XML-based communications infrastructure. Because XML data is commonly encoded in the standard text format defined in the [XML 1.0 specification](https://go.microsoft.com/fwlink/?LinkId=94838), connected systems developers and architects are typically concerned about the wire footprint (or size) of messages sent across the network, and the text-based encoding of XML poses special challenges for the efficient transfer of binary data.  
+
+Windows Communication Foundation (WCF) is an XML-based communications infrastructure. Because XML data is commonly encoded in the standard text format defined in the [XML 1.0 specification](https://www.w3.org/TR/REC-xml/), connected systems developers and architects are typically concerned about the wire footprint (or size) of messages sent across the network, and the text-based encoding of XML poses special challenges for the efficient transfer of binary data.  
   
 ## Basic Considerations  
+
  To provide background information about the following information for WCF, this section highlights some general concerns and considerations for encodings, binary data, and streaming that generally apply to connected systems infrastructures.  
   
 ### Encoding Data: Text vs. Binary  
+
  Commonly expressed developer concerns include the perception that XML has significant overhead when compared to binary formats due to the repetitive nature of start tags and end tags, that the encoding of numerical values is considered to be significantly larger because they are expressed in text values, and that binary data cannot be expressed efficiently because it must be specially encoded for embedding into a text format.  
   
  While many of these and similar concerns are valid, the actual difference between XML-text encoded messages in an XML Web services environment and binary-encoded messages in a legacy remote procedure call (RPC) environment is often much less significant than the initial consideration might suggest.  
@@ -25,6 +29,7 @@ Windows Communication Foundation (WCF) is an XML-based communications infrastruc
  A clear advantage of XML-text messages is that they are standards-based and offer the broadest choice of interoperability options and platform support. For more information, see the "Encodings" section later in this topic.  
   
 ### Binary Content  
+
  One area where binary encodings are superior to text-based encodings in terms of the resulting message size are large binary data items such as pictures, videos, sound clips, or any other form of opaque, binary data that must be exchanged between services and their consumers. To fit these types of data into XML text, the common approach is to encode them using the Base64 encoding.  
   
  In a Base64-encoded string, each character represents 6-bits of the original 8-bit data, which results in a 4:3 encoding-overhead ratio for Base64, not counting extra formatting characters (carriage return/line feed) that are commonly added by convention. While the significance of the differences between XML and binary encodings typically depends on the scenario, a size gain of more than 33% when transmitting a 500-MB payload is usually not acceptable.  
@@ -36,6 +41,7 @@ Windows Communication Foundation (WCF) is an XML-based communications infrastruc
  Still, as with Base64, MTOM also comes with some necessary overhead for the MIME format, so that advantages of using MTOM are only seen when the size of a binary data element exceeds about 1 KB. Due to the overhead, MTOM-encoded messages might be larger than messages that use Base64 encoding for binary data, if the binary payload remains under that threshold. For more information, see the "Encodings" section later in this topic.  
   
 ### Large Data Content  
+
  Wire-footprint aside, the previously mentioned 500-MB payload also poses a great local challenge at for the service and the client. By default, WCF processes messages in *buffered mode*. This means that the entire content of a message is present in memory before it is sent or after it is received. While that is a good strategy for most scenarios, and necessary for messaging features such as digital signatures and reliable delivery, large messages could exhaust a system's resources.  
   
  The strategy to deal with large payloads is streaming. While messages, especially those expressed in XML, are commonly thought of as being relatively compact data packages, a message might be multiple gigabytes in size and resemble a continuous data stream more than a data package. When data is transferred in streaming mode instead of buffered mode, the sender makes the contents of the message body available to the recipient in the form of a stream and the message infrastructure continuously forwards the data from sender to receiver as it becomes available.  
@@ -50,9 +56,10 @@ Windows Communication Foundation (WCF) is an XML-based communications infrastruc
   
  For data that does not have these constraints, it is typically better to send sequences of messages within the scope of a session than one large message. For more information, see the "Streaming Data" section later in this topic.  
   
- When sending large amounts of data you will need to set the `maxAllowedContentLength` IIS setting (for more information see [Configuring IIS Request Limits](https://go.microsoft.com/fwlink/?LinkId=253165)) and the `maxReceivedMessageSize` binding setting (for example [System.ServiceModel.BasicHttpBinding.MaxReceivedMessageSize](xref:System.ServiceModel.HttpBindingBase.MaxReceivedMessageSize%2A) or <xref:System.ServiceModel.NetTcpBinding.MaxReceivedMessageSize%2A>). The `maxAllowedContentLength` property defaults to 28.6 M and the `maxReceivedMessageSize` property defaults to 64KB.  
+ When sending large amounts of data you will need to set the `maxAllowedContentLength` IIS setting (for more information see [Configuring IIS Request Limits](/iis/configuration/system.webServer/security/requestFiltering/requestLimits/)) and the `maxReceivedMessageSize` binding setting (for example [System.ServiceModel.BasicHttpBinding.MaxReceivedMessageSize](xref:System.ServiceModel.HttpBindingBase.MaxReceivedMessageSize%2A) or <xref:System.ServiceModel.NetTcpBinding.MaxReceivedMessageSize%2A>). The `maxAllowedContentLength` property defaults to 28.6 MB and the `maxReceivedMessageSize` property defaults to 64KB.  
   
 ## Encodings  
+
  An *encoding* defines a set of rules about how to present messages on the wire. An *encoder* implements such an encoding and is responsible, on the sender side, for turning an in-memory <xref:System.ServiceModel.Channels.Message> into a byte stream or byte buffer that can be sent across the network. On the receiver side, the encoder turns a sequence of bytes into an in-memory message.  
   
  WCF includes three encoders and allows you to write and plug in your own encoders, if necessary.  
@@ -70,7 +77,8 @@ Windows Communication Foundation (WCF) is an XML-based communications infrastruc
  If your solution does not require interoperability, but you still want to use HTTP transport, you can compose the <xref:System.ServiceModel.Channels.BinaryMessageEncodingBindingElement> into a custom binding that uses the <xref:System.ServiceModel.Channels.HttpTransportBindingElement> class for the transport. If a number of clients on your service require interoperability, it is recommended that you expose parallel endpoints that each has the appropriate transport and encoding choices for the respective clients enabled.  
   
 ### Enabling MTOM  
- When interoperability is a requirement and large binary data must be sent, then MTOM message encoding is the alternative encoding strategy that you can enable on the standard <xref:System.ServiceModel.BasicHttpBinding> or <xref:System.ServiceModel.WSHttpBinding> bindings by setting the respective `MessageEncoding` property to <xref:System.ServiceModel.WSMessageEncoding.Mtom> or by composing the <xref:System.ServiceModel.Channels.MtomMessageEncodingBindingElement> into a <xref:System.ServiceModel.Channels.CustomBinding>. The following example code, extracted from the [MTOM Encoding](../../../../docs/framework/wcf/samples/mtom-encoding.md) sample demonstrates how to enable MTOM in configuration.  
+
+ When interoperability is a requirement and large binary data must be sent, then MTOM message encoding is the alternative encoding strategy that you can enable on the standard <xref:System.ServiceModel.BasicHttpBinding> or <xref:System.ServiceModel.WSHttpBinding> bindings by setting the respective `MessageEncoding` property to <xref:System.ServiceModel.WSMessageEncoding.Mtom> or by composing the <xref:System.ServiceModel.Channels.MtomMessageEncodingBindingElement> into a <xref:System.ServiceModel.Channels.CustomBinding>. The following example code, extracted from the [MTOM Encoding](../samples/mtom-encoding.md) sample demonstrates how to enable MTOM in configuration.  
   
 ```xml  
 <system.serviceModel>  
@@ -81,7 +89,7 @@ Windows Communication Foundation (WCF) is an XML-based communications infrastruc
       </wsHttpBinding>  
     </bindings>  
      …  
-<system.serviceModel>  
+</system.serviceModel>  
 ```  
   
  As mentioned earlier, the decision to use MTOM encoding depends on the data volume you are sending. Also, because MTOM is enabled at the binding level, enabling MTOM affects all operations on a given endpoint.  
@@ -91,6 +99,7 @@ Windows Communication Foundation (WCF) is an XML-based communications infrastruc
  Using the MTOM encoder conforms with all other WCF features. Note that it may not be possible to observe this rule in all cases, such as when session support is required.  
   
 ### Programming Model  
+
  Regardless of which of the three built-in encoders you use in your application, the programming experience is identical with regards to transferring binary data. The difference is in how WCF handles the data based on their data types.  
   
 ```csharp
@@ -101,7 +110,7 @@ class MyData
     byte[] binaryBuffer;  
     [DataMember]  
     string someStringData;  
-}   
+}
 ```  
   
  When using MTOM, the preceding data contract is serialized according to the following rules:  
@@ -116,11 +125,13 @@ class MyData
 > You should not be using <xref:System.IO.Stream?displayProperty=nameWithType> derived types inside of data contracts. Stream data should be communicated using the streaming model, explained in the following "Streaming Data" section.  
   
 ## Streaming Data  
+
  When you have a large amount of data to transfer, the streaming transfer mode in WCF is a feasible alternative to the default behavior of buffering and processing messages in memory in their entirety.  
   
  As mentioned earlier, enable streaming only for large messages (with text or binary content) if the data cannot be segmented, if the message must be delivered in a timely fashion, or if the data is not yet fully available when the transfer is initiated.  
   
 ### Restrictions  
+
  You cannot use a significant number of WCF features when streaming is enabled:  
   
 - Digital signatures for the message body cannot be performed because they require computing a hash over the entire message contents. With streaming, the content is not fully available when the message headers are constructed and sent and, therefore, a digital signature cannot be computed.  
@@ -146,12 +157,14 @@ class MyData
  Streaming is also not available when using the Peer Channel transport, so is not available with the <xref:System.ServiceModel.NetPeerTcpBinding>.  
   
 #### Streaming and Sessions  
+
  You may get unexpected behavior when streaming calls with a session-based binding. All streaming calls are made through a single channel (the datagram channel) that does not support sessions even if the binding being used is configured to use sessions. If multiple clients make streaming calls to the same service object over a session-based binding and the service object's concurrency mode is set to single and its instance context mode is set to PerSession, all calls must go through the datagram channel and so only one call is processed at a time. One or more clients may then time out. You can work around this issue by either setting the service object's Instance Context Mode to PerCall or Concurrency to Multiple.  
   
 > [!NOTE]
 > MaxConcurrentSessions has no effect in this case because there is only one "session" available.  
   
 ### Enabling Streaming  
+
  You can enable streaming in the following ways:  
   
 - Send and accept requests in streaming mode, and accept and return responses in buffered mode (<xref:System.ServiceModel.TransferMode.StreamedRequest>).  
@@ -171,7 +184,7 @@ class MyData
       </basicHttpBinding>  
     </bindings>  
      …  
-<system.serviceModel>  
+</system.serviceModel>  
 ```  
   
  When you instantiate your binding in code, you must set the respective `TransferMode` property of the binding (or the transport binding element if you are composing a custom binding) to one of the previously mentioned values.  
@@ -179,9 +192,11 @@ class MyData
  You can turn on streaming for requests and replies or for both directions independently at either side of the communicating parties without affecting functionality. However, you should always assume that the transferred data size is so significant that enabling streaming is justified on both endpoints of a communication link. For cross-platform communication where one of the endpoints is not implemented with WCF, the ability to use streaming depends on the platform's streaming capabilities. Another rare exception might be a memory-consumption driven scenario where a client or service must minimize its working set and can only afford small buffer sizes.  
   
 ### Enabling Asynchronous Streaming  
+
  To enable asynchronous streaming, add the  <xref:System.ServiceModel.Description.DispatcherSynchronizationBehavior> endpoint behavior to the service host and set its <xref:System.ServiceModel.Description.DispatcherSynchronizationBehavior.AsynchronousSendEnabled%2A> property to `true`. We have also added the capability of true asynchronous streaming on the send side. This improves scalability of the service in scenarios where it is streaming messages to multiple clients some of which are slow in reading possibly due to network congestion or are not reading at all. In these scenarios we now do not block individual threads on the service per client. This ensures that the service is able to process many more clients thereby improving the scalability of the service.  
   
 ### Programming Model for Streamed Transfers  
+
  The programming model for streaming is straightforward. For receiving streamed data, specify an operation contract that has a single <xref:System.IO.Stream> typed input parameter. For returning streamed data, return a <xref:System.IO.Stream> reference.  
   
 ```csharp
@@ -211,7 +226,7 @@ public class UploadStreamMessage
    public string appRef;  
    [MessageBodyMember]  
    public Stream data;  
-}   
+}
 ```  
   
  Streamed transfers end and the message is closed when the stream reaches the end of file (EOF). When sending a message (returning a value or invoking an operation), you can pass a <xref:System.IO.FileStream> and the WCF infrastructure subsequently pulls all the data from that stream until the stream has been completely read and reached EOF. To transfer streamed data for the source that no such pre-built <xref:System.IO.Stream> derived class exists, construct such a class, overlay that class over your stream source, and use that as the argument or return value.  
@@ -221,17 +236,18 @@ public class UploadStreamMessage
  Transport-level streaming also works with any other message contract type (parameter lists, data contract arguments, and explicit message contract), but because the serialization and deserialization of such typed messages requires buffering by the serializer, using such contract variants is not advisable.  
   
 ### Special Security Considerations for Large Data  
+
  All bindings allow you to constrain the size of incoming messages to prevent denial-of-service attacks. The <xref:System.ServiceModel.BasicHttpBinding>, for example, exposes a [System.ServiceModel.BasicHttpBinding.MaxReceivedMessageSize](xref:System.ServiceModel.HttpBindingBase.MaxReceivedMessageSize%2A) property that bounds the size of the incoming message, and so also bounds the maximum amount of memory that is accessed when processing the message. This unit is set in bytes with a default value of 65,536 bytes.  
   
  A security threat that is specific to the large data streaming scenario provokes a denial of service by causing data to be buffered when the receiver expects it to be streamed. For example, WCF always buffers the SOAP headers of a message, and so an attacker may construct a large malicious message that consists entirely of headers to force the data to be buffered. When streaming is enabled, the `MaxReceivedMessageSize` may be set to an extremely large value, because the receiver never expects the entire message to be buffered in memory at once. If WCF is forced to buffer the message, a memory overflow occurs.  
   
  Therefore, restricting the maximum incoming message size is not enough in this case. The `MaxBufferSize` property is required to constrain the memory that WCF buffers. It is important to set this to a safe value (or keep it at the default value) when streaming. For example, suppose your service must receive files up to 4 GB in size and store them on the local disk. Suppose also that your memory is constrained in such a way that you can only buffer 64 KB of data at a time. Then you would set the `MaxReceivedMessageSize` to 4 GB and `MaxBufferSize` to 64 KB. Also, in your service implementation, you must ensure that you read only from the incoming stream in 64-KB chunks and do not read the next chunk before the previous one has been written to disk and discarded from memory.  
   
- It is also important to understand that this quota only limits the buffering done by WCF and cannot protect you against any buffering that you do in your own service or client implementation. For more information about additional security considerations, see [Security Considerations for Data](../../../../docs/framework/wcf/feature-details/security-considerations-for-data.md).  
+ It is also important to understand that this quota only limits the buffering done by WCF and cannot protect you against any buffering that you do in your own service or client implementation. For more information about additional security considerations, see [Security Considerations for Data](security-considerations-for-data.md).  
   
 > [!NOTE]
 > The decision to use either buffered or streamed transfers is a local decision of the endpoint. For HTTP transports, the transfer mode does not propagate across a connection or to proxy servers and other intermediaries. Setting the transfer mode is not reflected in the description of the service interface. After generating a WCF client to a service, you must edit the configuration file for services intended to be used with streamed transfers to set the mode. For TCP and named pipe transports, the transfer mode is propagated as a policy assertion.  
   
 ## See also
 
-- [How to: Enable Streaming](../../../../docs/framework/wcf/feature-details/how-to-enable-streaming.md)
+- [How to: Enable Streaming](how-to-enable-streaming.md)

@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: eda4355d-0bd0-4dc9-80a2-d2c832152272
 ---
 # WCF Services and Event Tracing for Windows
+
 This sample demonstrates how to use the analytic tracing in Windows Communication Foundation (WCF) to emit events in Event Tracing for Windows (ETW). The analytic traces are events emitted at key points in the WCF stack that allow troubleshooting of WCF services in production environment.
 
  Analytic trace in WCF services is tracing that can be turned on in a production environment with minimal impact on performance. These traces are emitted as events to an ETW session.
@@ -74,13 +75,13 @@ This sample demonstrates how to use the analytic tracing in Windows Communicatio
 
 > [!IMPORTANT]
 > The samples may already be installed on your computer. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Basic\Management\ETWTracing`  
   
 ## See also
 
-- [AppFabric Monitoring Samples](https://go.microsoft.com/fwlink/?LinkId=193959)
+- [AppFabric Monitoring Samples](/previous-versions/appfabric/ff383407(v=azure.10))

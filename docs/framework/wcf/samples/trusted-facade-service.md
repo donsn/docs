@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: c34d1a8f-e45e-440b-a201-d143abdbac38
 ---
 # Trusted Facade Service
+
 This scenario sample demonstrates how to flow caller's identity information from one service to another using Windows Communication Foundation (WCF) security infrastructure.  
   
  It is a common design pattern to expose the functionality provided by a service to the public network using a façade service. The façade service typically resides in the perimeter network (also known as DMZ, demilitarized zone, and screened subnet) and communicates with a backend service that implements the business logic and has access to internal data. The communication channel between the façade service and the backend service goes through a firewall and is usually limited for a single purpose only.  
@@ -22,9 +23,11 @@ This scenario sample demonstrates how to flow caller's identity information from
 > The backend service trusts the façade service to authenticate the caller. Because of this, the backend service does not authenticate the caller again; it uses the identity information provided by the façade service in the forwarded request. Because of this trust relationship, the backend service must authenticate the façade service to ensure that the forwarded message comes from a trusted source - in this case, the façade service.  
   
 ## Implementation  
+
  There are two communication paths in this sample. First is between the client and the façade service, the second is between the façade service and the backend service.  
   
 ### Communication Path between Client and Façade Service  
+
  The client to the façade service communication path uses `wsHttpBinding` with a `UserName` client credential type. This means that the client uses username and password to authenticate to the façade service and the façade service uses X.509 certificate to authenticate to the client. The binding configuration looks like the following example.  
   
 ```xml  
@@ -71,10 +74,10 @@ public class MyUserNamePasswordValidator : UserNamePasswordValidator
       <!--This configuration references the "localhost"  -->  
       <!--certificate installed during the setup instructions. -->  
       <serviceCredentials>  
-        <serviceCertificate   
-               findValue="localhost"   
-               storeLocation="LocalMachine"   
-               storeName="My"   
+        <serviceCertificate
+               findValue="localhost"
+               storeLocation="LocalMachine"
+               storeName="My"
                x509FindType="FindBySubjectName" />  
         <userNameAuthentication userNamePasswordValidationMode="Custom"  
             customUserNamePasswordValidatorType=  
@@ -87,6 +90,7 @@ public class MyUserNamePasswordValidator : UserNamePasswordValidator
 ```  
   
 ### Communication Path between Façade Service and Backend Service  
+
  The façade service to the backend service communication path uses a `customBinding` that consists of several binding elements. This binding accomplishes two things. It authenticates the façade service and backend service to ensure that the communication is secure and is coming from a trusted source. Additionally, it also transmits the initial caller's identity inside the `Username` security token. In this case, only the initial caller's username is transmitted to the backend service, the password is not included in the message. This is because the backend service trusts the façade service to authenticate the caller before forwarding the request to it. Because the façade service authenticates itself to the backend service, the backend service can trust the information contained in the forwarded request.  
   
  The following is the binding configuration for this communication path.  
@@ -103,7 +107,7 @@ public class MyUserNamePasswordValidator : UserNamePasswordValidator
 </bindings>  
 ```  
   
- The [\<security>](../../../../docs/framework/configure-apps/file-schema/wcf/security-of-custombinding.md) binding element takes care of the initial caller's username transmission and extraction. The [\<windowsStreamSecurity>](../../../../docs/framework/configure-apps/file-schema/wcf/windowsstreamsecurity.md) and [\<tcpTransport>](../../../../docs/framework/configure-apps/file-schema/wcf/tcptransport.md) take care of authenticating façade and backend services and message protection.  
+ The [\<security>](../../configure-apps/file-schema/wcf/security-of-custombinding.md) binding element takes care of the initial caller's username transmission and extraction. The [\<windowsStreamSecurity>](../../configure-apps/file-schema/wcf/windowsstreamsecurity.md) and [\<tcpTransport>](../../configure-apps/file-schema/wcf/tcptransport.md) take care of authenticating façade and backend services and message protection.  
   
  To forward the request, the façade service implementation must provide the initial caller's username so that WCF security infrastructure can place this into the forwarded message. The initial caller's username is provided in the façade service implementation by setting it in the `ClientCredentials` property on the client proxy instance that façade service uses to communicate with the backend service.  
   
@@ -129,14 +133,14 @@ public class MyUserNamePasswordValidator : UserNamePasswordValidator
 {  
     public override void Validate(string userName, string password)  
     {  
-        // Ignore the password because it is empty,   
+        // Ignore the password because it is empty,
         // we trust the facade service to authenticate the client.  
-        // Accept the username information here so that the   
+        // Accept the username information here so that the
         // application gets access to it.  
         if (null == userName)  
         {  
             Console.WriteLine("Invalid username");  
-            throw new   
+            throw new
              SecurityTokenValidationException("Invalid username");  
         }  
     }  
@@ -152,7 +156,7 @@ public class MyUserNamePasswordValidator : UserNamePasswordValidator
       <serviceCredentials>  
         <userNameAuthentication userNamePasswordValidationMode="Custom"  
            customUserNamePasswordValidatorType=  
-          "Microsoft.ServiceModel.Samples.MyUserNamePasswordValidator,   
+          "Microsoft.ServiceModel.Samples.MyUserNamePasswordValidator,
            BackendService"/>  
       </serviceCredentials>  
     </behavior>  
@@ -168,22 +172,22 @@ public string GetCallerIdentity()
     // Facade service is authenticated using Windows authentication.  
     //Its identity is accessible.  
     // On ServiceSecurityContext.Current.WindowsIdentity.  
-    string facadeServiceIdentityName =   
+    string facadeServiceIdentityName =
           ServiceSecurityContext.Current.WindowsIdentity.Name;  
   
-    // The client name is transmitted using Username authentication on   
+    // The client name is transmitted using Username authentication on
     //the message level without the password  
     // using a supporting encrypted UserNameToken.  
-    // Claims extracted from this supporting token are available in   
-    // ServiceSecurityContext.Current.AuthorizationContext.ClaimSets   
+    // Claims extracted from this supporting token are available in
+    // ServiceSecurityContext.Current.AuthorizationContext.ClaimSets
     // collection.  
     string clientName = null;  
-    foreach (ClaimSet claimSet in   
+    foreach (ClaimSet claimSet in
         ServiceSecurityContext.Current.AuthorizationContext.ClaimSets)  
     {  
         foreach (Claim claim in claimSet)  
         {  
-            if (claim.ClaimType == ClaimTypes.Name &&   
+            if (claim.ClaimType == ClaimTypes.Name &&
                                    claim.Right == Rights.Identity)  
             {  
                 clientName = (string)claim.Resource;  
@@ -194,7 +198,7 @@ public string GetCallerIdentity()
     if (clientName == null)  
     {  
         // In case there was no UserNameToken attached to the request.  
-        // In the real world implementation the service should reject   
+        // In the real world implementation the service should reject
         // this request.  
         return "Anonymous caller via " + facadeServiceIdentityName;  
     }  
@@ -206,6 +210,7 @@ public string GetCallerIdentity()
  The façade service account information is extracted using the `ServiceSecurityContext.Current.WindowsIdentity` property. To access the information about the initial caller the backend service uses the `ServiceSecurityContext.Current.AuthorizationContext.ClaimSets` property. It looks for an `Identity` claim with a type `Name`. This claim is automatically generated by WCF security infrastructure from the information contained in the `Username` security token.  
   
 ## Running the sample  
+
  When you run the sample, the operation requests and responses are displayed in the client console window. Press ENTER in the client window to shut down the client. You can press ENTER in the façade and backend service console windows to shut down the services.  
   
 ```console  
@@ -254,9 +259,9 @@ Press <ENTER> to terminate client.
   
 #### To set up, build, and run the sample  
   
-1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/one-time-setup-procedure-for-the-wcf-samples.md).  
+1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](one-time-setup-procedure-for-the-wcf-samples.md).  
   
-2. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).  
+2. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).  
   
 #### To run the sample on the same machine  
   
@@ -270,7 +275,7 @@ Press <ENTER> to terminate client.
   
 5. Launch Client.exe from \client\bin. Client activity is displayed on the client console application.  
   
-6. If the client and service are not able to communicate, see [Troubleshooting Tips for WCF Samples](https://docs.microsoft.com/previous-versions/dotnet/netframework-3.5/ms751511(v=vs.90)).  
+6. If the client and service are not able to communicate, see [Troubleshooting Tips for WCF Samples](/previous-versions/dotnet/netframework-3.5/ms751511(v=vs.90)).  
   
 #### To clean up after the sample  
   
@@ -278,9 +283,9 @@ Press <ENTER> to terminate client.
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
-> `<InstallDrive>:\WF_WCF_Samples\WCF\Scenario\TrustedFacade`  
+>
+> `<InstallDrive>:\WF_WCF_Samples\WCF\Scenario\TrustedFacade`

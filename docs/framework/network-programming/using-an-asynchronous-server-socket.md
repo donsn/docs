@@ -1,5 +1,6 @@
 ---
 title: "Using an Asynchronous Server Socket"
+description: This example shows an Asynchronous server socket. The Socket class uses .NET Framework asynchronous programming to process network service requests. 
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -19,6 +20,7 @@ helpviewer_keywords:
 ms.assetid: 813489a9-3efd-41b6-a33f-371d55397676
 ---
 # Using an Asynchronous Server Socket
+
 Asynchronous server sockets use the .NET Framework asynchronous programming model to process network service requests. The <xref:System.Net.Sockets.Socket> class follows the standard .NET Framework asynchronous naming pattern; for example, the synchronous <xref:System.Net.Sockets.Socket.Accept%2A> method corresponds to the asynchronous <xref:System.Net.Sockets.Socket.BeginAccept%2A> and <xref:System.Net.Sockets.Socket.EndAccept%2A> methods.  
   
  An asynchronous server socket requires a method to begin accepting connection requests from the network, a callback method to handle the connection requests and begin receiving data from the network, and a callback method to end receiving the data. All these methods are discussed further in this section.  
@@ -95,7 +97,7 @@ public void StartListening()
   
     Socket listener = new Socket(localEP.Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);  
   
-    try 
+    try
     {  
         listener.Bind(localEP);  
         listener.Listen(10);  
@@ -133,14 +135,14 @@ End Sub 'AcceptCallback
 ```  
   
 ```csharp  
-public void AcceptCallback(IAsyncResult ar) 
+public void AcceptCallback(IAsyncResult ar)
 {  
     allDone.Set();  
   
     Socket listener = (Socket) ar.AsyncState;  
     Socket handler = listener.EndAccept(ar);  
   
-    // Additional code to read data goes here.    
+    // Additional code to read data goes here.
 }  
 ```  
   
@@ -156,7 +158,7 @@ End Class 'StateObject
 ```  
   
 ```csharp  
-public class StateObject 
+public class StateObject
 {  
     public Socket workSocket = null;  
     public const int BufferSize = 1024;  
@@ -213,7 +215,7 @@ Public Shared Sub ReadCallback(ar As IAsyncResult)
     Dim state As StateObject = CType(ar.AsyncState, StateObject)  
     Dim handler As Socket = state.workSocket  
   
-    ' Read data from the client socket.   
+    ' Read data from the client socket.
     Dim read As Integer = handler.EndReceive(ar)  
   
     ' Data was read from the client socket.  
@@ -247,10 +249,10 @@ public static void ReadCallback(IAsyncResult ar)
         state.sb.Append(Encoding.ASCII.GetString(state.buffer,0,read));  
         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,  
             new AsyncCallback(ReadCallback), state);  
-    } 
-    else 
+    }
+    else
     {  
-        if (state.sb.Length > 1) 
+        if (state.sb.Length > 1)
         {  
             // All the data has been read from the client;  
             // display it on the console.  

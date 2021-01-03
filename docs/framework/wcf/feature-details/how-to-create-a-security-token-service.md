@@ -10,12 +10,15 @@ helpviewer_keywords:
 ms.assetid: 98e82101-4cff-4bb8-a220-f7abed3556e5
 ---
 # How to: Create a Security Token Service
+
 A security token service implements the protocol defined in the WS-Trust specification. This protocol defines message formats and message exchange patterns for issuing, renewing, canceling, and validating security tokens. A given security token service provides one or more of these capabilities. This topic looks at the most common scenario: implementing token issuance.  
   
 ## Issuing Tokens  
+
  WS-Trust defines message formats, based on the `RequestSecurityToken` XML Schema definition language (XSD) schema element, and `RequestSecurityTokenResponse` XSD schema element for performing token issuance. In addition, it defines the associated Action Uniform Resource Identifiers (URIs). The action URI associated with the `RequestSecurityToken` message is `http://schemas.xmlsoap.org/ws/2005/02/trust/RST/Issue`. The action URI associated with the `RequestSecurityTokenResponse` message is   `http://schemas.xmlsoap.org/ws/2005/02/trust/RSTR/Issue`.  
   
 ### Request Message Structure  
+
  The issue request message structure typically consists of the following items:  
   
 - A request type URI with a value of `http://schemas.xmlsoap.org/ws/2005/02/trust/Issue`.
@@ -35,6 +38,7 @@ A security token service implements the protocol defined in the WS-Trust specifi
  The security token service uses the information in the issue request message when it constructs the Issue Response message.  
   
 ## Response Message Structure  
+
  The issue response message structure typically consists of the following items;  
   
 - The issued security token, for example, a SAML 1.1 assertion.  
@@ -52,6 +56,7 @@ A security token service implements the protocol defined in the WS-Trust specifi
 - Lifetime information for the issued token.  
   
 ## Processing Request Messages  
+
  The security token service processes the issue request by examining the various pieces of the request message and ensuring that it can issue a token that satisfies the request. The security token service must determine the following before it constructs the token to be issued:  
   
 - The request really is a request for a token to be issued.  
@@ -92,9 +97,10 @@ A security token service implements the protocol defined in the WS-Trust specifi
  [!code-csharp[c_CreateSTS#4](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_creatests/cs/source.cs#4)]
  [!code-vb[c_CreateSTS#4](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/c_creatests/vb/source.vb#4)]  
   
- For more information, see [Federation Sample](../../../../docs/framework/wcf/samples/federation-sample.md).  
+ For more information, see [Federation Sample](../samples/federation-sample.md).  
   
 ## Creating Response Messages  
+
  Once the security token service processes the issue request and constructs the token to be issued along with the proof key, the response message needs to be constructed, including at least the requested token, the proof token, and the issued token references. The issued token is typically a <xref:System.IdentityModel.Tokens.SamlSecurityToken> created from the <xref:System.IdentityModel.Tokens.SamlAssertion>, as shown in the following example.  
   
  [!code-csharp[c_CreateSTS#5](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_creatests/cs/source.cs#5)]
@@ -105,7 +111,7 @@ A security token service implements the protocol defined in the WS-Trust specifi
  [!code-csharp[c_CreateSTS#6](../../../../samples/snippets/csharp/VS_Snippets_CFX/c_creatests/cs/source.cs#6)]
  [!code-vb[c_CreateSTS#6](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/c_creatests/vb/source.vb#6)]  
   
- For more information about how to construct the proof token when the client and the security token service both provide key material for the shared key, see [Federation Sample](../../../../docs/framework/wcf/samples/federation-sample.md).  
+ For more information about how to construct the proof token when the client and the security token service both provide key material for the shared key, see [Federation Sample](../samples/federation-sample.md).  
   
  The issued token references are constructed by creating instances of the <xref:System.IdentityModel.Tokens.SecurityKeyIdentifierClause> class.  
   
@@ -115,7 +121,8 @@ A security token service implements the protocol defined in the WS-Trust specifi
  These various values are then serialized into the response message returned to the client.  
   
 ## Example  
- For full code for a security token service, see [Federation Sample](../../../../docs/framework/wcf/samples/federation-sample.md).  
+
+ For full code for a security token service, see [Federation Sample](../samples/federation-sample.md).  
   
 ## See also
 
@@ -126,4 +133,4 @@ A security token service implements the protocol defined in the WS-Trust specifi
 - <xref:System.IdentityModel.Tokens.SamlAssertion>
 - <xref:System.ServiceModel.Security.Tokens.BinarySecretSecurityToken>
 - <xref:System.IdentityModel.Tokens.SecurityKeyIdentifierClause>
-- [Federation Sample](../../../../docs/framework/wcf/samples/federation-sample.md)
+- [Federation Sample](../samples/federation-sample.md)

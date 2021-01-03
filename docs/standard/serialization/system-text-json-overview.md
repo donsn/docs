@@ -1,39 +1,48 @@
 ---
 title: "Serialize and deserialize JSON using C# - .NET"
-author: tdykstra
-ms.author: tdykstra
-ms.date: "09/16/2019"
+description: This overview describes the System.Text.Json namespace functionality for serializing to and deserializing from JSON in .NET.
+ms.date: "01/10/2020"
+no-loc: [System.Text.Json, Newtonsoft.Json]
 helpviewer_keywords: 
   - "JSON serialization"
   - "serializing objects"
   - "serialization"
   - "objects, serializing"
-ms.assetid: 4d1111c0-9447-4231-a997-96a2b74b3453
 ---
 
-# JSON serialization in .NET - overview
+# JSON serialization and deserialization (marshalling and unmarshalling) in .NET - overview
 
 The `System.Text.Json` namespace provides functionality for serializing to and deserializing from JavaScript Object Notation (JSON).
 
 The library design emphasizes high performance and low memory allocation over an extensive feature set. Built-in UTF-8 support optimizes the process of reading and writing JSON text encoded as UTF-8, which is the most prevalent encoding for data on the web and files on disk.
 
-The library also provides classes for working with an in-memory document object model (DOM). This feature enables random read-only access of the elements in a JSON file or string. 
+The library also provides classes for working with an in-memory document object model (DOM). This feature enables random read-only access of the elements in a JSON file or string.
 
 ## How to get the library
 
-* The library is built-in as part of the [.NET Core 3.0](https://aka.ms/netcore3download) shared framework.
-* For other target frameworks, install the [System.Text.Json](https://www.nuget.org/packages/System.Text.Json) NuGet package. The package supports:
+* The library is built-in as part of the shared framework for .NET Core 3.0 and later versions.
+* For earlier framework versions, install the [System.Text.Json](https://www.nuget.org/packages/System.Text.Json) NuGet package. The package supports:
+
   * .NET Standard 2.0 and later versions
-  * .NET Framework 4.6.1 and later versions
+  * .NET Framework 4.7.2 and later versions
   * .NET Core 2.0, 2.1, and 2.2
 
 ## Additional resources
 
 * [How to use the library](system-text-json-how-to.md)
-* [Source code](https://github.com/dotnet/runtime/tree/master/src/libraries/System.Text.Json)
-* [API reference](xref:System.Text.Json)
-* [Roadmap](https://github.com/dotnet/runtime/blob/master/src/libraries/System.Text.Json/roadmap/README.md)
-* GitHub issues in the dotnet/corefx repository
-  * [Discussion about the development of System.Text.Json](https://github.com/dotnet/corefx/issues/33115) <!-- TODO: Issues are still not moved to the new repo-->
-  * [All System.Text.Json issues](https://github.com/dotnet/runtime/issues?q=is%3Aopen+is%3Aissue+label%3Aarea-System.Text.Json)
-  * [System.Text.Json issues labeled json-functionality-doc](https://github.com/dotnet/runtime/labels/json-functionality-doc)
+* [Instantiate JsonSerializerOptions instances](system-text-json-configure-options.md)
+* [Enable case-insensitive matching](system-text-json-character-casing.md)
+* [Customize property names and values](system-text-json-customize-properties.md)
+* [Ignore properties](system-text-json-ignore-properties.md)
+* [Allow invalid JSON](system-text-json-invalid-json.md)
+* [Handle overflow JSON](system-text-json-handle-overflow.md)
+* [Preserve references](system-text-json-preserve-references.md)
+* [Immutable types and non-public accessors](system-text-json-immutability.md)
+* [Polymorphic serialization](system-text-json-polymorphism.md)
+* [Migrate from Newtonsoft.Json to System.Text.Json](system-text-json-migrate-from-newtonsoft-how-to.md)
+* [Customize character encoding](system-text-json-character-encoding.md)
+* [Write custom serializers and deserializers](write-custom-serializer-deserializer.md)
+* [Write custom converters for JSON serialization](system-text-json-converters-how-to.md)
+* [DateTime and DateTimeOffset support](../datetime/system-text-json-support.md)
+* [System.Text.Json API reference](xref:System.Text.Json)
+* [System.Text.Json.Serialization API reference](xref:System.Text.Json.Serialization)

@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: bafbbd89-eab8-4e9a-b4c3-b7b0178e12d8
 ---
 # How to: Create a WCF Service that Communicates over WebSockets
+
 WCF services and clients can use the <xref:System.ServiceModel.NetHttpBinding> binding to communicate over WebSockets.  WebSockets will be used when the <xref:System.ServiceModel.NetHttpBinding> determines the service contract defines a callback contract. This topic describes how to implement a WCF service and client that uses the <xref:System.ServiceModel.NetHttpBinding> to communicate over WebSockets.  
   
 ### Define the Service  
@@ -60,10 +61,10 @@ WCF services and clients can use the <xref:System.ServiceModel.NetHttpBinding> b
     ```xml  
     <configuration>  
         <appSettings>  
-          <add key="aspnet:UseTaskFriendlySynchronizationContext" value="true" />        
+          <add key="aspnet:UseTaskFriendlySynchronizationContext" value="true" />
         </appSettings>  
         <system.web>  
-          <compilation debug="true" targetFramework="4.5" />        
+          <compilation debug="true" targetFramework="4.5" />
         </system.web>  
         <system.serviceModel>  
             <protocolMapping>  
@@ -111,7 +112,7 @@ WCF services and clients can use the <xref:System.ServiceModel.NetHttpBinding> b
             {  
                 var context = new InstanceContext(new CallbackHandler());  
                 var client = new StockQuoteServiceReference.StockQuoteServiceClient(context);  
-                client.StartSendingQuotes();              
+                client.StartSendingQuotes();
                 Console.ReadLine();  
             }  
   
@@ -132,7 +133,7 @@ WCF services and clients can use the <xref:System.ServiceModel.NetHttpBinding> b
         ```xml  
         <?xml version="1.0" encoding="utf-8" ?>  
         <configuration>  
-            <startup>   
+            <startup>
                 <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />  
             </startup>  
             <system.serviceModel>  
@@ -155,6 +156,7 @@ WCF services and clients can use the <xref:System.ServiceModel.NetHttpBinding> b
          There is nothing special you need to do in the client configuration, just specify the client side endpoint using the `NetHttpBinding`.  
   
 ## Example  
+
  The following is the complete code used in this topic.  
   
 ```csharp  
@@ -227,10 +229,10 @@ namespace Server
   
 <configuration>  
     <appSettings>  
-      <add key="aspnet:UseTaskFriendlySynchronizationContext" value="true" />        
+      <add key="aspnet:UseTaskFriendlySynchronizationContext" value="true" />
     </appSettings>  
     <system.web>  
-      <compilation debug="true" targetFramework="4.5" />        
+      <compilation debug="true" targetFramework="4.5" />
     </system.web>  
     <system.serviceModel>  
         <protocolMapping>  
@@ -251,7 +253,7 @@ namespace Server
 </configuration>  
 ```  
   
-```
+```aspx-csharp
 <!-- StockQuoteService.svc -->  
 <%@ ServiceHost Language="C#" Debug="true" Service="Server.StockQuoteService" CodeBehind="StockQuoteService.svc.cs" %>  
 ```  
@@ -273,7 +275,7 @@ namespace Client
         {  
             var context = new InstanceContext(new CallbackHandler());  
             var client = new StockQuoteServiceReference.StockQuoteServiceClient(context);  
-            client.StartSendingQuotes();              
+            client.StartSendingQuotes();
             Console.ReadLine();  
         }  
   
@@ -292,7 +294,7 @@ namespace Client
 <!--App.config -->  
 <?xml version="1.0" encoding="utf-8" ?>  
 <configuration>  
-    <startup>   
+    <startup>
         <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />  
     </startup>  
     <system.serviceModel>  
@@ -314,5 +316,5 @@ namespace Client
   
 ## See also
 
-- [Synchronous and Asynchronous Operations](../../../../docs/framework/wcf/synchronous-and-asynchronous-operations.md)
-- [Using the NetHttpBinding](../../../../docs/framework/wcf/feature-details/using-the-nethttpbinding.md)
+- [Synchronous and Asynchronous Operations](../synchronous-and-asynchronous-operations.md)
+- [Using the NetHttpBinding](using-the-nethttpbinding.md)

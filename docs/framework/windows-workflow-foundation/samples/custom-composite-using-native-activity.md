@@ -4,9 +4,11 @@ ms.date: "03/30/2017"
 ms.assetid: ef9e739c-8a8a-4d11-9e25-cb42c62e3c76
 ---
 # Custom Composite using Native Activity
+
 This sample demonstrates how to write a <xref:System.Activities.NativeActivity> that schedules other <xref:System.Activities.Activity> objects to control the flow of a workflow’s execution. This sample uses two common control flows, Sequence and While, to demonstrate how to do this.
 
 ## Sample Details
+
  Starting with `MySequence`, the first thing to notice is that it derives from <xref:System.Activities.NativeActivity>. <xref:System.Activities.NativeActivity> is the <xref:System.Activities.Activity> object that exposes the full breadth of the workflow runtime through the <xref:System.Activities.NativeActivityContext> passed to the `Execute` method.
 
  `MySequence` exposes a public collection of <xref:System.Activities.Activity> objects that gets populated by the workflow author. Before the workflow is executed, the workflow runtime calls the <xref:System.Activities.Activity.CacheMetadata%2A> method on each activity in a workflow. During this process, the runtime establishes parent-child relationships for data scoping and lifetime management. The default implementation of the <xref:System.Activities.Activity.CacheMetadata%2A> method uses the <xref:System.ComponentModel.TypeDescriptor> instance class for the `MySequence` activity to add any public property of type <xref:System.Activities.Activity> or <xref:System.Collections.IEnumerable>\<<xref:System.Activities.Activity>> as children of the `MySequence` activity.
@@ -19,7 +21,7 @@ This sample demonstrates how to write a <xref:System.Activities.NativeActivity> 
 
  When the child activity completes, the <xref:System.Activities.CompletionCallback> is executed. The loop continues from the top. Like `Execute`, a <xref:System.Activities.CompletionCallback> takes an <xref:System.Activities.NativeActivityContext>, giving the implementer access to the runtime.
 
- `MyWhile` differs from `MySequence` in that it schedules a single <xref:System.Activities.Activity> object repeatedly, and in that it uses a <xref:System.Activities.Activity%601><bool\> named `Condition` to determine whether this scheduling should occur. Like `MySequence`, `MyWhile` uses an `InternalExecute` method to centralize its scheduling logic. It schedules the `Condition`<xref:System.Activities.Activity><bool\> with a <xref:System.Activities.CompletionCallback%601>\<bool> named `OnEvaluationCompleted`. When the execution of `Condition` is completed, its result becomes available through this <xref:System.Activities.CompletionCallback> in a strongly-typed parameter named `result`. If `true`, `MyWhile` calls  <xref:System.Activities.NativeActivityContext.ScheduleActivity%2A>, passing in the `Body`<xref:System.Activities.Activity> object and `InternalExecute` as the <xref:System.Activities.CompletionCallback>. When the execution of `Body` completes, `Condition` gets scheduled again in `InternalExecute`, starting the loop over again. When the `Condition` returns `false`, an instance of `MyWhile` gives control back to the runtime without scheduling the `Body` and the runtime moves it to the <xref:System.Activities.ActivityInstanceState.Closed> state.
+ `MyWhile` differs from `MySequence` in that it schedules a single <xref:System.Activities.Activity> object repeatedly, and in that it uses a <xref:System.Activities.Activity%601><bool\> named `Condition` to determine whether this scheduling should occur. Like `MySequence`, `MyWhile` uses an `InternalExecute` method to centralize its scheduling logic. It schedules the `Condition`<xref:System.Activities.Activity><bool\> with a <xref:System.Activities.CompletionCallback%601>\<bool> named `OnEvaluationCompleted`. When the execution of `Condition` is completed, its result becomes available through this <xref:System.Activities.CompletionCallback> in a strongly typed parameter named `result`. If `true`, `MyWhile` calls  <xref:System.Activities.NativeActivityContext.ScheduleActivity%2A>, passing in the `Body`<xref:System.Activities.Activity> object and `InternalExecute` as the <xref:System.Activities.CompletionCallback>. When the execution of `Body` completes, `Condition` gets scheduled again in `InternalExecute`, starting the loop over again. When the `Condition` returns `false`, an instance of `MyWhile` gives control back to the runtime without scheduling the `Body` and the runtime moves it to the <xref:System.Activities.ActivityInstanceState.Closed> state.
 
 #### To set up, build, and run the sample
 
@@ -29,9 +31,9 @@ This sample demonstrates how to write a <xref:System.Activities.NativeActivity> 
 
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WF\Basic\CustomActivities\Code-Bodied\CustomCompositeNativeActivity`

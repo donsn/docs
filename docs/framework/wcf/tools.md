@@ -1,5 +1,6 @@
 ---
 title: "Windows Communication Foundation Tools"
+description: Learn about the WCF tools that are designed to make it easier for you to create, deploy, and manage WCF applications. Run these tools from a command prompt.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "WCF, tools"
@@ -7,6 +8,7 @@ helpviewer_keywords:
 ms.assetid: 399a47b4-bfea-434b-8e83-f76b5063d79d
 ---
 # Windows Communication Foundation Tools
+
 Microsoft Windows Communication Foundation (WCF) tools are designed to make it easier for you to create, deploy, and manage WCF applications. This section contains detailed information about the tools. Please note that the tools are not supported.  
   
  You can run all the tools from the command line.  

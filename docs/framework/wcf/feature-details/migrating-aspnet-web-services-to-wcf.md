@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 1adbb931-f0b1-47f3-9caf-169e4edc9907
 ---
 # Migrating ASP.NET Web Services to WCF
+
 ASP.NET provides .NET Framework class libraries and tools for building Web services, as well as facilities for hosting services within Internet Information Services (IIS). Windows Communication Foundation (WCF) provides .NET Framework class libraries, tools and hosting facilities for enabling software entities to communicate using any protocols, including those used by Web services.  Migrating ASP.NET Web Services to WCF allows your applications to take advantage of new features and improvements that are unique to WCF.  
   
  WCF has several important advantages relative to ASP.NET Web services. While ASP.NET Web services tools are solely for building Web services, WCF provides tools that can be used when software entities must be made to communicate with one another. This will reduce the number of technologies that developers are required to know in order to accommodate different software communication scenarios, which in turn will reduce the cost of software development resources, as well as the time to complete software development projects.  
@@ -31,8 +32,8 @@ ASP.NET provides .NET Framework class libraries and tools for building Web servi
   
 ## See also
 
-- [Anticipating Adopting the Windows Communication Foundation: Easing Future Migration](../../../../docs/framework/wcf/feature-details/anticipating-adopting-wcf-migration.md)
-- [Anticipating Adopting the Windows Communication Foundation: Easing Future Integration](../../../../docs/framework/wcf/feature-details/anticipating-adopting-the-wcf-easing-future-integration.md)
-- [Adopting Windows Communication Foundation](../../../../docs/framework/wcf/feature-details/adopting-wcf.md)
-- [Comparing ASP.NET Web Services to WCF Based on Purpose and Standards Used](../../../../docs/framework/wcf/feature-details/comparing-aspnet-web-services-to-wcf-based-on-purpose-and-standards-used.md)
-- [Comparing ASP.NET Web Services to WCF Based on Development](../../../../docs/framework/wcf/feature-details/comparing-aspnet-web-services-to-wcf-based-on-development.md)
+- [Anticipating Adopting the Windows Communication Foundation: Easing Future Migration](anticipating-adopting-wcf-migration.md)
+- [Anticipating Adopting the Windows Communication Foundation: Easing Future Integration](anticipating-adopting-the-wcf-easing-future-integration.md)
+- [Adopting Windows Communication Foundation](adopting-wcf.md)
+- [Comparing ASP.NET Web Services to WCF Based on Purpose and Standards Used](comparing-aspnet-web-services-to-wcf-based-on-purpose-and-standards-used.md)
+- [Comparing ASP.NET Web Services to WCF Based on Development](comparing-aspnet-web-services-to-wcf-based-on-development.md)

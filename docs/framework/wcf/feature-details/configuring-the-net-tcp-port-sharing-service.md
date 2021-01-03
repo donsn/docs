@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: b6dd81fa-68b7-4e1b-868e-88e5901b7ea0
 ---
 # Configuring the Net.TCP Port Sharing Service
+
 Self-hosted services that use the Net.TCP transport can control several advanced settings, such as `ListenBacklog` and `MaxPendingAccepts`, which govern the behavior of the underlying TCP socket used for network communication. However, these settings for each socket only apply at the binding level if the transport binding has disabled port sharing, which is enabled by default.  
   
  When a net.tcp binding enables port sharing (by setting `portSharingEnabled =true` on the transport binding element), it implicitly allows an external process (namely the SMSvcHost.exe, which hosts the Net.TCP Port Sharing Service) to manage the TCP socket on its behalf. For example, when using TCP, specify:  
@@ -21,10 +22,10 @@ Self-hosted services that use the Net.TCP transport can control several advanced
 ```xml  
 <configuration>  
    <system.serviceModel.activation>  
-       <net.tcp listenBacklog="16" <!--16 * # of processors -->  
+       <net.tcp listenBacklog="16" <!-- 16 * # of processors -->  
           maxPendingAccepts="4"<!-- 4 * # of processors -->  
           maxPendingConnections="100"  
-          receiveTimeout="00:00:30" <!--30 seconds -->  
+          receiveTimeout="00:00:30" <!-- 30 seconds -->  
           teredoEnabled="false">  
           <allowAccounts>  
              <!-- LocalSystem account -->  
@@ -39,10 +40,12 @@ Self-hosted services that use the Net.TCP transport can control several advanced
              <add securityIdentifier="S-1-5-32-568"/>  
            </allowAccounts>  
        </net.tcp>  
+    </system.serviceModel.activation>
 </configuration>  
 ```  
   
 ## When to Modify SMSvcHost.exe.config  
+
  In general, care should be taken when modifying the contents of the SMSvcHost.exe.config file, because any configuration settings specified in this file affect all of the services on a computer that uses the Net.TCP Port Sharing Service. This includes applications on Windows Vista that use the TCP Activation features of the Windows Process Activation Service (WAS).  
   
  However, sometimes you may need to change the default configuration for the Net.TCP Port Sharing Service. For example, the default value for `maxPendingAccepts` is 4 * number of processors. Servers that host a large number of services that use port sharing may increase this value to achieve maximum throughput. The default value for `maxPendingConnections` is 100. You should consider increasing this value also if there are multiple concurrent clients calling the service and the service is dropping client connections.  
@@ -57,4 +60,4 @@ Self-hosted services that use the Net.TCP transport can control several advanced
   
 ## See also
 
-- [\<net.tcp>](../../../../docs/framework/configure-apps/file-schema/wcf/net-tcp.md)
+- [\<net.tcp>](../../configure-apps/file-schema/wcf/net-tcp.md)

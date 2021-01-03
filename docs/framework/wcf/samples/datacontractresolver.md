@@ -4,9 +4,11 @@ ms.date: "03/30/2017"
 ms.assetid: 6c200c02-bc14-4b8d-bbab-9da31185b805
 ---
 # DataContractResolver
+
 This sample demonstrates how the serialization and deserialization processes can be customized by using the <xref:System.Runtime.Serialization.DataContractResolver> class. This sample shows how to use a DataContractResolver to map CLR types to and from an xsi:type representation during serialization and deserialization.
 
 ## Sample Details
+
  The sample defines the following CLR types.
 
 ```csharp
@@ -152,13 +154,13 @@ class MyDataContractResolver : DataContractResolver
 
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Basic\Contract\Data\DataContractResolver`  
   
 ## See also
 
-- [Using a Data Contract Resolver](../../../../docs/framework/wcf/feature-details/using-a-data-contract-resolver.md)
+- [Using a Data Contract Resolver](../feature-details/using-a-data-contract-resolver.md)

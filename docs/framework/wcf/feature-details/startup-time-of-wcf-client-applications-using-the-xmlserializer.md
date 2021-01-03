@@ -4,12 +4,13 @@ ms.date: "03/30/2017"
 ms.assetid: 21093451-0bc3-4b1a-9a9d-05f7f71fa7d0
 ---
 # How to: Improve the Startup Time of WCF Client Applications using the XmlSerializer
+
 Services and client applications that use data types that are serializable using the <xref:System.Xml.Serialization.XmlSerializer> generate and compile serialization code for those data types at runtime, which can result in slow start-up performance.  
   
 > [!NOTE]
 > Pre-generated serialization code can only be used in client applications and not in services.  
   
- The [ServiceModel Metadata Utility Tool (Svcutil.exe)](../../../../docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) can improve start-up performance for these applications by generating the necessary serialization code from the compiled assemblies for the application. Svcutil.exe generates serialization code for all data types used in service contracts in the compiled application assembly that can be serialized using the <xref:System.Xml.Serialization.XmlSerializer>. Service and operation contracts that use the <xref:System.Xml.Serialization.XmlSerializer> are marked with the <xref:System.ServiceModel.XmlSerializerFormatAttribute>.  
+ The [ServiceModel Metadata Utility Tool (Svcutil.exe)](../servicemodel-metadata-utility-tool-svcutil-exe.md) can improve start-up performance for these applications by generating the necessary serialization code from the compiled assemblies for the application. Svcutil.exe generates serialization code for all data types used in service contracts in the compiled application assembly that can be serialized using the <xref:System.Xml.Serialization.XmlSerializer>. Service and operation contracts that use the <xref:System.Xml.Serialization.XmlSerializer> are marked with the <xref:System.ServiceModel.XmlSerializerFormatAttribute>.  
   
 ### To generate XmlSerializer serialization code  
   
@@ -45,7 +46,7 @@ Services and client applications that use data types that are serializable using
   
 3. Build the client app.  
   
-4. Use the [ServiceModel Metadata Utility Tool (Svcutil.exe)](../../../../docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) to create a pre-generated serializer *.cs* file by using the command:  
+4. Use the [ServiceModel Metadata Utility Tool (Svcutil.exe)](../servicemodel-metadata-utility-tool-svcutil-exe.md) to create a pre-generated serializer *.cs* file by using the command:  
   
     ```console  
     svcutil.exe /t:xmlSerializer  <assemblyPath>*  
@@ -74,6 +75,7 @@ Services and client applications that use data types that are serializable using
 6. Run the client app as usual. The pre-generated serialization assembly will be used.  
   
 ## Example  
+
  The following command generates serialization types for `XmlSerializer` types that any service contracts in the assembly use.  
   
 ```console  
@@ -82,4 +84,4 @@ svcutil /t:xmlserializer myContractLibrary.exe
   
 ## See also
 
-- [ServiceModel Metadata Utility Tool (Svcutil.exe)](../../../../docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md)
+- [ServiceModel Metadata Utility Tool (Svcutil.exe)](../servicemodel-metadata-utility-tool-svcutil-exe.md)

@@ -1,5 +1,6 @@
 ---
 title: Create resource files for .NET apps
+description: Make resource files for .NET apps. Build text files with string resources, XML or binary files programmatically, or XML files with string, image, or object data.
 ms.date: "03/30/2017"
 dev_langs:
   - "csharp"
@@ -19,13 +20,14 @@ You can include resources, such as strings, images, or object data, in resources
 
 - Create an XML resource (.resx) file that contains string, image, or object data. You can use [Resource File Generator (Resgen.exe)](../tools/resgen-exe-resource-file-generator.md) to convert the .resx file into a binary resource (.resources) file. You can then embed the binary resource file in an application executable or an application library by using a language compiler, or you can embed it in a satellite assembly by using [Assembly Linker (Al.exe)](../tools/al-exe-assembly-linker.md). For more information, see the [Resources in .resx Files](creating-resource-files-for-desktop-apps.md#ResxFiles) section.
 
-- Create an XML resource (.resx) file programmatically by using types in the <xref:System.Resources> namespace. You can create a .resx file, enumerate its resources, and retrieve specific resources by name. For more information, see the topic [Working with .resx Files Programmatically](working-with-resx-files-programmatically.md).
+- Create an XML resource (.resx) file programmatically by using types in the <xref:System.Resources> namespace. You can create a .resx file, enumerate its resources, and retrieve specific resources by name. For more information, see [Working with .resx Files Programmatically](working-with-resx-files-programmatically.md).
 
 - Create a binary resource (.resources) file programmatically. You can then embed the file in an application executable or an application library by using a language compiler, or you can embed it in a satellite assembly by using [Assembly Linker (Al.exe)](../tools/al-exe-assembly-linker.md). For more information, see the [Resources in .resources Files](creating-resource-files-for-desktop-apps.md#ResourcesFiles) section.
 
 - Use [Visual Studio](https://visualstudio.microsoft.com/vs/?utm_medium=microsoft&utm_source=docs.microsoft.com&utm_campaign=inline+link) to create a resource file and include it in your project. Visual Studio provides a resource editor that lets you add, delete, and modify resources. At compile time, the resource file is automatically converted to a binary .resources file and embedded in an application assembly or satellite assembly. For more information, see the [Resource Files in Visual Studio](creating-resource-files-for-desktop-apps.md#VSResFiles) section.
 
 <a name="TextFiles"></a>
+
 ## Resources in text files
 
 You can use text (.txt or .restext) files to store string resources only. For non-string resources, use .resx files or create them programmatically. Text files that contain string resources have the following format:
@@ -88,11 +90,11 @@ CancelButton=Cancel
 
  *value* cannot contain new line characters, but you can use C language-style escape characters such as `\n` to represent a new line and `\t` to represent a tab. You can also include a backslash character if it is escaped (for example, "\\\\"). In addition, an empty string is permitted.
 
- You should save resources in text file format by using UTF-8 encoding or UTF-16 encoding in either little-endian or big-endian byte order. However, [Resource File Generator (Resgen.exe)](../tools/resgen-exe-resource-file-generator.md), which converts a .txt file to a .resources file, treats files as UTF-8 by default. If you want Resgen.exe to recognize a file that was encoded using UTF-16, you must include a Unicode byte order mark (U+FEFF) at the beginning of the file.
+ Save resources in text file format by using UTF-8 encoding or UTF-16 encoding in either little-endian or big-endian byte order. However, [Resource File Generator (Resgen.exe)](../tools/resgen-exe-resource-file-generator.md), which converts a .txt file to a .resources file, treats files as UTF-8 by default. If you want Resgen.exe to recognize a file that was encoded using UTF-16, you must include a Unicode byte order mark (U+FEFF) at the beginning of the file.
 
  To embed a resource file in text format into a .NET assembly, you must convert the file to a binary resource (.resources) file by using [Resource File Generator (Resgen.exe)](../tools/resgen-exe-resource-file-generator.md). You can then embed the .resources file in a .NET assembly by using a language compiler or embed it in a satellite assembly by using [Assembly Linker (Al.exe)](../tools/al-exe-assembly-linker.md).
 
- The following example uses a resource file in text format named GreetingResources.txt for a simple "Hello World" console application. The text file defines two strings, `prompt` and `greeting`, that prompt the user to enter his or her name and display a greeting.
+ The following example uses a resource file in text format named GreetingResources.txt for a simple "Hello World" console application. The text file defines two strings, `prompt` and `greeting`, that prompt the user to enter their name and display a greeting.
 
 ```text
 # GreetingResources.txt
@@ -128,7 +130,9 @@ csc greeting.cs -resource:GreetingResources.resources
 ```
 
 <a name="ResxFiles"></a>
+
 ## Resources in .resx files
+
  Unlike text files, which can only store string resources, XML resource (.resx) files can store strings, binary data such as images, icons, and audio clips, and programmatic objects. A .resx file contains a standard header, which describes the format of the resource entries and specifies the versioning information for the XML that is used to parse the data. The resource file data follows the XML header. Each data item consists of a name/value pair that is contained in a `data` tag. Its `name` attribute defines the resource name, and the nested `value` tag contains the resource value. For string data, the `value` tag contains the string.
 
  For example, the following `data` tag defines a string resource named `prompt` whose value is "Enter your name:".
@@ -167,6 +171,7 @@ csc greeting.cs -resource:GreetingResources.resources
 > Because .resx files must consist of well-formed XML in a predefined format, we do not recommend working with .resx files manually, particularly when the .resx files contain resources other than strings. Instead, [Visual Studio](https://visualstudio.microsoft.com/vs/?utm_medium=microsoft&utm_source=docs.microsoft.com&utm_campaign=inline+link) provides a transparent interface for creating and manipulating .resx files. For more information, see the [Resource Files in Visual Studio](creating-resource-files-for-desktop-apps.md#VSResFiles) section. You can also create and manipulate .resx files programmatically. For more information, see [Working with .resx Files Programmatically](working-with-resx-files-programmatically.md).
 
 <a name="ResourcesFiles"></a>
+
 ## Resources in .resources files
 
 You can use the <xref:System.Resources.ResourceWriter?displayProperty=nameWithType> class to programmatically create a binary resource (.resources) file directly from code. You can also use [Resource File Generator (Resgen.exe)](../tools/resgen-exe-resource-file-generator.md) to create a .resources file from a text file or a .resx file. The .resources file can contain binary data (byte arrays) and object data in addition to string data. Programmatically creating a .resources file requires the following steps:
@@ -180,7 +185,7 @@ You can use the <xref:System.Resources.ResourceWriter?displayProperty=nameWithTy
 > [!NOTE]
 > Do not use resource files to store passwords, security-sensitive information, or private data.
 
- The following example programmatically creates a .resources file named CarResources.resources that stores six strings, an icon, and two application-defined objects (two `Automobile` objects). Note that the `Automobile` class, which is defined and instantiated in the example, is tagged with the <xref:System.SerializableAttribute> attribute, which allows it to be persisted by the binary serialization formatter.
+ The following example programmatically creates a .resources file named CarResources.resources that stores six strings, an icon, and two application-defined objects (two `Automobile` objects). The `Automobile` class, which is defined and instantiated in the example, is tagged with the <xref:System.SerializableAttribute> attribute, which allows it to be persisted by the binary serialization formatter.
 
  [!code-csharp[Conceptual.Resources.Resources#1](../../../samples/snippets/csharp/VS_Snippets_CLR/conceptual.resources.resources/cs/resources1.cs#1)]
  [!code-vb[Conceptual.Resources.Resources#1](../../../samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.resources.resources/vb/resources1.vb#1)]
@@ -188,6 +193,7 @@ You can use the <xref:System.Resources.ResourceWriter?displayProperty=nameWithTy
  After you create the .resources file, you can embed it in a run-time executable or library by including the language compiler's `/resource` switch, or embed it in a satellite assembly by using [Assembly Linker (Al.exe)](../tools/al-exe-assembly-linker.md).
 
 <a name="VSResFiles"></a>
+
 ## Resource files in Visual Studio
 
 When you add a resource file to your [Visual Studio](https://visualstudio.microsoft.com/vs/?utm_medium=microsoft&utm_source=docs.microsoft.com&utm_campaign=inline+link) project, Visual Studio creates a .resx file in the project directory. Visual Studio provides resource editors that enable you to add strings, images, and binary objects. Because the editors are designed to handle static data only, they cannot be used to store programmatic objects; you must write object data to either a .resx file or to a .resources file programmatically. For more information, see [Working with .resx Files Programmatically](working-with-resx-files-programmatically.md) and the [Resources in .resources Files](creating-resource-files-for-desktop-apps.md#ResourcesFiles) section.
@@ -199,5 +205,5 @@ At compile time, Visual Studio first converts the .resx files in a project to bi
 ## See also
 
 - <xref:System.Resources>
-- [Resources in Desktop Apps](index.md)
+- [Resources in .NET Apps](index.md)
 - [Packaging and Deploying Resources](packaging-and-deploying-resources-in-desktop-apps.md)

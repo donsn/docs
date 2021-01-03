@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 9b8f6e0d-edab-4a7e-86e3-8c66bebc64bb
 ---
 # How To: Dynamic Update
+
 This topic outlines the basic steps required to create and dynamically update the routing configuration. In this example, the initial routing configuration is obtained from the configuration file and routes all messages to the regularCalc calculator service; however, it is subsequently updated programmatically in order to change the destination endpoint the roundingCalc service.  
   
 > [!NOTE]
@@ -72,6 +73,7 @@ This topic outlines the basic steps required to create and dynamically update th
     ```  
   
 ## Implement Dynamic Configuration  
+
  Dynamic configuration of the Routing Service can only be performed in code by creating a new <xref:System.ServiceModel.Routing.RoutingConfiguration> and using <xref:System.ServiceModel.Routing.RoutingExtension.ApplyConfiguration%2A> to replace the current configuration.  For this example, the Routing Service is self-hosted within a console application. After the application has started, you can modify the routing configuration by entering ‘regular’ or ‘rounding’ at the console window to configure the destination endpoint that messages are routed to; regularCalc when ‘regular’ is entered, otherwise roundingCalc when ‘rounding’ is entered.  
   
 1. The following using statements must be added in order to support the Routing Service.  
@@ -96,7 +98,7 @@ This topic outlines the basic steps required to create and dynamically update th
         using (ServiceHost serviceHost =  
             new ServiceHost(typeof(RoutingService)))  
         {  
-            // Open the ServiceHost to create listeners           
+            // Open the ServiceHost to create listeners
             // and start listening for messages.  
             Console.WriteLine("The Routing Service configured, opening....");  
             serviceHost.Open();  
@@ -179,12 +181,12 @@ namespace Microsoft.Samples.AdvancedFilters
     {  
         // Host the service within this EXE console application.  
         public static void Main()  
-        {             
+        {
             // Create a ServiceHost for the CalculatorService type.  
             using (ServiceHost serviceHost =  
                 new ServiceHost(typeof(RoutingService)))  
             {  
-                // Open the ServiceHost to create listeners           
+                // Open the ServiceHost to create listeners
                 // and start listening for messages.  
                 Console.WriteLine("The Routing Service configured, opening....");  
                 serviceHost.Open();  
@@ -236,7 +238,7 @@ namespace Microsoft.Samples.AdvancedFilters
 ```  
   
 ## Example  
- 
+
 The following is a complete listing of the configuration file used in this example:
   
 ```xml  

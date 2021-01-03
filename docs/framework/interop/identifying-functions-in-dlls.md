@@ -1,5 +1,6 @@
 ---
 title: "Identifying Functions in DLLs"
+description: Identify functions in DLLs. A DLL function's identity consists of a function name or ordinal, and the DLL file name in which the implementation can be found.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "platform invoke, identifying functions"
@@ -13,6 +14,7 @@ helpviewer_keywords:
 ms.assetid: 3e3f6780-6d90-4413-bad7-ba641220364d
 ---
 # Identifying Functions in DLLs
+
 The identity of a DLL function consists of the following elements:  
   
 - Function name or ordinal  

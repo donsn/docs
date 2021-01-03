@@ -1,5 +1,6 @@
 ---
 title: "Windows Workflow Foundation Programming"
+description: This article contains references you need to understand to become a proficient Windows Workflow Foundation programmer.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "Windows Workflow Foundation [WF], programming"
@@ -8,9 +9,11 @@ helpviewer_keywords:
 ms.assetid: f62354e2-6a2b-4e8c-a4bc-533fb96267a4
 ---
 # Windows Workflow Foundation Programming
+
 This section contains a set of primer topics that you should understand to become a proficient Windows Workflow Foundation (WF) programmer.  
   
 ## In This Section  
+
  [Designing Workflows](designing-workflows.md)  
  Topics that describe the flow-control paradigms used in workflow development.  
   

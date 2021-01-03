@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 7a93d260-91c3-4448-8f7a-a66fb562fc23
 ---
 # Object References
+
 This sample demonstrates how to pass objects by references between server and client. The sample uses simulated *social networks*. A social network consists of a `Person` class that contains a list of friends in which each friend is an instance of the `Person` class, with its own list of friends. This creates a graph of objects. The service exposes operations on these social networks.  
   
  In this sample, the service is hosted by Internet Information Services (IIS) and the client is a console application (.exe).  
@@ -12,6 +13,7 @@ This sample demonstrates how to pass objects by references between server and cl
 > The setup procedure and build instructions for this sample are located at the end of this topic.  
   
 ## Service  
+
  The `Person` class has the <xref:System.Runtime.Serialization.DataContractAttribute> attribute applied, with the <xref:System.Runtime.Serialization.DataContractAttribute.IsReference%2A> field set to `true` to declare it as a reference type. All properties have the <xref:System.Runtime.Serialization.DataMemberAttribute> attribute applied.  
   
 ```csharp
@@ -86,28 +88,29 @@ public List<Person> GetCommonFriends(List<Person> people)
 ```  
   
 ## Client  
+
  The client proxy is created using the **Add Service Reference** feature of Visual Studio.  
   
  A social network that consists of five `Person` objects is created. The client calls each of the three methods in the service.  
   
 #### To set up, build, and run the sample  
   
-1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/one-time-setup-procedure-for-the-wcf-samples.md).  
+1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](one-time-setup-procedure-for-the-wcf-samples.md).  
   
-2. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).  
+2. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).  
   
-3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/running-the-samples.md).  
+3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](running-the-samples.md).  
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Basic\Contract\Data\ObjectReferences`  
   
 ## See also
 
 - <xref:System.Runtime.Serialization.DataContractAttribute.IsReference%2A>
-- [Interoperable Object References](../../../../docs/framework/wcf/feature-details/interoperable-object-references.md)
+- [Interoperable Object References](../feature-details/interoperable-object-references.md)

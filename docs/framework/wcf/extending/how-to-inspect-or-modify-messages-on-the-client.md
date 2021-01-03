@@ -1,9 +1,11 @@
 ---
 title: "How to: Inspect or Modify Messages on the Client"
+description: Learn how to inspect or modify the incoming or outgoing messages across a WCF client or service by implementing the appropriate interface.
 ms.date: "03/30/2017"
 ms.assetid: b8256335-f1c2-419f-b862-9f220ccad84c
 ---
 # How to: Inspect or Modify Messages on the Client
+
 You can inspect or modify the incoming or outgoing messages across a WCF client by implementing a <xref:System.ServiceModel.Dispatcher.IClientMessageInspector?displayProperty=nameWithType> and inserting it into the client runtime. For more information, see [Extending Clients](extending-clients.md). The equivalent feature on the service is the <xref:System.ServiceModel.Dispatcher.IDispatchMessageInspector?displayProperty=nameWithType>. For a complete code example see the [Message Inspectors](../samples/message-inspectors.md) sample.  
   
 ### To inspect or modify messages  
@@ -15,6 +17,7 @@ You can inspect or modify the incoming or outgoing messages across a WCF client 
 3. Insert the behavior prior to calling the <xref:System.ServiceModel.ClientBase%601.Open%2A?displayProperty=nameWithType> or the <xref:System.ServiceModel.ICommunicationObject.Open%2A?displayProperty=nameWithType> method on the <xref:System.ServiceModel.ChannelFactory%601?displayProperty=nameWithType>. For details, see [Configuring and Extending the Runtime with Behaviors](configuring-and-extending-the-runtime-with-behaviors.md).  
   
 ## Example  
+
  The following code examples show, in order:  
   
 - A client inspector implementation.  
@@ -32,13 +35,13 @@ public class SimpleMessageInspector : IClientMessageInspector
     public void AfterReceiveReply(ref System.ServiceModel.Channels.Message reply, object correlationState)  
     {  
         // Implement this method to inspect/modify messages after a message  
-        // is received but prior to passing it back to the client   
+        // is received but prior to passing it back to the client
         Console.WriteLine("AfterReceiveReply called");  
     }  
   
     public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, IClientChannel channel)  
     {  
-        // Implement this method to inspect/modify messages before they   
+        // Implement this method to inspect/modify messages before they
         // are sent to the service  
         Console.WriteLine("BeforeSendRequest called");  
         return null;  
@@ -73,7 +76,7 @@ public class SimpleEndpointBehavior : IEndpointBehavior
 ```  
   
 ```csharp  
-// Configuration element   
+// Configuration element
 public class SimpleBehaviorExtensionElement : BehaviorExtensionElement  
 {  
     public override Type BehaviorType  
@@ -95,7 +98,7 @@ public class SimpleBehaviorExtensionElement : BehaviorExtensionElement
 <configuration>  
     <system.serviceModel>  
         <client>  
-            <endpoint address="http://localhost:8080/SimpleService/"   
+            <endpoint address="http://localhost:8080/SimpleService/"
                       binding="wsHttpBinding"
                       behaviorConfiguration="clientInspectorsAdded"
                       contract="ServiceReference1.IService1"  

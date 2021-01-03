@@ -7,9 +7,10 @@ dev_langs:
 ms.assetid: 1f5ce46b-e259-4bc9-a0b9-89d06fc9341c
 ---
 # Trusted Subsystem
+
 A client accesses one or more Web services that are distributed across a network. The Web services are designed so that access to additional resources (such as databases or other Web services) is encapsulated in the business logic of the Web service. These resources must be protected against unauthorized access. The following illustration depicts a trusted subsystem process.  
   
- ![Trusted subsystem](../../../../docs/framework/wcf/feature-details/media/wcfc-trustedsubsystemc.gif "wcfc_TrustedSubsystemc")  
+ ![Trusted subsystem](media/wcfc-trustedsubsystemc.gif "wcfc_TrustedSubsystemc")  
   
  The following steps describe the trusted subsystem process as illustrated:  
   
@@ -32,17 +33,19 @@ A client accesses one or more Web services that are distributed across a network
 |Integrity|Yes|  
 |Confidentiality|Yes|  
 |Transport|HTTP between client and the trusted subsystem service.<br /><br /> NET.TCP between trusted subsystem service and the resource (back-end service).|  
-|Binding|<xref:System.ServiceModel.WSHttpBinding> and <xref:System.ServiceModel.NetTcpBinding>[\<wsFederationHttpBinding>](../../../../docs/framework/configure-apps/file-schema/wcf/wsfederationhttpbinding.md)|  
+|Binding|<xref:System.ServiceModel.WSHttpBinding> and <xref:System.ServiceModel.NetTcpBinding>[\<wsFederationHttpBinding>](../../configure-apps/file-schema/wcf/wsfederationhttpbinding.md)|  
   
 ## Resource (Back-End Service)  
   
 ### Code  
+
  The following code shows how to create a service endpoint for the resource, which uses transport security over the TCP transport protocol.  
   
  [!code-csharp[TrustedSubSystemsResource#1](../../../../samples/snippets/csharp/VS_Snippets_CFX/trustedsubsystemsresource/cs/source.cs#1)]
  [!code-vb[TrustedSubSystemsResource#1](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/trustedsubsystemsresource/vb/source.vb#1)]  
   
 ### Configuration  
+
  The following configuration sets up the same endpoint using configuration.  
   
 ```xml  
@@ -84,6 +87,7 @@ A client accesses one or more Web services that are distributed across a network
 ## Trusted Subsystem  
   
 ### Code  
+
  The following code shows how to create a service endpoint for the trusted subsystem that uses message security over the HTTP protocol and a user name and password for authentication.  
   
  [!code-csharp[TrustedSubSystems#1](../../../../samples/snippets/csharp/VS_Snippets_CFX/trustedsubsystems/cs/source.cs#1)]
@@ -95,6 +99,7 @@ A client accesses one or more Web services that are distributed across a network
  [!code-vb[TrustedSubSystems#2](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/trustedsubsystems/vb/source.vb#2)]  
   
 ### Configuration  
+
  The following configuration sets up the same endpoint using configuration. Note the two bindings: One secures the service hosted in the trusted subsystem and the other communicates between the trusted subsystem and the back-end service.  
   
 ```xml  
@@ -116,7 +121,7 @@ A client accesses one or more Web services that are distributed across a network
       </service>  
     </services>  
     <client>  
-      <endpoint name=""   
+      <endpoint name=""
                 address="net.tcp://contoso.com:8001/BackendService"  
                 binding="customBinding"  
                 bindingConfiguration="ClientBinding"  
@@ -160,12 +165,14 @@ A client accesses one or more Web services that are distributed across a network
 ## Client  
   
 ### Code  
+
  The following code shows how to create the client that communicates with the trusted subsystem by using message security over the HTTP protocol and a user name and password for authentication.  
   
  [!code-csharp[TrustedSubSystemsClient#1](../../../../samples/snippets/csharp/VS_Snippets_CFX/trustedsubsystemsclient/cs/source.cs#1)]
  [!code-vb[TrustedSubSystemsClient#1](../../../../samples/snippets/visualbasic/VS_Snippets_CFX/trustedsubsystemsclient/vb/source.vb#1)]  
   
 ### Configuration  
+
  The following code configures the client to use message security over the HTTP protocol and a user name and password for authentication. The user name and password can only be specified using code (it is not configurable).  
   
 ```xml  
@@ -173,7 +180,7 @@ A client accesses one or more Web services that are distributed across a network
 <configuration>  
   <system.serviceModel>  
     <client>  
-        <endpoint name=""   
+        <endpoint name=""
                   address="http://www.cohowinery.com:8000/FacadeService"  
                   binding="wsHttpBinding"  
                   bindingConfiguration="Binding1"  
@@ -206,5 +213,5 @@ A client accesses one or more Web services that are distributed across a network
   
 ## See also
 
-- [Security Overview](../../../../docs/framework/wcf/feature-details/security-overview.md)
-- [Security Model for Windows Server App Fabric](https://go.microsoft.com/fwlink/?LinkID=201279&clcid=0x409)
+- [Security Overview](security-overview.md)
+- [Security Model for Windows Server App Fabric](/previous-versions/appfabric/ee677202(v=azure.10))

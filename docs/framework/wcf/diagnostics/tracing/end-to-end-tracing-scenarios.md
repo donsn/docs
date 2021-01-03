@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: f83b7d53-6061-4362-a9a3-ee1daf6542be
 ---
 # End-To-End Tracing Scenarios
+
 This section contains topics that describe different scenarios for using tracing.  
   
  Activity Tracing is implemented for Reply/Response, OneWay and Duplex scenarios using the following  
@@ -18,21 +19,21 @@ This section contains topics that describe different scenarios for using tracing
   
 ## In This Section  
   
-- [Activity List](../../../../../docs/framework/wcf/diagnostics/tracing/activity-list.md)  
+- [Activity List](activity-list.md)  
   
-- [Activity ID Propagation](../../../../../docs/framework/wcf/diagnostics/tracing/activity-id-propagation.md)  
+- [Activity ID Propagation](activity-id-propagation.md)  
   
-- [Synchronous Scenarios using HTTP, TCP or Named-Pipe](../../../../../docs/framework/wcf/diagnostics/tracing/synchronous-scenarios-using-http-tcp-or-named-pipe.md)  
+- [Synchronous Scenarios using HTTP, TCP or Named-Pipe](synchronous-scenarios-using-http-tcp-or-named-pipe.md)  
   
-- [Asynchronous Scenarios using HTTP, TCP, or Named-Pipe](../../../../../docs/framework/wcf/diagnostics/tracing/asynchronous-scenarios-using-http-tcp-or-named-pipe.md)  
+- [Asynchronous Scenarios using HTTP, TCP, or Named-Pipe](asynchronous-scenarios-using-http-tcp-or-named-pipe.md)  
   
-- [Activity Tracing in Message Security](../../../../../docs/framework/wcf/diagnostics/tracing/activity-tracing-in-message-security.md)  
+- [Activity Tracing in Message Security](activity-tracing-in-message-security.md)  
   
-- [MSMQ](../../../../../docs/framework/wcf/diagnostics/tracing/msmq.md)  
+- [MSMQ](msmq.md)  
   
-- [COM+](../../../../../docs/framework/wcf/diagnostics/tracing/com.md)  
+- [COM+](com.md)  
   
 ## See also
 
-- [Using Tracing to Troubleshoot Your Application](../../../../../docs/framework/wcf/diagnostics/tracing/using-tracing-to-troubleshoot-your-application.md)
-- [End-to-End Tracing](../../../../../docs/framework/wcf/diagnostics/tracing/end-to-end-tracing.md)
+- [Using Tracing to Troubleshoot Your Application](using-tracing-to-troubleshoot-your-application.md)
+- [End-to-End Tracing](end-to-end-tracing.md)

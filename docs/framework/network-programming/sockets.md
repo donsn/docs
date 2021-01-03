@@ -1,5 +1,6 @@
 ---
 title: "Sockets"
+description: Learn about the .NET Framework Socket class, which is a managed-code version of the socket services provided by the Winsock32 API.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "application protocols, sockets"
@@ -17,6 +18,7 @@ helpviewer_keywords:
 ms.assetid: 10d22735-bd37-42c1-a2be-c1932f979a7d
 ---
 # Sockets
+
 The <xref:System.Net.Sockets> namespace contains a managed implementation of the Windows Sockets interface. All other network-access classes in the <xref:System.Net> namespace are built on top of this implementation of sockets.  
   
  The .NET Framework <xref:System.Net.Sockets.Socket> class is a managed-code version of the socket services provided by the Winsock32 API. In most cases, the **Socket** class methods simply marshal data into their native Win32 counterparts and handle any necessary security checks.  

@@ -1,5 +1,6 @@
 ---
 title: "Using an Asynchronous Client Socket"
+description: This example shows an asynchronous client socket. .NET Framework asynchronous programming lets an application continue to run while processing a connection.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -19,6 +20,7 @@ helpviewer_keywords:
 ms.assetid: fd85bc88-e06c-467d-a30d-9fd7cffcfca1
 ---
 # Using an Asynchronous Client Socket
+
 An asynchronous client socket does not suspend the application while waiting for network operations to complete. Instead, it uses the standard .NET Framework asynchronous programming model to process the network connection on one thread while the application continues to run on the original thread. Asynchronous sockets are appropriate for applications that make heavy use of the network or that cannot wait for network operations to complete before continuing.  
   
  The <xref:System.Net.Sockets.Socket> class follows the .NET Framework naming pattern for asynchronous methods; for example, the synchronous <xref:System.Net.Sockets.Socket.Receive%2A> method corresponds to the asynchronous <xref:System.Net.Sockets.Socket.BeginReceive%2A> and <xref:System.Net.Sockets.Socket.EndReceive%2A> methods.  
@@ -40,7 +42,7 @@ End Sub 'Connect
   
 ```csharp  
 public static void Connect(EndPoint remoteEP, Socket client) {  
-    client.BeginConnect(remoteEP,   
+    client.BeginConnect(remoteEP,
         new AsyncCallback(ConnectCallback), client );  
   
    connectDone.WaitOne();  
@@ -156,11 +158,11 @@ private static void SendCallback(IAsyncResult ar) {
 ```vb  
 Public Class StateObject  
     ' Client socket.  
-    Public workSocket As Socket = Nothing   
+    Public workSocket As Socket = Nothing
     ' Size of receive buffer.  
     Public BufferSize As Integer = 256  
     ' Receive buffer.  
-    Public buffer(256) As Byte   
+    Public buffer(256) As Byte
     ' Received data string.  
     Public sb As New StringBuilder()  
 End Class 'StateObject  
@@ -220,7 +222,7 @@ private static void Receive(Socket client) {
 ```vb  
 Private Shared Sub ReceiveCallback(ar As IAsyncResult)  
     Try  
-        ' Retrieve the state object and the client socket   
+        ' Retrieve the state object and the client socket
         ' from the asynchronous state object.  
         Dim state As StateObject = CType(ar.AsyncState, StateObject)  
         Dim client As Socket = state.workSocket  
@@ -253,7 +255,7 @@ End Sub 'ReceiveCallback
 ```csharp  
 private static void ReceiveCallback( IAsyncResult ar ) {  
     try {  
-        // Retrieve the state object and the client socket   
+        // Retrieve the state object and the client socket
         // from the asynchronous state object.  
         StateObject state = (StateObject) ar.AsyncState;  
         Socket client = state.workSocket;  

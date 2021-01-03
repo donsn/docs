@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: 0aaf91d0-ce18-468d-8006-bc9bc2e48231
 ---
 # UriTemplate Sample
+
 The <xref:System.UriTemplate> class provides methods for working with sets of URIs that share a common structure. This sample demonstrates the following key concepts relating to `UriTemplate`:  
   
 - Syntax for creating templates.  
@@ -14,20 +15,20 @@ The <xref:System.UriTemplate> class provides methods for working with sets of UR
   
 ### To set up, build, and run the sample  
   
-1. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).  
+1. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).  
   
-2. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/running-the-samples.md).  
+2. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](running-the-samples.md).  
   
 > [!IMPORTANT]
 > The samples may already be installed on your computer. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Basic\Web\UriTemplate`  
   
 ## See also
 
-- [UriTemplate Table](../../../../docs/framework/wcf/samples/uritemplate-table-sample.md)
-- [UriTemplate Table Dispatcher](../../../../docs/framework/wcf/samples/uritemplate-table-dispatcher-sample.md)
+- [UriTemplate Table](uritemplate-table-sample.md)
+- [UriTemplate Table Dispatcher](uritemplate-table-dispatcher-sample.md)

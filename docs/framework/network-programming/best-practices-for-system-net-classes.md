@@ -1,5 +1,6 @@
 ---
 title: "Best Practices for System.Net Classes"
+description: Follow these recommendations to use the classes contained in System.Net to their best advantage in .NET Framework programming.
 ms.date: "03/30/2017"
 helpviewer_keywords: 
   - "sending data, best practices"
@@ -12,6 +13,7 @@ helpviewer_keywords:
 ms.assetid: 716decc6-5952-47b7-9c5a-ba6fc5698684
 ---
 # Best Practices for System.Net Classes
+
 The following recommendations will help you use the classes contained in <xref:System.Net> to their best advantage:  
   
 - For Transport Layer Security (TLS) best practices, see [Transport Layer Security (TLS) best practices with .NET Framework](tls.md).

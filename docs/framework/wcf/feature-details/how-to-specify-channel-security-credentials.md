@@ -4,12 +4,13 @@ ms.date: "03/30/2017"
 ms.assetid: f8e03f47-9c4f-4dd5-8f85-429e6d876119
 ---
 # How to: Specify Channel Security Credentials
+
 The Windows Communication Foundation (WCF) Service Moniker allows COM applications to call WCF services. Most WCF services require the client to specify credentials for authentication and authorization. When calling a WCF service from a WCF client, you can specify these credentials in managed code or in an application configuration file. When calling a WCF service from a COM application, you can use the <xref:System.ServiceModel.ComIntegration.IChannelCredentials> interface to specify credentials. This topic will illustrate various ways to specify credentials using the <xref:System.ServiceModel.ComIntegration.IChannelCredentials> interface.  
   
 > [!NOTE]
 > <xref:System.ServiceModel.ComIntegration.IChannelCredentials> is an IDispatch-based interface and you will not get IntelliSense functionality in the Visual Studio environment.  
   
- This article will use the WCF service defined in the [Message Security Sample](../../../../docs/framework/wcf/samples/message-security-sample.md).  
+ This article will use the WCF service defined in the [Message Security Sample](../samples/message-security-sample.md).  
   
 ### To specify a client certificate  
   
@@ -21,7 +22,7 @@ The Windows Communication Foundation (WCF) Service Moniker allows COM applicatio
   
 4. Add `bindingNamespace="http://Microsoft.ServiceModel.Samples"` to the endpoint tag in the App.config for the service.  
   
-5. Build the Message Security Sample and run Service.exe. Use Internet Explorer and browse to the service's URI (http://localhost:8000/ServiceModelSamples/Service) to ensure that the service is working.  
+5. Build the Message Security Sample and run Service.exe. Use Internet Explorer and browse to the service's URI (`http://localhost:8000/ServiceModelSamples/Service`) to ensure that the service is working.  
   
 6. Open Visual Basic 6.0 and create a new Standard .exe file. Add a button to the form and double-click the button to add the following code to the Click handler:  
   
@@ -109,7 +110,7 @@ The Windows Communication Foundation (WCF) Service Moniker allows COM applicatio
   
 ### To specify an issue token  
   
-1. Issue tokens are used only for applications using federated security. For more information about federated security, see [Federation and Issued Tokens](../../../../docs/framework/wcf/feature-details/federation-and-issued-tokens.md) and [Federation Sample](../../../../docs/framework/wcf/samples/federation-sample.md).  
+1. Issue tokens are used only for applications using federated security. For more information about federated security, see [Federation and Issued Tokens](federation-and-issued-tokens.md) and [Federation Sample](../samples/federation-sample.md).  
   
      The following Visual Basic code example illustrates how to call the <xref:System.ServiceModel.ComIntegration.IChannelCredentials.SetIssuedToken%28System.String%2CSystem.String%2CSystem.String%29> method:  
   
@@ -127,8 +128,8 @@ The Windows Communication Foundation (WCF) Service Moniker allows COM applicatio
   
 ## See also
 
-- [Federation](../../../../docs/framework/wcf/feature-details/federation.md)
-- [How to: Configure Credentials on a Federation Service](../../../../docs/framework/wcf/feature-details/how-to-configure-credentials-on-a-federation-service.md)
-- [How to: Create a Federated Client](../../../../docs/framework/wcf/feature-details/how-to-create-a-federated-client.md)
-- [Message Security](../../../../docs/framework/wcf/feature-details/message-security-in-wcf.md)
-- [Bindings and Security](../../../../docs/framework/wcf/feature-details/bindings-and-security.md)
+- [Federation](federation.md)
+- [How to: Configure Credentials on a Federation Service](how-to-configure-credentials-on-a-federation-service.md)
+- [How to: Create a Federated Client](how-to-create-a-federated-client.md)
+- [Message Security](message-security-in-wcf.md)
+- [Bindings and Security](bindings-and-security.md)

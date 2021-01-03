@@ -1,5 +1,6 @@
 ---
 title: "How to: Implement Callback Functions"
+description: See how to implement callback functions. In this example, a managed application, using platform invoke, prints the handle value for each window on a computer.
 ms.date: "03/30/2017"
 dev_langs: 
   - "csharp"
@@ -10,6 +11,7 @@ helpviewer_keywords:
 ms.assetid: e55b3712-b9ea-4453-bd9a-ad5cfa2f6bfa
 ---
 # How to: Implement Callback Functions
+
 The following procedure and example demonstrate how a managed application, using platform invoke, can print the handle value for each window on the local computer. Specifically, the procedure and example use the **EnumWindows** function to step through the list of windows and a managed callback function (named CallBack) to print the value of the window handle.  
   
 ### To implement a callback function  
@@ -68,16 +70,16 @@ public delegate bool CallBack(int hwnd, int lParam);
 public class EnumReportApp  
 {  
     [DllImport("user32")]  
-    public static extern int EnumWindows(CallBack x, int y);   
+    public static extern int EnumWindows(CallBack x, int y);
   
-    public static void Main()   
+    public static void Main()
     {  
         CallBack myCallBack = new CallBack(EnumReportApp.Report);  
         EnumWindows(myCallBack, 0);  
     }  
   
     public static bool Report(int hwnd, int lParam)  
-    {   
+    {
         Console.Write("Window handle is ");  
         Console.WriteLine(hwnd);  
         return true;  

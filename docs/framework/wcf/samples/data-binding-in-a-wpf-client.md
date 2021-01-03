@@ -4,6 +4,7 @@ ms.date: "03/30/2017"
 ms.assetid: bb8c8293-5973-4aef-9b07-afeff5d3293c
 ---
 # Data Binding in a Windows Presentation Foundation Client
+
 This sample demonstrates the use of data binding in a Windows Presentation Foundation (WPF) client. The sample uses a Windows Communication Foundation (WCF) service that randomly generates an array of albums to return to the client. Each album has a name, a price, and a list of album tracks. The album tracks have a name and duration. The information that is returned by the service is automatically bound to the user interface (UI) provided by the Windows Presentation Foundation (WPF) client.  
   
 > [!NOTE]
@@ -16,7 +17,7 @@ This sample demonstrates the use of data binding in a Windows Presentation Found
 void client_GetAlbumListCompleted(object sender, GetAlbumListCompletedEventArgs e)  
 {  
     // This is on the UI thread, myPanel can be accessed directly  
-    myPanel.DataContext = e.Result;   
+    myPanel.DataContext = e.Result;
 }  
 ```  
   
@@ -25,9 +26,9 @@ void client_GetAlbumListCompleted(object sender, GetAlbumListCompletedEventArgs 
  In the following sample XAML code, the `ListBox` specifies `ItemsSource="{Binding }"`.  
   
 ```xml  
-<ListBox   
+<ListBox
           ItemTemplate="{StaticResource AlbumStyle}"  
-          ItemsSource="{Binding }"   
+          ItemsSource="{Binding }"
           IsSynchronizedWithCurrentItem="true" />  
 ```  
   
@@ -51,8 +52,8 @@ void client_GetAlbumListCompleted(object sender, GetAlbumListCompletedEventArgs 
  The following XAML code creates a second `ListBox`.  
   
 ```xaml  
-<ListBox Grid.Row="2"   
-            Grid.ColumnSpan="2"   
+<ListBox Grid.Row="2"
+            Grid.ColumnSpan="2"
             ItemTemplate="{StaticResource TrackStyle}"  
             ItemsSource="{Binding Path=Tracks}" />  
 ```  
@@ -61,17 +62,17 @@ void client_GetAlbumListCompleted(object sender, GetAlbumListCompletedEventArgs 
   
 ### To set up, build, and run the sample  
   
-1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/one-time-setup-procedure-for-the-wcf-samples.md).  
+1. Ensure that you have performed the [One-Time Setup Procedure for the Windows Communication Foundation Samples](one-time-setup-procedure-for-the-wcf-samples.md).  
   
-2. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/building-the-samples.md).  
+2. To build the C# or Visual Basic .NET edition of the solution, follow the instructions in [Building the Windows Communication Foundation Samples](building-the-samples.md).  
   
-3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](../../../../docs/framework/wcf/samples/running-the-samples.md).  
+3. To run the sample in a single- or cross-machine configuration, follow the instructions in [Running the Windows Communication Foundation Samples](running-the-samples.md).  
   
 > [!IMPORTANT]
 > The samples may already be installed on your machine. Check for the following (default) directory before continuing.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples`  
->   
+>
 > If this directory does not exist, go to [Windows Communication Foundation (WCF) and Windows Workflow Foundation (WF) Samples for .NET Framework 4](https://www.microsoft.com/download/details.aspx?id=21459) to download all Windows Communication Foundation (WCF) and [!INCLUDE[wf1](../../../../includes/wf1-md.md)] samples. This sample is located in the following directory.  
->   
+>
 > `<InstallDrive>:\WF_WCF_Samples\WCF\Scenario\DataBinding\WPFDataBinding`  

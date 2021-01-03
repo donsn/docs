@@ -3,11 +3,10 @@ title: Blazor app hosting models
 description: Learn the different ways to host a Blazor app, including in the browser on WebAssembly or on the server.
 author: danroth27
 ms.author: daroth
-ms.date: 09/11/2019
+no-loc: [Blazor, WebAssembly]
+ms.date: 11/20/2020
 ---
 # Blazor app hosting models
-
-[!INCLUDE [book-preview](../../../includes/book-preview.md)]
 
 Blazor apps can be hosted in IIS just like ASP.NET Web Forms apps. Blazor apps can also be hosted in one of the following ways:
 
@@ -40,7 +39,7 @@ The Blazor Server hosting model may sound familiar if you've used ASP.NET AJAX a
 
 ## How to choose the right Blazor hosting model
 
-As described in the [Blazor hosting model docs](https://docs.microsoft.com/aspnet/core/blazor/hosting-models#server-side), the different Blazor hosting models have different tradeoffs.
+As described in the [Blazor hosting model docs](/aspnet/core/blazor/hosting-models), the different Blazor hosting models have different tradeoffs.
 
 The Blazor WebAssembly hosting model has the following benefits:
 
@@ -59,8 +58,8 @@ The downsides of the Blazor WebAssembly hosting model are:
 Conversely, the Blazor Server hosting model offers the following benefits:
 
 - Download size is much smaller than a client-side app, and the app loads much faster.
-- The app takes full advantage of server capabilities, including use of any .NET Core-compatible APIs.
-- .NET Core on the server is used to run the app, so existing .NET tooling, such as debugging, works as expected.
+- The app takes full advantage of server capabilities, including use of any .NET compatible APIs.
+- .NET on the server is used to run the app, so existing .NET tooling, such as debugging, works as expected.
 - Thin clients are supported. For example, server-side apps work with browsers that don't support WebAssembly and on resource-constrained devices.
 - The app's .NET/C# code base, including the app's component code, isn't served to clients.
 

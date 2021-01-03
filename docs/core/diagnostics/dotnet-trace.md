@@ -1,21 +1,33 @@
 ---
-title: dotnet-trace tool - .NET Core
-description: Installing and using the dotnet-trace command-line tool.
-author: sdmaclea
-ms.author: stmaclea
-ms.date: 11/21/2019
+title: dotnet-trace diagnostic tool - .NET CLI
+description: Learn how to install and use the dotnet-trace CLI tool to collect .NET traces of a running process without the native profiler, by using the .NET EventPipe.
+ms.date: 11/17/2020
 ---
 # dotnet-trace performance analysis utility
 
-**This article applies to:** ✓ .NET Core 3.0 SDK and later versions
+**This article applies to:** ✔️ .NET Core 3.0 SDK and later versions
 
-## Install dotnet-trace
+## Install
 
-Install `dotnet-trace` [NuGet package](https://www.nuget.org/packages/dotnet-trace) with the [dotnet tool install](../tools/dotnet-tool-install.md) command:
+There are two ways to download and install `dotnet-trace`:
 
-```dotnetcli
-dotnet tool install --global dotnet-trace
-```
+- **dotnet global tool:**
+
+  To install the latest release version of the `dotnet-trace` [NuGet package](https://www.nuget.org/packages/dotnet-trace), use the [dotnet tool install](../tools/dotnet-tool-install.md) command:
+
+  ```dotnetcli
+  dotnet tool install --global dotnet-trace
+  ```
+
+- **Direct download:**
+
+  Download the tool executable that matches your platform:
+
+  | OS  | Platform |
+  | --- | -------- |
+  | Windows | [x86](https://aka.ms/dotnet-trace/win-x86) \| [x64](https://aka.ms/dotnet-trace/win-x64) \| [arm](https://aka.ms/dotnet-trace/win-arm) \| [arm-x64](https://aka.ms/dotnet-trace/win-arm64) |
+  | macOS   | [x64](https://aka.ms/dotnet-trace/osx-x64) |
+  | Linux   | [x64](https://aka.ms/dotnet-trace/linux-x64) \| [arm](https://aka.ms/dotnet-trace/linux-arm) \| [arm64](https://aka.ms/dotnet-trace/linux-arm64) \| [musl-x64](https://aka.ms/dotnet-trace/linux-musl-x64) \| [musl-arm64](https://aka.ms/dotnet-trace/linux-musl-arm64) |
 
 ## Synopsis
 
@@ -29,27 +41,27 @@ The `dotnet-trace` tool:
 
 * Is a cross-platform .NET Core tool.
 * Enables the collection of .NET Core traces of a running process without a native profiler.
-* Is built around the cross-platform `EventPipe` technology of the .NET Core runtime.
+* Is built on [`EventPipe`](./eventpipe.md) of the .NET Core runtime.
 * Delivers the same experience on Windows, Linux, or macOS.
 
 ## Options
-
-- **`--version`**  
-
-  Displays the version of the dotnet-counters utility.
 
 - **`-h|--help`**
 
   Shows command-line help.
 
+- **`--version`**
+
+  Displays the version of the dotnet-trace utility.
+
 ## Commands
 
-| Command                                                     |
-| ----------------------------------------------------------- |
-| [dotnet-trace collect](#dotnet-trace-collect)               |
-| [dotnet-trace convert](#dotnet-trace-convert)               |
-| [dotnet-trace ps](#dotnet-trace-ps) |
-| [dotnet-trace list-profiles](#dotnet-trace-list-profiles)   |
+| Command                                                   |
+|-----------------------------------------------------------|
+| [dotnet-trace collect](#dotnet-trace-collect)             |
+| [dotnet-trace convert](#dotnet-trace-convert)             |
+| [dotnet-trace ps](#dotnet-trace-ps)                       |
+| [dotnet-trace list-profiles](#dotnet-trace-list-profiles) |
 
 ## dotnet-trace collect
 
@@ -58,23 +70,56 @@ Collects a diagnostic trace from a running process.
 ### Synopsis
 
 ```console
-dotnet-trace collect [-h|--help] [-p|--process-id] [--buffersize <size>] [-o|--output]
-    [--providers] [--profile <profile-name>] [--format]
+dotnet-trace collect [--buffersize <size>] [--clreventlevel <clreventlevel>] [--clrevents <clrevents>]
+    [--format <Chromium|NetTrace|Speedscope>] [-h|--help]
+    [-n, --name <name>] [--diagnostic-port] [-o|--output <trace-file-path>] [-p|--process-id <pid>]
+    [--profile <profile-name>] [--providers <list-of-comma-separated-providers>]
+    [-- <command>] (for target applications running .NET 5.0 or later)
 ```
 
 ### Options
-
-- **`-p|--process-id <PID>`**
-
-  The process to collect the trace from.
 
 - **`--buffersize <size>`**
 
   Sets the size of the in-memory circular buffer, in megabytes. Default 256 MB.
 
+- **`--clreventlevel <clreventlevel>`**
+
+  Verbosity of CLR events to be emitted.
+
+- **`--clrevents <clrevents>`**
+
+  List of CLR runtime events to emit.
+
+- **`--format {Chromium|NetTrace|Speedscope}`**
+
+  Sets the output format for the trace file conversion. The default is `NetTrace`.
+
+- **`-n, --name <name>`**
+
+  The name of the process to collect the trace from.
+
+- **`--diagnostic-port <path-to-port>`**
+
+  The name of the diagnostic port to create. See [Use diagnostic port to collect a trace from app startup](#use-diagnostic-port-to-collect-a-trace-from-app-startup) to learn how to use this option to collect a trace from app startup.
+
 - **`-o|--output <trace-file-path>`**
 
-  The output path for the collected trace data. If not specified it defaults to `trace.nettrace`.
+  The output path for the collected trace data. If not specified, it defaults to `trace.nettrace`.
+
+- **`-p|--process-id <PID>`**
+
+  The process ID to collect the trace from.
+
+- **`--profile <profile-name>`**
+
+  A named pre-defined set of provider configurations that allows common tracing scenarios to be specified succinctly. The following profiles are available:
+
+ | Profile | Description |
+ |---------|-------------|
+ |`cpu-sampling`|Useful for tracking CPU usage and general .NET runtime information. This is the default option if no profile or providers are specified.|
+ |`gc-verbose`|Tracks GC collections and samples object allocations.|
+ |`gc-collect`|Tracks GC collections only at very low overhead.|
 
 - **`--providers <list-of-comma-separated-providers>`**
 
@@ -86,13 +131,15 @@ dotnet-trace collect [-h|--help] [-p|--process-id] [--buffersize <size>] [-o|--o
   - `Provider` is in the form: `KnownProviderName[:Flags[:Level][:KeyValueArgs]]`.
   - `KeyValueArgs` is in the form: `[key1=value1][;key2=value2]`.
 
-- **`--profile <profile-name>`**
+- **`-- <command>` (for target applications running .NET 5.0 only)**
 
-  A named pre-defined set of provider configurations that allows common tracing scenarios to be specified succinctly.
+  After the collection configuration parameters, the user can append `--` followed by a command to start a .NET application with at least a 5.0 runtime. This may be helpful when diagnosing issues that happen early in the process, such as startup performance issue or assembly loader and binder errors.
 
-- **`--format {NetTrace|Speedscope}`**
+  > [!NOTE]
+  > Using this option monitors the first .NET 5.0 process that communicates back to the tool, which means if your command launches multiple .NET applications, it will only collect the first app. Therefore, it is recommended you use this option on self-contained applications, or using the `dotnet exec <app.dll>` option.
 
-  Sets the output format for the trace file conversion. The default is `NetTrace`.
+> [!NOTE]
+> Stopping the trace may take a long time (up to minutes) for large applications. The runtime needs to send over the type cache for all managed code that was captured in the trace.
 
 ## dotnet-trace convert
 
@@ -101,7 +148,7 @@ Converts `nettrace` traces to alternate formats for use with alternate trace ana
 ### Synopsis
 
 ```console
-dotnet-trace convert [<input-filename>] [-h|--help] [--format] [-o|--output]
+dotnet-trace convert [<input-filename>] [--format <Chromium|NetTrace|Speedscope>] [-h|--help] [-o|--output <output-filename>]
 ```
 
 ### Arguments
@@ -112,7 +159,7 @@ dotnet-trace convert [<input-filename>] [-h|--help] [--format] [-o|--output]
 
 ### Options
 
-- **`--format <NetTrace|Speedscope>`**
+- **`--format <Chromium|NetTrace|Speedscope>`**
 
   Sets the output format for the trace file conversion.
 
@@ -120,9 +167,12 @@ dotnet-trace convert [<input-filename>] [-h|--help] [--format] [-o|--output]
 
   Output filename. Extension of target format will be added.
 
+> [!NOTE]
+> Converting `nettrace` files to `chromium` or `speedscope` files is irreversible. `speedscope` and `chromium` files don't have all the information necessary to reconstruct `nettrace` files. However, the `convert` command preserves the original `nettrace` file, so don't delete this file if you plan to open it in the future.
+
 ## dotnet-trace ps
 
-Lists dotnet processes that can be attached to.
+ Lists the dotnet processes that traces can be collected from.
 
 ### Synopsis
 
@@ -168,6 +218,85 @@ To collect traces using `dotnet-trace`:
 
 - Stop collection by pressing the `<Enter>` key. `dotnet-trace` will finish logging events to the *trace.nettrace* file.
 
+## Launch a child application and collect a trace from its startup using dotnet-trace
+
+> [!IMPORTANT]
+> This works for apps running .NET 5.0 or later only.
+
+Sometimes it may be useful to collect a trace of a process from its startup. For apps running .NET 5.0 or later, it is possible to do this by using dotnet-trace.
+
+This will launch `hello.exe` with `arg1` and `arg2` as its command-line arguments and collect a trace from its runtime startup:
+
+```console
+dotnet-trace collect -- hello.exe arg1 arg2
+```
+
+The preceding command generates output similar to the following:
+
+```console
+No profile or providers specified, defaulting to trace profile 'cpu-sampling'
+
+Provider Name                           Keywords            Level               Enabled By
+Microsoft-DotNETCore-SampleProfiler     0x0000F00000000000  Informational(4)    --profile
+Microsoft-Windows-DotNETRuntime         0x00000014C14FCCBD  Informational(4)    --profile
+
+Process        : E:\temp\gcperfsim\bin\Debug\net5.0\gcperfsim.exe
+Output File    : E:\temp\gcperfsim\trace.nettrace
+
+
+[00:00:00:05]   Recording trace 122.244  (KB)
+Press <Enter> or <Ctrl+C> to exit...
+```
+
+You can stop collecting the trace by pressing `<Enter>` or `<Ctrl + C>` key. Doing this will also exit `hello.exe`.
+
+> [!NOTE]
+> Launching `hello.exe` via dotnet-trace will make its input/output to be redirected and you won't be able to interact with its stdin/stdout.
+> Exiting the tool via CTRL+C or SIGTERM will safely end both the tool and the child process.
+> If the child process exits before the tool, the tool will exit as well and the trace should be safely viewable.
+
+## Use diagnostic port to collect a trace from app startup
+
+  > [!IMPORTANT]
+  > This works for apps running .NET 5.0 or later only.
+
+Diagnostic port is a new runtime feature that was added in .NET 5 that allows you to start tracing from app startup. To do this using `dotnet-trace`, you can either use `dotnet-trace collect -- <command>` as described in the examples above, or use the `--diagnostic-port` option.
+
+Using `dotnet-trace <collect|monitor> -- <command>` to launch the application as a child process is the simplest way to quickly trace it from its startup.
+
+However, when you want to gain a finer control over the lifetime of the app being traced (for example, monitor the app for the first 10 minutes only and continue executing) or if you need to interact with the app using the CLI, using `--diagnostic-port` option allows you to control both the target app being monitored and `dotnet-trace`.
+
+1. The command below makes `dotnet-trace` create a diagnostics socket named `myport.sock` and wait for a connection.
+
+    > ```dotnet-cli
+    > dotnet-trace collect --diagnostic-port myport.sock
+    > ```
+
+    Output:
+
+    > ```bash
+    > Waiting for connection on myport.sock
+    > Start an application with the following environment variable: DOTNET_DiagnosticPorts=/home/user/myport.sock
+    > ```
+
+2. In a separate console, launch the target application with the environment variable `DOTNET_DiagnosticPorts` set to the value in the `dotnet-trace` output.
+
+    > ```bash
+    > export DOTNET_DiagnosticPorts=/home/user/myport.sock
+    > ./my-dotnet-app arg1 arg2
+    > ```
+
+    This should then enable `dotnet-trace` to start tracing `my-dotnet-app`:
+
+    > ```bash
+    > Waiting for connection on myport.sock
+    > Start an application with the following environment variable: DOTNET_DiagnosticPorts=myport.sock
+    > Starting a counter session. Press Q to quit.
+    > ```
+
+    > [!IMPORTANT]
+    > Launching your app with `dotnet run` can be problematic because the dotnet CLI may spawn many child processes that are not your app and they can connect to `dotnet-trace` before your app, leaving your app to be suspended at runtime. It is recommended you directly use a self-contained version of the app or use `dotnet exec` to launch the application.
+
 ## View the trace captured from dotnet-trace
 
 On Windows, *.nettrace* files can be viewed on [PerfView](https://github.com/microsoft/perfview) for analysis: For traces collected on other platforms, the trace file can be moved to a Windows machine to be viewed on PerfView.
@@ -200,13 +329,31 @@ dotnet-trace collect --process-id <PID> --providers System.Runtime:0:1:EventCoun
 
 The preceding command disables runtime events and the managed stack profiler.
 
-## .NET Providers
+## Use .rsp file to avoid typing long commands
 
-The .NET Core runtime supports the following .NET providers. .NET Core uses the same keywords to enable both
-`Event Tracing for Windows (ETW)` and `EventPipe` traces.
+You can launch `dotnet-trace` with an `.rsp` file that contains the arguments to pass. This can be useful when enabling providers that expect lengthy arguments or when using a shell environment that strips characters.
 
-| Provider name                            | Information |
-|------------------------------------------|-------------|
-| `Microsoft-Windows-DotNETRuntime`        | [The Runtime Provider](../../framework/performance/clr-etw-providers.md#the-runtime-provider)<br>[CLR Runtime Keywords](../../framework/performance/clr-etw-keywords-and-levels.md#runtime) |
-| `Microsoft-Windows-DotNETRuntimeRundown` | [The Rundown Provider](../../framework/performance/clr-etw-providers.md#the-rundown-provider)<br>[CLR Rundown Keywords](../../framework/performance/clr-etw-keywords-and-levels.md#rundown) |
-| `Microsoft-DotNETCore-SampleProfiler`    | Enables the sample profiler. |
+For example, the following provider can be cumbersome to type out each time you want to trace:
+
+```cmd
+dotnet-trace collect --providers Microsoft-Diagnostics-DiagnosticSource:0x3:5:FilterAndPayloadSpecs="SqlClientDiagnosticListener/System.Data.SqlClient.WriteCommandBefore@Activity1Start:-Command;Command.CommandText;ConnectionId;Operation;Command.Connection.ServerVersion;Command.CommandTimeout;Command.CommandType;Command.Connection.ConnectionString;Command.Connection.Database;Command.Connection.DataSource;Command.Connection.PacketSize\r\nSqlClientDiagnosticListener/System.Data.SqlClient.WriteCommandAfter@Activity1Stop:\r\nMicrosoft.EntityFrameworkCore/Microsoft.EntityFrameworkCore.Database.Command.CommandExecuting@Activity2Start:-Command;Command.CommandText;ConnectionId;IsAsync;Command.Connection.ClientConnectionId;Command.Connection.ServerVersion;Command.CommandTimeout;Command.CommandType;Command.Connection.ConnectionString;Command.Connection.Database;Command.Connection.DataSource;Command.Connection.PacketSize\r\nMicrosoft.EntityFrameworkCore/Microsoft.EntityFrameworkCore.Database.Command.CommandExecuted@Activity2Stop:",OtherProvider,AnotherProvider
+```
+
+In addition, the previous example contains `"` as part of the argument. Because quotes are not handled equally by each shell, you may experience various issues when using different shells. For example, the command to enter in `zsh` is different to the command in `cmd`.
+
+Instead of typing this each time, you can save the following text into a file called `myprofile.rsp`.
+
+```txt
+--providers
+Microsoft-Diagnostics-DiagnosticSource:0x3:5:FilterAndPayloadSpecs="SqlClientDiagnosticListener/System.Data.SqlClient.WriteCommandBefore@Activity1Start:-Command;Command.CommandText;ConnectionId;Operation;Command.Connection.ServerVersion;Command.CommandTimeout;Command.CommandType;Command.Connection.ConnectionString;Command.Connection.Database;Command.Connection.DataSource;Command.Connection.PacketSize\r\nSqlClientDiagnosticListener/System.Data.SqlClient.WriteCommandAfter@Activity1Stop:\r\nMicrosoft.EntityFrameworkCore/Microsoft.EntityFrameworkCore.Database.Command.CommandExecuting@Activity2Start:-Command;Command.CommandText;ConnectionId;IsAsync;Command.Connection.ClientConnectionId;Command.Connection.ServerVersion;Command.CommandTimeout;Command.CommandType;Command.Connection.ConnectionString;Command.Connection.Database;Command.Connection.DataSource;Command.Connection.PacketSize\r\nMicrosoft.EntityFrameworkCore/Microsoft.EntityFrameworkCore.Database.Command.CommandExecuted@Activity2Stop:",OtherProvider,AnotherProvider
+```
+
+Once you've saved `myprofile.rsp`, you can launch `dotnet-trace` with this configuration using the following command:
+
+```bash
+dotnet-trace @myprofile.rsp
+```
+
+## See also
+
+- [Well-known event providers from .NET](well-known-event-providers.md)

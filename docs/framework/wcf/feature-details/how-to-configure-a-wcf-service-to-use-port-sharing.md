@@ -7,6 +7,7 @@ dev_langs:
 ms.assetid: 6400bc71-a858-4ac2-8d5a-caa72d3b5482
 ---
 # How to: Configure a Windows Communication Foundation Service to Use Port Sharing
+
 The easiest way to use net.tcp:// port sharing in your Windows Communication Foundation (WCF) application is to expose a service using the <xref:System.ServiceModel.NetTcpBinding>.  
   
  This binding provides a <xref:System.ServiceModel.NetTcpBinding.PortSharingEnabled%2A> property that controls whether net.tcp:// port sharing is enabled for the service being configured with this binding.  
@@ -40,7 +41,7 @@ The easiest way to use net.tcp:// port sharing in your Windows Communication Fou
 ```xml  
 <system.serviceModel>  
   <bindings>  
-    <netTcpBinding name="portSharingBinding"   
+    <netTcpBinding name="portSharingBinding"
                    portSharingEnabled="true" />  
   </bindings>  
   <services>  
@@ -56,5 +57,5 @@ The easiest way to use net.tcp:// port sharing in your Windows Communication Fou
   
 ## See also
 
-- [Net.TCP Port Sharing](../../../../docs/framework/wcf/feature-details/net-tcp-port-sharing.md)
-- [How to: Enable the Net.TCP Port Sharing Service](../../../../docs/framework/wcf/feature-details/how-to-enable-the-net-tcp-port-sharing-service.md)
+- [Net.TCP Port Sharing](net-tcp-port-sharing.md)
+- [How to: Enable the Net.TCP Port Sharing Service](how-to-enable-the-net-tcp-port-sharing-service.md)
