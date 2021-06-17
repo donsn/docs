@@ -2,6 +2,7 @@
 title: dotnet-dump diagnostic tool - .NET CLI
 description: Learn how to install and use the dotnet-dump CLI tool to collect and analyze Windows and Linux dumps without any native debugger.
 ms.date: 11/17/2020
+ms.topic: reference
 ---
 # Dump collection and analysis utility (dotnet-dump)
 
@@ -31,6 +32,9 @@ There are two ways to download and install `dotnet-dump`:
   | Windows | [x86](https://aka.ms/dotnet-dump/win-x86) \| [x64](https://aka.ms/dotnet-dump/win-x64) \| [arm](https://aka.ms/dotnet-dump/win-arm) \| [arm-x64](https://aka.ms/dotnet-dump/win-arm64) |
   | macOS   | [x64](https://aka.ms/dotnet-dump/osx-x64) |
   | Linux   | [x64](https://aka.ms/dotnet-dump/linux-x64) \| [arm](https://aka.ms/dotnet-dump/linux-arm) \| [arm64](https://aka.ms/dotnet-dump/linux-arm64) \| [musl-x64](https://aka.ms/dotnet-dump/linux-musl-x64) \| [musl-arm64](https://aka.ms/dotnet-dump/linux-musl-arm64) |
+
+> [!NOTE]
+> To use `dotnet-dump` on an x86 app, you need a corresponding x86 version of the tool.
 
 ## Synopsis
 
@@ -108,6 +112,12 @@ dotnet-dump collect [-h|--help] [-p|--process-id] [-n|--name] [--type] [-o|--out
 
   Enables dump collection diagnostic logging.
 
+> [!NOTE]
+> On Linux and macOS, this command expects the target application and `dotnet-dump` to share the same `TMPDIR` environment variable. Otherwise, the command will time out.
+
+> [!NOTE]
+> To collect a dump using `dotnet-dump`, it needs to be run as the same user as the user running target process or as root. Otherwise, the tool will fail to establish a connection with the target process.
+
 ## dotnet-dump analyze
 
 Starts an interactive shell to explore a dump. The shell accepts various [SOS commands](#analyze-sos-commands).
@@ -174,7 +184,7 @@ dotnet-dump analyze <dump_path> [-h|--help] [-c|--command]
 
 ## Using `dotnet-dump`
 
-The first step is to collect a dump. This step can be skipped if a core dump has already been generated. The operating system or the .NET Core runtime's built-in [dump generation feature](https://github.com/dotnet/runtime/blob/master/docs/design/coreclr/botr/xplat-minidump-generation.md) can each create core dumps.
+The first step is to collect a dump. This step can be skipped if a core dump has already been generated. The operating system or the .NET Core runtime's built-in [dump generation feature](https://github.com/dotnet/runtime/blob/main/docs/design/coreclr/botr/xplat-minidump-generation.md) can each create core dumps.
 
 ```console
 $ dotnet-dump collect --process-id 1902

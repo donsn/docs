@@ -1,4 +1,5 @@
 ---
+description: "Learn more about: Writing Secure Dynamic SQL in SQL Server"
 title: "Writing Secure Dynamic SQL in SQL Server"
 ms.date: "03/30/2017"
 ms.assetid: df5512b0-c249-40d2-82f9-f9a2ce6665bc
@@ -65,7 +66,7 @@ SQL Injection is the process by which a malicious user enters Transact-SQL state
   
 |Resource|Description|  
 |--------------|-----------------|  
-|[Stored Procedures](/sql/relational-databases/stored-procedures/stored-procedures-database-engine) and [SQL Injection](/sql/relational-databases/security/sql-injection) in SQL Server Books Online|Topics describe how to create stored procedures and how SQL Injection works.|  
+|[Stored Procedures](/sql/relational-databases/stored-procedures/stored-procedures-database-engine) and [SQL Injection](/sql/relational-databases/security/sql-injection)|Topics describe how to create stored procedures and how SQL Injection works.|  
   
 ## See also
 

@@ -2,6 +2,7 @@
 title: dotnet-trace diagnostic tool - .NET CLI
 description: Learn how to install and use the dotnet-trace CLI tool to collect .NET traces of a running process without the native profiler, by using the .NET EventPipe.
 ms.date: 11/17/2020
+ms.topic: reference
 ---
 # dotnet-trace performance analysis utility
 
@@ -28,6 +29,9 @@ There are two ways to download and install `dotnet-trace`:
   | Windows | [x86](https://aka.ms/dotnet-trace/win-x86) \| [x64](https://aka.ms/dotnet-trace/win-x64) \| [arm](https://aka.ms/dotnet-trace/win-arm) \| [arm-x64](https://aka.ms/dotnet-trace/win-arm64) |
   | macOS   | [x64](https://aka.ms/dotnet-trace/osx-x64) |
   | Linux   | [x64](https://aka.ms/dotnet-trace/linux-x64) \| [arm](https://aka.ms/dotnet-trace/linux-arm) \| [arm64](https://aka.ms/dotnet-trace/linux-arm64) \| [musl-x64](https://aka.ms/dotnet-trace/linux-musl-x64) \| [musl-arm64](https://aka.ms/dotnet-trace/linux-musl-arm64) |
+
+> [!NOTE]
+> To use `dotnet-trace` on an x86 app, you need a corresponding x86 version of the tool.
 
 ## Synopsis
 
@@ -65,7 +69,7 @@ The `dotnet-trace` tool:
 
 ## dotnet-trace collect
 
-Collects a diagnostic trace from a running process.
+Collects a diagnostic trace from a running process or launches a child process and traces it (.NET 5+ only). To have the tool run a child process and trace it from its startup, append `--` to the collect command.
 
 ### Synopsis
 
@@ -74,6 +78,7 @@ dotnet-trace collect [--buffersize <size>] [--clreventlevel <clreventlevel>] [--
     [--format <Chromium|NetTrace|Speedscope>] [-h|--help]
     [-n, --name <name>] [--diagnostic-port] [-o|--output <trace-file-path>] [-p|--process-id <pid>]
     [--profile <profile-name>] [--providers <list-of-comma-separated-providers>]
+    [--show-child-io]
     [-- <command>] (for target applications running .NET 5.0 or later)
 ```
 
@@ -83,13 +88,56 @@ dotnet-trace collect [--buffersize <size>] [--clreventlevel <clreventlevel>] [--
 
   Sets the size of the in-memory circular buffer, in megabytes. Default 256 MB.
 
+  > [!NOTE]
+  > If the target process writes events too frequently, it can overflow this buffer and some events might be dropped. If too many events are getting dropped, increase the buffer size to see if the number of dropped events reduces. If the number of dropped events does not decrease with a larger buffer size, it may be due to a slow reader preventing the target process' buffers from being flushed.
+
 - **`--clreventlevel <clreventlevel>`**
 
   Verbosity of CLR events to be emitted.
 
 - **`--clrevents <clrevents>`**
 
-  List of CLR runtime events to emit.
+  A list of CLR runtime provider keywords to enable separated by `+` signs. This is a simple mapping that lets you specify event keywords via string aliases rather than their hex values. For example, `dotnet-trace collect --providers Microsoft-Windows-DotNETRuntime:3:4` requests the same set of events as `dotnet-trace collect --clrevents gc+gchandle --clreventlevel informational`. The table below shows the list of available keywords:
+
+  | Keyword String Alias | Keyword Hex Value |
+  | ------------ | ------------------- |
+  | `gc` | `0x1` |
+  | `gchandle` | `0x2` |
+  | `fusion` | `0x4` |
+  | `loader` | `0x8` |
+  | `jit` | `0x10` |
+  | `ngen` | `0x20` |
+  | `startenumeration` | `0x40` |
+  | `endenumeration` | `0x80` |
+  | `security` | `0x400` |
+  | `appdomainresourcemanagement` | `0x800` |
+  | `jittracing` | `0x1000` |
+  | `interop` | `0x2000` |
+  | `contention` | `0x4000` |
+  | `exception` | `0x8000` |
+  | `threading` | `0x10000` |
+  | `jittedmethodiltonativemap` | `0x20000` |
+  | `overrideandsuppressngenevents` | `0x40000` |
+  | `type` | `0x80000` |
+  | `gcheapdump` | `0x100000` |
+  | `gcsampledobjectallocationhigh` | `0x200000` |
+  | `gcheapsurvivalandmovement` | `0x400000` |
+  | `gcheapcollect` | `0x800000` |
+  | `gcheapandtypenames` | `0x1000000` |
+  | `gcsampledobjectallocationlow` | `0x2000000` |
+  | `perftrack` | `0x20000000` |
+  | `stack` | `0x40000000` |
+  | `threadtransfer` | `0x80000000` |
+  | `debugger` | `0x100000000` |
+  | `monitoring` | `0x200000000` |
+  | `codesymbols` | `0x400000000` |
+  | `eventsource` | `0x800000000` |
+  | `compilation` | `0x1000000000` |
+  | `compilationdiagnostic` | `0x2000000000` |
+  | `methoddiagnostic` | `0x4000000000` |
+  | `typediagnostic` | `0x8000000000` |
+
+  You can read about the CLR provider more in detail on the [.NET runtime provider reference documentation](../../fundamentals/diagnostics/runtime-events.md).
 
 - **`--format {Chromium|NetTrace|Speedscope}`**
 
@@ -131,6 +179,8 @@ dotnet-trace collect [--buffersize <size>] [--clreventlevel <clreventlevel>] [--
   - `Provider` is in the form: `KnownProviderName[:Flags[:Level][:KeyValueArgs]]`.
   - `KeyValueArgs` is in the form: `[key1=value1][;key2=value2]`.
 
+  To learn more about some of the well-known providers in .NET, refer to [Well-known Event Providers](./well-known-event-providers.md).
+
 - **`-- <command>` (for target applications running .NET 5.0 only)**
 
   After the collection configuration parameters, the user can append `--` followed by a command to start a .NET application with at least a 5.0 runtime. This may be helpful when diagnosing issues that happen early in the process, such as startup performance issue or assembly loader and binder errors.
@@ -138,8 +188,21 @@ dotnet-trace collect [--buffersize <size>] [--clreventlevel <clreventlevel>] [--
   > [!NOTE]
   > Using this option monitors the first .NET 5.0 process that communicates back to the tool, which means if your command launches multiple .NET applications, it will only collect the first app. Therefore, it is recommended you use this option on self-contained applications, or using the `dotnet exec <app.dll>` option.
 
+- **`--show-child-io`**
+
+  Shows the input and output streams of a launched child process in the current console.
+
 > [!NOTE]
 > Stopping the trace may take a long time (up to minutes) for large applications. The runtime needs to send over the type cache for all managed code that was captured in the trace.
+
+> [!NOTE]
+> On Linux and macOS, this command expects the target application and `dotnet-trace` to share the same `TMPDIR` environment variable. Otherwise, the command will time out.
+
+> [!NOTE]
+> To collect a trace using `dotnet-trace`, it needs to be run as the same user as the user running target process or as root. Otherwise, the tool will fail to establish a connection with the target process.
+
+> [!NOTE]
+> If you see an error message similar to the following one: `[ERROR] System.ComponentModel.Win32Exception (299): A 32 bit processes cannot access modules of a 64 bit process.`, you are trying to use `dotnet-trace` that has mismatched bitness against the target process. Make sure to download the correct bitness of the tool in the [install](#install) link.
 
 ## dotnet-trace convert
 
@@ -251,7 +314,7 @@ Press <Enter> or <Ctrl+C> to exit...
 You can stop collecting the trace by pressing `<Enter>` or `<Ctrl + C>` key. Doing this will also exit `hello.exe`.
 
 > [!NOTE]
-> Launching `hello.exe` via dotnet-trace will make its input/output to be redirected and you won't be able to interact with its stdin/stdout.
+> Launching `hello.exe` via dotnet-trace will redirect its input/output and you won't be able to interact with it on the console by default. Use the `--show-child-io` switch to interact with its stdin/stdout.
 > Exiting the tool via CTRL+C or SIGTERM will safely end both the tool and the child process.
 > If the child process exits before the tool, the tool will exit as well and the trace should be safely viewable.
 

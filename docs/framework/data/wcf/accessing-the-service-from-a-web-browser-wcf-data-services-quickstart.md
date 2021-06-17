@@ -3,8 +3,11 @@ title: "Accessing the Service from a Web Browser (WCF Data Services Quickstart)"
 description: Learn to start WCF Data Services in Visual Studio and disable feed reading in a browser. Get the service definition document and access data service resources.
 ms.date: "03/30/2017"
 ms.assetid: 5a6fa180-3094-4e6e-ba2b-8c80975d18d1
+recommendations: false
 ---
 # Accessing the Service from a Web Browser (WCF Data Services Quickstart)
+
+[!INCLUDE [wcf-deprecated](~/includes/wcf-deprecated.md)]
 
 This is the second task of the WCF Data Services quickstart. In this task, you start the WCF Data Services from Visual Studio and optionally disable feed reading in the Web browser. You then retrieve the service definition document as well as access data service resources by submitting HTTP GET requests through a Web browser to the exposed resources.
 

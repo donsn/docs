@@ -1,4 +1,5 @@
 ---
+description: "Learn more about: SQL Server Security"
 title: "SQL Server Security"
 ms.date: "03/30/2017"
 ms.assetid: 9053724d-a1fb-4f0f-b9dc-7f6dd893e8ff
@@ -15,7 +16,7 @@ SQL Server has many features that support creating secure database applications.
   
  Even if the initial design of an application is sound, new threats may emerge as the system evolves. By creating multiple lines of defense around your database, you can minimize the damage inflicted by a security breach. Your first line of defense is to reduce the attack surface area by never to granting more permissions than are absolutely necessary.  
   
- The topics in this section briefly describe the security features in SQL Server that are relevant for developers, with links to relevant topics in SQL Server Books Online and other resources that provide more detailed coverage.  
+ The topics in this section briefly describe the security features in SQL Server that are relevant for developers, with links to relevant articles in the SQL Server docs and other resources that provide more detailed coverage.  
   
 ## In This Section  
 
